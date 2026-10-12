@@ -111,14 +111,66 @@ def _registrar_concurso(nombre: str, descripcion: str, contenido: bytes, criteri
     return concurso
 
 
-def _evaluar(postor: dict) -> None:
-    try:
-        with st.spinner("Los agentes Legal y Técnico están deliberando..."):
+def _avisar(tipo: str, mensaje: str) -> None:
+    # Mensajes que deben sobrevivir al st.rerun() posterior a una acción.
+    st.session_state.setdefault("avisos_comite", []).append((tipo, mensaje))
+
+
+def _mostrar_avisos() -> None:
+    for tipo, mensaje in st.session_state.pop("avisos_comite", []):
+        getattr(st, tipo)(mensaje)
+
+
+def _evaluar(postores: list[dict]) -> None:
+    progreso = st.progress(0.0, text="Los agentes Legal y Técnico están deliberando...")
+    for numero, postor in enumerate(postores, start=1):
+        try:
             evaluar_postor(postor["id"])
-    except Exception as e:
-        st.error(f"No se pudo completar la evaluación de {postor['razon_social']}: {e}")
-        return
+        except Exception as e:
+            _avisar("error", f"No se pudo completar la evaluación de {postor['razon_social']}: {e}")
+        progreso.progress(numero / len(postores), text=f"Evaluados {numero} de {len(postores)} postores...")
     st.rerun()
+
+
+def _cambiar_estado(concurso: dict, estado: str) -> None:
+    get_client().table("concursos").update({"estado": estado}).eq("id", concurso["id"]).execute()
+    st.rerun()
+
+
+def _eliminar_concurso(concurso: dict, postores: list[dict]) -> None:
+    archivos = [concurso.get("bases_pdf_path")] + [
+        p.get(campo) for p in postores for campo in ("propuesta_pdf_path", "cv_pdf_path")
+    ]
+    # Al borrar el concurso se eliminan en cascada criterios, postores, fragmentos y dictámenes.
+    get_client().table("concursos").delete().eq("id", concurso["id"]).execute()
+    try:
+        eliminar_archivos(archivos)
+        _avisar("success", f"Convocatoria '{concurso['nombre']}' eliminada.")
+    except Exception:
+        _avisar("warning", f"Convocatoria '{concurso['nombre']}' eliminada, pero algunos PDF no se pudieron borrar del Storage.")
+    st.rerun()
+
+
+def _administrar_concurso(concurso: dict, postores: list[dict]) -> None:
+    abierto = concurso["estado"] == "abierto"
+    with st.expander("Administrar convocatoria"):
+        if abierto:
+            st.write("La convocatoria está **abierta**: los postores pueden enviar sus propuestas.")
+            if st.button("🔒 Cerrar postulaciones", key=f"cerrar_{concurso['id']}"):
+                _cambiar_estado(concurso, "cerrado")
+        else:
+            st.write("La convocatoria está **cerrada**: ya no aparece en el Portal del Postor.")
+            if st.button("🔓 Reabrir postulaciones", key=f"reabrir_{concurso['id']}"):
+                _cambiar_estado(concurso, "abierto")
+
+        st.divider()
+        st.write(
+            f"Eliminar la convocatoria borra también sus {len(postores)} postulaciones, documentos "
+            "y dictámenes. Esta acción no se puede deshacer."
+        )
+        confirmado = st.checkbox("Entiendo, quiero eliminarla", key=f"confirmar_eliminar_{concurso['id']}")
+        if st.button("🗑️ Eliminar convocatoria", disabled=not confirmado, key=f"eliminar_{concurso['id']}"):
+            _eliminar_concurso(concurso, postores)
 
 
 def _badge_veredicto(veredicto: str) -> str:
@@ -129,6 +181,7 @@ def _badge_veredicto(veredicto: str) -> str:
 
 def _gestionar_concursos():
     st.subheader("Gestión de Concursos")
+    _mostrar_avisos()
 
     client = get_client()
     concursos = client.table("concursos").select("*").order("created_at", desc=True).execute().data
@@ -141,11 +194,16 @@ def _gestionar_concursos():
     concurso_id_seleccionado = st.selectbox(
         "Selecciona un concurso",
         list(opciones.keys()),
-        format_func=lambda cid: opciones[cid]["nombre"],
+        format_func=lambda cid: opciones[cid]["nombre"] + (
+            "" if opciones[cid]["estado"] == "abierto" else " (cerrada)"
+        ),
     )
     concurso = opciones[concurso_id_seleccionado]
 
     st.caption(concurso.get("descripcion") or "")
+
+    postores = client.table("postores").select("*").eq("concurso_id", concurso["id"]).execute().data
+    _administrar_concurso(concurso, postores)
 
     if concurso.get("bases_pdf_path"):
         st.download_button(
@@ -159,8 +217,6 @@ def _gestionar_concursos():
     criterios = client.table("criterios").select("*").eq("concurso_id", concurso["id"]).execute().data
     with st.expander(f"Matriz de requisitos ({len(criterios)} criterios)"):
         st.table(_tabla_criterios(criterios))
-
-    postores = client.table("postores").select("*").eq("concurso_id", concurso["id"]).execute().data
 
     if not postores:
         st.info("Todavía no hay postores registrados en este concurso.")
@@ -177,6 +233,10 @@ def _gestionar_concursos():
     dictamenes_por_postor = {d["postor_id"]: d for d in dictamenes}
 
     st.markdown("### Postores")
+    pendientes = [p for p in postores if p["id"] not in dictamenes_por_postor]
+    if len(pendientes) > 1 and st.button(f"Evaluar los {len(pendientes)} postores pendientes"):
+        _evaluar(pendientes)
+
     for postor in postores:
         dictamen = dictamenes_por_postor.get(postor["id"])
 
@@ -189,8 +249,8 @@ def _gestionar_concursos():
             if dictamen:
                 with columnas[1]:
                     st.markdown(_badge_veredicto(dictamen["veredicto"]), unsafe_allow_html=True)
-                columnas[2].write(f"Puntaje: {dictamen['puntaje']}")
-                columnas[3].download_button(
+                    st.caption(f"Puntaje técnico: {dictamen['puntaje']}")
+                columnas[2].download_button(
                     "Descargar Acta (.docx)",
                     data=partial(_acta_docx, concurso, postor, dictamen),
                     file_name=f"acta_{postor['ruc']}.docx",
@@ -198,11 +258,13 @@ def _gestionar_concursos():
                     key=f"acta_{postor['id']}",
                     on_click="ignore",
                 )
+                if columnas[3].button("Reevaluar", key=f"reevaluar_{postor['id']}"):
+                    _evaluar([postor])
             else:
                 with columnas[1]:
                     st.markdown(badge_html("⏳ Pendiente", "ml-badge-pendiente"), unsafe_allow_html=True)
                 if columnas[2].button("Evaluar", key=f"evaluar_{postor['id']}"):
-                    _evaluar(postor)
+                    _evaluar([postor])
 
     st.markdown("### Matriz Comparativa")
     st.download_button(

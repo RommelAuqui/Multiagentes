@@ -31,6 +31,9 @@ create table if not exists postores (
     created_at timestamptz not null default now()
 );
 
+-- Un RUC solo puede postular una vez a cada concurso.
+create unique index if not exists postores_concurso_ruc_idx on postores (concurso_id, ruc);
+
 create table if not exists documentos_chunks (
     id uuid primary key default gen_random_uuid(),
     concurso_id uuid not null references concursos(id) on delete cascade,

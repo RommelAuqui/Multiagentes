@@ -6,6 +6,7 @@ import streamlit as st
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.ingest import DocumentoPreparado, guardar_fragmentos, preparar_documento
+from validaciones import ruc_valido
 from views.avisos import mostrar_avisos_extraccion
 
 COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
@@ -70,8 +71,31 @@ def render():
     if not enviado:
         return
 
+    ruc = ruc.strip()
+    razon_social = razon_social.strip()
+
     if not ruc or not razon_social or not propuesta_pdf or not cv_pdf:
         st.error("Todos los campos son obligatorios.")
+        return
+
+    if not ruc_valido(ruc):
+        st.error("El RUC no es válido. Debe tener 11 dígitos y un dígito verificador correcto.")
+        return
+
+    ya_postulo = (
+        client.table("postores")
+        .select("id")
+        .eq("concurso_id", concurso["id"])
+        .eq("ruc", ruc)
+        .limit(1)
+        .execute()
+        .data
+    )
+    if ya_postulo:
+        st.error(
+            "Ya existe una postulación con este RUC en este concurso. "
+            "Si necesitas corregirla, comunícate con el comité."
+        )
         return
 
     propuesta_bytes = propuesta_pdf.getvalue()
