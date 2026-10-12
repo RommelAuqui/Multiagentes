@@ -17,7 +17,7 @@ def tabla_criterios(criterios: list[dict]) -> list[dict]:
         "Tipo": TIPOS.get(c.get("tipo"), ""),
         "Requisito o factor": c["descripcion"],
         "Acreditación": c.get("acreditacion") or "",
-        "Puntaje máx.": c.get("puntaje_maximo") or "",
+        "Puntaje máx.": f"{float(c['puntaje_maximo']):g}" if c.get("puntaje_maximo") else "",
         "Referencia": c.get("referencia") or "",
     } for c in ordenar_criterios(criterios)]
 

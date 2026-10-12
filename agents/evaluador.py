@@ -35,7 +35,8 @@ Decide uno de estos veredictos:
 - "Cumple": la evidencia acredita claramente el requisito, en la forma exigida por las Bases.
 - "No Cumple": la evidencia muestra claramente que el requisito no se cumple (por ejemplo, la \
 experiencia acreditada es menor a la exigida o el documento presentado no corresponde).
-- "Requiere revisión": no hay evidencia en los fragmentos, o es parcial, ilegible o contradictoria. \
+- "Requiere revisión": no hay evidencia en los fragmentos, o es parcial, ilegible o contradictoria, \
+o el requisito depende de un dato que no aparece en él (por ejemplo, un valor referencial sin monto). \
 La falta de evidencia en los fragmentos no basta para declarar "No Cumple"."""
 
 TAREA_FACTOR = """Factor de evaluación ({referencia}):
@@ -45,9 +46,12 @@ Forma de asignar el puntaje según las Bases: {asignacion_puntaje}
 Forma de acreditación exigida por las Bases: {acreditacion}
 
 Asigna el puntaje aplicando exactamente la forma de asignación de las Bases, sin redondear a favor \
-del postor ni superar el puntaje máximo. Usa el veredicto "Evaluado" si la evidencia permite asignar \
-el puntaje con certeza; si es insuficiente, ilegible o contradictoria, usa "Requiere revisión" y \
-asigna solo el puntaje que sí está acreditado."""
+del postor ni superar el puntaje máximo, y explica el cálculo en la justificación (por ejemplo, la \
+suma de montos y el cociente obtenido). Usa el veredicto "Evaluado" solo si la evidencia permite \
+asignar el puntaje con certeza. Usa "Requiere revisión" si la evidencia es insuficiente, ilegible o \
+contradictoria, o si para aplicar la forma de asignación falta un dato que no está en este factor \
+(por ejemplo, el valor referencial): asigna entonces solo el puntaje que sí puedas sustentar, pero \
+nunca le quites puntos al postor por un dato que tú no tienes."""
 
 FORMATO_REQUISITO = (
     '{"veredicto": "Cumple" | "No Cumple" | "Requiere revisión", "justificacion": "...", '

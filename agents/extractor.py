@@ -24,6 +24,9 @@ Reglas:
 aparece, usa null.
 - Copia la forma de acreditación (qué documento lo prueba) y, para los factores, la forma de asignar \
 el puntaje (rangos, condiciones y puntos) con el detalle de las Bases.
+- Cada criterio debe poder evaluarse por sí solo: si depende de un dato que aparece en otra parte de \
+las Bases (por ejemplo, el valor referencial o estimado, el plazo o la especialidad), escribe ese \
+dato con su valor dentro de la descripción o de la forma de asignación.
 - "tipo" es "legal" para documentos de admisión y capacidad legal, y "tecnico" para el resto.
 - No incluyas la propuesta económica.
 - Indica en "puntaje_minimo" el puntaje técnico mínimo para continuar en el concurso, si las Bases \
