@@ -166,25 +166,6 @@ table {
     border-color: var(--ml-border) !important;
 }
 
-.ml-card {
-    background-color: var(--ml-card-bg);
-    border: 1px solid var(--ml-border);
-    border-radius: 12px;
-    padding: 1rem 1.3rem;
-    margin-bottom: 0.8rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-}
-
-.ml-card-title {
-    font-weight: 700;
-    font-size: 1.05rem;
-}
-
-.ml-card-sub {
-    color: var(--ml-text-muted);
-    font-size: 0.85rem;
-}
-
 .ml-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -262,13 +243,6 @@ def aplicar_tema():
 
     st.markdown(CSS_OSCURO if st.session_state["modo_oscuro"] else CSS_CLARO, unsafe_allow_html=True)
     st.markdown(CSS_BASE, unsafe_allow_html=True)
-
-
-def tarjeta_postor_html(razon_social: str, ruc: str) -> str:
-    return f"""
-    <div class="ml-card-title">{razon_social}</div>
-    <div class="ml-card-sub">RUC {ruc}</div>
-    """
 
 
 def badge_html(texto: str, clase: str) -> str:

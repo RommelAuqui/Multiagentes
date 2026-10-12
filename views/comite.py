@@ -12,15 +12,10 @@ from rag.pdf_extract import extraer_paginas, texto_completo
 from reports.acta import generar_acta
 from reports.matriz import generar_matriz_comparativa
 from theme import badge_html
-from views.avisos import mostrar_avisos_extraccion
+from views.componentes import mostrar_avisos_extraccion, tabla_criterios
 
-COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
 MIME_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-
-def _tabla_criterios(criterios: list[dict]) -> list[dict]:
-    return [{k: c.get(k) for k in COLUMNAS_CRITERIOS} for c in criterios]
 
 
 def _crear_concurso():
@@ -83,7 +78,7 @@ def _crear_concurso():
         return
 
     st.success(f"Convocatoria '{nombre}' creada con {len(criterios)} criterios extraídos.")
-    st.table(_tabla_criterios(criterios))
+    st.table(tabla_criterios(criterios))
 
 
 def _registrar_concurso(nombre: str, descripcion: str, contenido: bytes, criterios: list[dict]) -> dict:
@@ -216,7 +211,7 @@ def _gestionar_concursos():
 
     criterios = client.table("criterios").select("*").eq("concurso_id", concurso["id"]).execute().data
     with st.expander(f"Matriz de requisitos ({len(criterios)} criterios)"):
-        st.table(_tabla_criterios(criterios))
+        st.table(tabla_criterios(criterios))
 
     if not postores:
         st.info("Todavía no hay postores registrados en este concurso.")

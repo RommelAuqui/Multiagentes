@@ -7,13 +7,7 @@ from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.ingest import DocumentoPreparado, guardar_fragmentos, preparar_documento
 from validaciones import ruc_valido
-from views.avisos import mostrar_avisos_extraccion
-
-COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
-
-
-def _tabla_criterios(criterios: list[dict]) -> list[dict]:
-    return [{k: c.get(k) for k in COLUMNAS_CRITERIOS} for c in criterios]
+from views.componentes import mostrar_avisos_extraccion, tabla_criterios
 
 
 def render():
@@ -53,7 +47,7 @@ def render():
                 "Extraídos automáticamente de las Bases. Revisa siempre el PDF completo, "
                 "ya que aquí solo se resume el requisito, no el texto legal íntegro."
             )
-            st.table(_tabla_criterios(criterios))
+            st.table(tabla_criterios(criterios))
 
     st.markdown(
         "**Formato de presentación:** sube tu Propuesta Técnica y tu CV Documentado, cada "

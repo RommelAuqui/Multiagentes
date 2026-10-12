@@ -2,6 +2,12 @@ import streamlit as st
 
 from rag.pdf_extract import ResultadoExtraccion
 
+COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
+
+
+def tabla_criterios(criterios: list[dict]) -> list[dict]:
+    return [{k: c.get(k) for k in COLUMNAS_CRITERIOS} for c in criterios]
+
 
 def _lista_paginas(paginas: list[int]) -> str:
     return ", ".join(str(p) for p in paginas)
