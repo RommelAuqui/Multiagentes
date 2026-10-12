@@ -4,31 +4,44 @@ from agents.gemini_client import ContextoIA, generar_json
 from agents.reglas import ETAPAS, TIPOS, clave, normalizar_puntaje, normalizar_texto
 from config import LLM_MODEL
 
-MAX_CARACTERES_BASES = 300_000
+# Unas Bases Integradas de ~100 páginas, con las escaneadas transcritas, rondan los 300 000 caracteres.
+MAX_CARACTERES_BASES = 500_000
 
 PROMPT = """Eres el Agente Extractor de Bases de un comité de selección de concursos públicos de \
 consultoría en Perú, regidos por la Ley N.º 32069 y las bases estándar aprobadas por el OECE.
 
 A partir del texto de las Bases Integradas que se muestra al final, arma la matriz de evaluación de \
-la propuesta técnica con tres etapas:
+la oferta técnica con tres etapas:
 - "admision": documentos de presentación obligatoria para la admisión de la oferta (declaraciones \
-juradas, anexos obligatorios, promesa de consorcio, etc.).
-- "calificacion": requisitos de calificación (capacidad legal o habilitación, capacidad técnica y \
-profesional, formación y experiencia del personal clave, experiencia del postor en la especialidad). \
+juradas, anexos obligatorios, documento de representación, promesa de consorcio, etc.).
+- "calificacion": requisitos de calificación (experiencia del postor en la especialidad, \
+calificaciones y experiencia del personal clave, y demás requisitos que se acrediten en la oferta). \
 Se cumplen o no se cumplen.
-- "evaluacion": factores de evaluación de la propuesta técnica, cada uno con su puntaje máximo y la \
+- "evaluacion": factores de evaluación de la oferta técnica, cada uno con su puntaje máximo y la \
 forma en que las Bases asignan el puntaje.
 
 Reglas:
+- Usa solo la Sección Específica de las Bases: la Sección General repite reglas comunes a todos los \
+concursos y no define los criterios de este.
 - Extrae solo lo que está escrito en las Bases: no inventes criterios ni puntajes. Si un dato no \
 aparece, usa null.
+- Las Bases Integradas incorporan la absolución de consultas y observaciones: si una nota indica que \
+un requisito, factor o ítem fue suprimido o modificado, aplica ese cambio y no incluyas lo suprimido.
+- No incluyas los factores marcados como "no corresponde" o sin puntaje, ni la oferta económica.
+- No incluyas los requisitos que, según las Bases, se acreditan recién para la suscripción del \
+contrato (por ejemplo, equipamiento o infraestructura estratégica), porque no se evalúan en la \
+oferta; salvo que las Bases indiquen que en este concurso sí se acreditan en la oferta.
+- Si un requisito solo se exige en ciertos casos ("de ser el caso", "de corresponder", "en caso de \
+consorcio"), empieza la descripción con la condición, por ejemplo: "Solo si el postor se presenta en \
+consorcio: ...". Sigue siendo obligatorio cuando la condición se cumple.
+- Si un requisito o factor enumera varios cargos del personal clave con exigencias distintas, crea \
+un criterio por cada cargo.
 - Copia la forma de acreditación (qué documento lo prueba) y, para los factores, la forma de asignar \
 el puntaje (rangos, condiciones y puntos) con el detalle de las Bases.
 - Cada criterio debe poder evaluarse por sí solo: si depende de un dato que aparece en otra parte de \
-las Bases (por ejemplo, el valor referencial o estimado, el plazo o la especialidad), escribe ese \
-dato con su valor dentro de la descripción o de la forma de asignación.
+las Bases (por ejemplo, la cuantía de la contratación o valor referencial, el plazo o la \
+especialidad), escribe ese dato con su valor dentro de la descripción o de la forma de asignación.
 - "tipo" es "legal" para documentos de admisión y capacidad legal, y "tecnico" para el resto.
-- No incluyas la propuesta económica.
 - Indica en "puntaje_minimo" el puntaje técnico mínimo para continuar en el concurso, si las Bases \
 lo fijan.
 

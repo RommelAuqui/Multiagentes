@@ -11,6 +11,8 @@ TIPOS = {"legal": "Legal", "tecnico": "Técnico"}
 # Veredicto de cada criterio.
 CUMPLE = "Cumple"
 NO_CUMPLE = "No Cumple"
+# Requisito condicional ("de ser el caso") cuya condición no se da para el postor.
+NO_APLICA = "No aplica"
 EVALUADO = "Evaluado"
 REQUIERE_REVISION = "Requiere revisión"
 
@@ -20,6 +22,7 @@ NO_ADMITIDO = "No admitido"
 NO_CALIFICA = "No califica"
 PUNTAJE_INSUFICIENTE = "Puntaje insuficiente"
 RESULTADOS_DESCALIFICANTES = (NO_ADMITIDO, NO_CALIFICA)
+DECISIONES_REQUISITO = (CUMPLE, NO_CUMPLE, NO_APLICA)
 
 
 def normalizar_texto(valor) -> str:
@@ -137,8 +140,8 @@ def aplicar_revision(filas: list[dict], decisiones: dict, revisor: str) -> tuple
             difiere = puntaje != fila.get("puntaje")
         else:
             veredicto, puntaje = decision.get("veredicto"), None
-            if veredicto not in (CUMPLE, NO_CUMPLE):
-                errores.append(f"Decide si cumple o no cumple: «{nombre}».")
+            if veredicto not in DECISIONES_REQUISITO:
+                errores.append(f"Decide si cumple, no cumple o no aplica: «{nombre}».")
                 continue
             difiere = veredicto != fila["veredicto"]
 

@@ -11,6 +11,7 @@ def test_veredicto_de_requisitos():
     assert normalizar_veredicto(" cumple ", "calificacion") == "Cumple"
     assert normalizar_veredicto("NO CUMPLE", "admision") == "No Cumple"
     assert normalizar_veredicto("requiere revision", "calificacion") == "Requiere revisión"
+    assert normalizar_veredicto("No aplica", "admision") == "No aplica"
 
 
 def test_una_respuesta_ambigua_queda_para_el_comite():

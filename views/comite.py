@@ -10,9 +10,8 @@ from agents.extractor import MAX_CARACTERES_BASES, extraer_criterios
 from agents.gemini_client import ContextoIA
 from agents.orchestrator import evaluar_postor
 from agents.reglas import (
-    CUMPLE,
+    DECISIONES_REQUISITO,
     ETAPAS,
-    NO_CUMPLE,
     REQUIERE_REVISION,
     TIPOS,
     aplicar_revision,
@@ -318,7 +317,7 @@ def _decision_del_comite(fila: dict) -> dict:
             value=min(float(puntaje_efectivo(fila) or 0), maximo), step=0.5, key=f"puntaje_{fila['id']}",
         )}
     else:
-        opciones = [CUMPLE, NO_CUMPLE]
+        opciones = list(DECISIONES_REQUISITO)
         actual = veredicto_efectivo(fila)
         decision = {"veredicto": columnas[0].selectbox(
             "Decisión del comité", opciones, index=opciones.index(actual) if actual in opciones else None,

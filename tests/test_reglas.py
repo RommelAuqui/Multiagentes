@@ -73,3 +73,20 @@ def test_revision_valida():
     assert errores == []
     assert cambios == [{"id": "f1", "veredicto_comite": "Evaluado", "puntaje_comite": 60.0,
                         "justificacion_comite": "Se acreditan 4 servicios"}]
+
+
+def test_un_requisito_obligatorio_que_no_aplica_no_descalifica():
+    filas = [
+        _fila("admision", "No aplica"),  # p. ej., promesa de consorcio de un postor individual
+        _fila("calificacion", "Cumple"),
+        *FACTORES,
+    ]
+    assert calcular_resultado(filas, 80)["veredicto"] == "Califica"
+
+
+def test_el_comite_puede_decidir_que_no_aplica():
+    condicional = {**_fila("admision", "Requiere revisión"), "id": "c1"}
+    cambios, errores = aplicar_revision(
+        [condicional], {"c1": {"veredicto": "No aplica", "justificacion": "El postor no es consorcio."}}, "Ana",
+    )
+    assert errores == [] and cambios[0]["veredicto_comite"] == "No aplica"

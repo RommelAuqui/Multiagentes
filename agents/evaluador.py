@@ -37,7 +37,10 @@ Decide uno de estos veredictos:
 experiencia acreditada es menor a la exigida o el documento presentado no corresponde).
 - "Requiere revisión": no hay evidencia en los fragmentos, o es parcial, ilegible o contradictoria, \
 o el requisito depende de un dato que no aparece en él (por ejemplo, un valor referencial sin monto). \
-La falta de evidencia en los fragmentos no basta para declarar "No Cumple"."""
+La falta de evidencia en los fragmentos no basta para declarar "No Cumple".
+- "No aplica": el requisito es condicional (por ejemplo, "Solo si el postor se presenta en \
+consorcio") y la evidencia muestra que la condición no se da para este postor. Si no se puede \
+saber, usa "Requiere revisión"."""
 
 TAREA_FACTOR = """Factor de evaluación ({referencia}):
 {descripcion}
@@ -54,7 +57,7 @@ contradictoria, o si para aplicar la forma de asignación falta un dato que no e
 nunca le quites puntos al postor por un dato que tú no tienes."""
 
 FORMATO_REQUISITO = (
-    '{"veredicto": "Cumple" | "No Cumple" | "Requiere revisión", "justificacion": "...", '
+    '{"veredicto": "Cumple" | "No Cumple" | "No aplica" | "Requiere revisión", "justificacion": "...", '
     '"citas": [{"documento": "propuesta" | "cv", "pagina": n, "extracto": "..."}]}'
 )
 FORMATO_FACTOR = (
