@@ -15,13 +15,17 @@ contra las Bases/TDR de un concurso público, citando documento, página y artí
 
 | Agente | Archivo | Rol |
 | --- | --- | --- |
-| Extractor | `agents/extractor.py` | Lee las Bases y genera la matriz de criterios legales y técnicos. |
-| Legal | `agents/legal.py` | Evalúa cada criterio legal contra la evidencia recuperada por RAG. |
-| Técnico | `agents/tecnico.py` | Evalúa cada criterio técnico contra la evidencia recuperada por RAG. |
-| Coordinador | `agents/coordinador.py` | Descalifica ante incumplimientos legales obligatorios o delibera entre ambos agentes. |
+| Lector | `rag/lector.py` | Transcribe con Gemini las páginas escaneadas o con imágenes (tablas, sellos, firmas). |
+| Extractor | `agents/extractor.py` | Arma la matriz según las bases estándar: documentos de admisión, requisitos de calificación y factores de evaluación con su puntaje y forma de asignación. No inventa criterios ni puntajes. |
+| Legal | `agents/legal.py` | Evalúa los criterios legales contra la evidencia recuperada por RAG. |
+| Técnico | `agents/tecnico.py` | Evalúa los criterios técnicos y asigna el puntaje de los factores según las Bases. |
+| Coordinador | `agents/coordinador.py` | Concilia ambas evaluaciones y detecta tensiones o contradicciones; si las hay, el caso pasa a revisión del comité. |
 
-`agents/orchestrator.py` coordina la evaluación de un postor; `rag/` extrae, fragmenta, vectoriza
-y recupera los documentos; `views/` contiene los dos portales de Streamlit.
+El resultado final no lo decide la IA: lo calcula [`agents/reglas.py`](agents/reglas.py) a partir de
+los veredictos de cada criterio (No admitido → No califica → Requiere revisión → Puntaje insuficiente
+→ Califica). Cuando la evidencia es dudosa, los agentes responden "Requiere revisión" en vez de
+aprobar o descalificar. `agents/orchestrator.py` coordina la evaluación de un postor; `rag/` extrae,
+fragmenta, vectoriza y recupera los documentos; `views/` contiene los dos portales de Streamlit.
 
 ## Configuración inicial
 
@@ -37,8 +41,8 @@ no borran nada.
 > la app necesita saltarse RLS, y la clave pública no debe poder leer las propuestas.
 
 > **¿Ya tenías la base creada con una versión anterior?** Vuelve a ejecutar `db/schema.sql`
-> completo: es idempotente y aplica los cambios (quita el índice `ivfflat`, agrega índices por
-> concurso/postor, el índice único de RUC por concurso y la nueva `match_documentos`).
+> completo: es idempotente y aplica los cambios (índices, RUC único por concurso, la nueva
+> `match_documentos`, la tabla `consultas_ia` y las columnas de etapas, puntajes y revisión del comité).
 > Si ya existen postulaciones duplicadas del mismo RUC en un concurso, el índice único fallará:
 > elimina primero los duplicados. Los documentos indexados antes de esta versión siguen
 > funcionando, pero se recuperan mejor si se vuelven a subir.
@@ -115,18 +119,20 @@ creación y eliminación de convocatorias, evaluación) y se ejecutan en GitHub 
 
 ## Flujo de uso
 
-1. **Portal del Comité**: crea una convocatoria subiendo las Bases/TDR en PDF. El Agente
-   Extractor genera la matriz de requisitos legales y técnicos; si no logra extraer criterios,
-   la convocatoria no se crea.
-2. **Portal del Postor**: el participante elige una convocatoria abierta, ingresa su RUC
-   (se valida el dígito verificador de SUNAT) y Razón Social, y sube su Propuesta Técnica y
-   CV en PDF. Cada RUC puede postular una sola vez por concurso. Los documentos se indexan
-   para el RAG antes de registrar la postulación.
-3. **Evaluación**: desde el Portal del Comité se evalúa cada postor (o todos los pendientes a
-   la vez). Los Agentes Legal y Técnico analizan cada criterio contra los fragmentos relevantes
-   de sus documentos y el Agente Coordinador consolida el dictamen final. Un postor ya evaluado
-   puede reevaluarse; el nuevo dictamen reemplaza al anterior.
-4. **Administración**: el comité puede cerrar o reabrir las postulaciones de una convocatoria,
-   o eliminarla junto con sus documentos.
-5. **Salidas**: descarga del Acta de Dictamen Técnico (.docx) por postor y de la Matriz
-   Comparativa (.xlsx) del concurso completo.
+1. **Nueva convocatoria**: el comité sube las Bases en PDF. El Agente Extractor arma la matriz
+   (admisión, calificación y factores de evaluación con puntajes) y la convocatoria queda **en revisión**.
+2. **Revisión de la matriz**: en «Concursos en Curso» el comité corrige la matriz en una tabla
+   editable (puede agregar, quitar o editar criterios y fijar el puntaje mínimo) y la **publica**.
+   Desde ese momento la matriz queda fija y la convocatoria aparece en el Portal del Postor.
+3. **Postulación**: el participante elige una convocatoria abierta, ingresa su RUC (se valida el
+   dígito verificador de SUNAT) y Razón Social, y sube su Propuesta Técnica y CV en PDF. Cada RUC
+   puede postular una sola vez por concurso.
+4. **Evaluación**: se evalúa cada postor (o todos los pendientes a la vez). Los Agentes Legal y
+   Técnico proponen el veredicto o el puntaje de cada criterio con citas, y el Coordinador concilia.
+5. **Revisión del comité**: en «Ver detalle y revisión del comité» se confirma o corrige cada
+   criterio. Resolver un caso dudoso o cambiar la propuesta de la IA exige justificación, y la
+   revisión queda firmada con el nombre del miembro del comité y la fecha. Un postor ya revisado no
+   se puede reevaluar con la IA.
+6. **Administración**: cerrar o reabrir postulaciones, o eliminar la convocatoria con sus documentos.
+7. **Salidas**: Acta de Dictamen Técnico (.docx) por postor, con la propuesta de la IA y la decisión
+   del comité por etapa, y Matriz Comparativa (.xlsx) del concurso.

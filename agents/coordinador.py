@@ -1,90 +1,72 @@
 from agents.gemini_client import ContextoIA, generar_json
-from agents.respuestas import normalizar_texto, normalizar_veredicto
+from agents.reglas import ETAPAS, REQUIERE_REVISION, RESULTADOS_DESCALIFICANTES, calcular_resultado, normalizar_texto
 from config import LLM_MODEL
 
-PROMPT_DELIBERACION = """Eres el Agente Coordinador de un comité evaluador de concursos públicos de \
-consultoría en Perú, regidos por la Ley N.º 32069.
+PROMPT_REVISION = """Eres el Agente Coordinador, presidente de un comité de selección de concursos \
+públicos de consultoría en Perú, regidos por la Ley N.º 32069.
 
-El postor ya fue evaluado de forma independiente por el Agente Legal y el Agente Técnico, y está \
-legalmente habilitado para contratar (no incumple ningún requisito legal obligatorio). El postor \
-cumple {puntaje_tecnico}% de los criterios técnicos evaluados.
+Los agentes Legal y Técnico ya evaluaron al postor criterio por criterio. Aplicando las reglas de las \
+Bases, el resultado preliminar es "{resultado}"{motivos}. Puntaje técnico: {puntaje}.
 
-Tu trabajo es deliberar entre ambas evaluaciones como lo haría un comité colegiado, aplicando este \
-criterio de ponderación, deliberadamente permisivo con el cumplimiento técnico parcial:
-- Un cumplimiento técnico parcial o razonable (aproximadamente 25% o más de los criterios técnicos \
-  cumplidos) NO debe, por sí solo, causar la no admisión: para eso existe el puntaje técnico, que ya \
-  refleja ese nivel de cumplimiento y permite comparar y ordenar postores entre sí en la matriz \
-  comparativa. Postores con certificaciones deseables ausentes, documentos incompletos pero \
-  presentes, o incluso varios criterios técnicos no acreditados, deben seguir siendo "Cumple" \
-  mientras exista una base técnica mínima razonable.
-- Declara "No Cumple" únicamente en casos extremos: cuando el cumplimiento técnico es muy bajo \
-  (aproximadamente menos de 25%), o cuando falta por completo un elemento sin el cual el servicio \
-  contratado no podría ejecutarse en absoluto (por ejemplo, el personal clave no acredita ninguna \
-  experiencia relevante, o no se presentó metodología ni plan de trabajo alguno). Ante la duda, \
-  prefiere "Cumple" con un puntaje bajo antes que descalificar.
+Tu tarea no es cambiar ese resultado, sino revisarlo como lo haría el presidente del comité:
+1. Redacta la conciliación en un párrafo claro, citando los puntos de ambos agentes en los que se basa.
+2. Señala las tensiones o inconsistencias que encuentres: datos que no coinciden entre documentos \
+(fechas, montos, nombres, RUC), un criterio aprobado cuya justificación en realidad no lo acredita, \
+o evaluaciones de ambos agentes que se contradicen. No inventes tensiones: si no hay, deja la lista vacía.
 
-Evaluación del Agente Legal:
-{legal}
-
-Evaluación del Agente Técnico:
-{tecnico}
-
-Redacta la conciliación en un párrafo claro, citando explícitamente los puntos de ambos agentes \
-en los que te basas. Si detectas alguna tensión entre ambas evaluaciones, dilo explícitamente y \
-explica cómo la resolviste, y qué peso le diste a cada una para llegar al veredicto final.
+Evaluaciones de los agentes:
+{evaluaciones}
 
 Responde únicamente con un JSON de la forma:
-{{"veredicto": "Cumple" | "No Cumple", "conciliacion": "..."}}
+{{"conciliacion": "...", "tensiones": ["..."]}}
 """
 
 
-def _resumen_resultados(resultados: list[dict]) -> str:
-    return "\n".join(
-        f"- {r['criterio_descripcion']}: {r['veredicto']} — {r['justificacion']}"
-        for r in resultados
-    ) or "Sin criterios evaluados por este agente."
+def _resumen(resultados: list[dict]) -> str:
+    lineas = []
+    for r in resultados:
+        puntaje = f" ({r['puntaje']} de {r['puntaje_maximo']} puntos)" if r["etapa"] == "evaluacion" else ""
+        lineas.append(
+            f"- [{ETAPAS[r['etapa']]} | Agente {r.get('agente', '')}] {r['criterio_descripcion']}: "
+            f"{r['veredicto']}{puntaje} — {r['justificacion']}"
+        )
+    return "\n".join(lineas) or "No hay criterios evaluados."
 
 
-def _deliberar(
-    resultados_legal: list[dict], resultados_tecnico: list[dict], puntaje_tecnico: float, contexto: ContextoIA
-) -> dict:
-    prompt = PROMPT_DELIBERACION.format(
-        legal=_resumen_resultados(resultados_legal),
-        tecnico=_resumen_resultados(resultados_tecnico),
-        puntaje_tecnico=puntaje_tecnico,
+def _revisar(resultados: list[dict], preliminar: dict, contexto: ContextoIA) -> dict:
+    motivos = f" ({'; '.join(preliminar['motivos'])})" if preliminar["motivos"] else ""
+    puntaje = (
+        f"{preliminar['puntaje']} de {preliminar['puntaje_maximo']}"
+        if preliminar["puntaje"] is not None else "no aplica"
+    )
+    prompt = PROMPT_REVISION.format(
+        resultado=preliminar["veredicto"], motivos=motivos, puntaje=puntaje, evaluaciones=_resumen(resultados),
     )
     return generar_json(LLM_MODEL, prompt, contexto)
 
 
-def consolidar_dictamen(
-    criterios_legales: list[dict],
-    resultados_legal: list[dict],
-    resultados_tecnico: list[dict],
-    contexto: ContextoIA,
-) -> dict:
-    obligatorios_incumplidos = [
-        r for r, c in zip(resultados_legal, criterios_legales)
-        if c["obligatorio"] and r["veredicto"] != "Cumple"
-    ]
+def consolidar_dictamen(resultados: list[dict], puntaje_minimo: float | None, contexto: ContextoIA) -> dict:
+    preliminar = calcular_resultado(resultados, puntaje_minimo)
+    revision = _revisar(resultados, preliminar, contexto)
 
-    cumplidos_tecnicos = sum(1 for r in resultados_tecnico if r["veredicto"] == "Cumple")
-    puntaje = round((cumplidos_tecnicos / len(resultados_tecnico)) * 100, 2) if resultados_tecnico else 0.0
+    tensiones = revision.get("tensiones") if isinstance(revision.get("tensiones"), list) else []
+    tensiones = [t for t in (normalizar_texto(t) for t in tensiones) if t]
 
-    citas = [c for r in resultados_legal + resultados_tecnico for c in r.get("citas", [])]
+    veredicto = preliminar["veredicto"]
+    if tensiones and veredicto not in RESULTADOS_DESCALIFICANTES:
+        veredicto = REQUIERE_REVISION
 
-    if obligatorios_incumplidos:
-        motivos = "; ".join(r["justificacion"] for r in obligatorios_incumplidos)
-        return {
-            "veredicto": "No Cumple",
-            "puntaje": puntaje,
-            "justificacion": f"Descalificado por incumplimiento legal (sin lugar a deliberación): {motivos}",
-            "citas": citas,
-        }
+    partes = [normalizar_texto(revision.get("conciliacion"))]
+    if preliminar["motivos"]:
+        partes.append("Motivos: " + "; ".join(preliminar["motivos"]) + ".")
+    if tensiones:
+        partes.append("Tensiones detectadas por el Coordinador: " + "; ".join(tensiones))
 
-    deliberacion = _deliberar(resultados_legal, resultados_tecnico, puntaje, contexto)
     return {
-        "veredicto": normalizar_veredicto(deliberacion.get("veredicto")),
-        "puntaje": puntaje,
-        "justificacion": normalizar_texto(deliberacion.get("conciliacion")),
-        "citas": citas,
+        "veredicto": veredicto,
+        "puntaje": preliminar["puntaje"],
+        "puntaje_maximo": preliminar["puntaje_maximo"],
+        "justificacion": "\n\n".join(p for p in partes if p),
+        "tensiones": tensiones,
+        "citas": [c for r in resultados for c in r.get("citas", [])],
     }

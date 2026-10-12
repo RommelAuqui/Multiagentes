@@ -1,15 +1,11 @@
-VEREDICTO_CUMPLE = "Cumple"
-VEREDICTO_NO_CUMPLE = "No Cumple"
+from agents.reglas import CUMPLE, EVALUADO, NO_CUMPLE, REQUIERE_REVISION, clave, normalizar_texto
 
 
-def normalizar_texto(valor) -> str:
-    return str(valor or "").strip()
-
-
-def normalizar_veredicto(valor) -> str:
-    if normalizar_texto(valor).lower() == "cumple":
-        return VEREDICTO_CUMPLE
-    return VEREDICTO_NO_CUMPLE
+def normalizar_veredicto(valor, etapa: str) -> str:
+    # Una respuesta ambigua no puede descalificar ni aprobar: queda para el comité.
+    if etapa == "evaluacion":
+        return EVALUADO if clave(valor) == "evaluado" else REQUIERE_REVISION
+    return {"cumple": CUMPLE, "no cumple": NO_CUMPLE}.get(clave(valor), REQUIERE_REVISION)
 
 
 def normalizar_citas(citas, fragmentos: list[dict]) -> list[dict]:

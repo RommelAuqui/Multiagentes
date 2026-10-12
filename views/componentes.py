@@ -1,12 +1,31 @@
 import streamlit as st
 
+from agents.reglas import CALIFICA, CUMPLE, ETAPAS, REQUIERE_REVISION, TIPOS
 from rag.pdf_extract import ResultadoExtraccion
+from theme import badge_html
 
-COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
+ICONOS_RESULTADO = {CALIFICA: "🟢", CUMPLE: "🟢", REQUIERE_REVISION: "🟡"}
+
+
+def ordenar_criterios(criterios: list[dict]) -> list[dict]:
+    return sorted(criterios, key=lambda c: (c.get("orden") is None, c.get("orden") or 0))
 
 
 def tabla_criterios(criterios: list[dict]) -> list[dict]:
-    return [{k: c.get(k) for k in COLUMNAS_CRITERIOS} for c in criterios]
+    return [{
+        "Etapa": ETAPAS.get(c.get("etapa"), ""),
+        "Tipo": TIPOS.get(c.get("tipo"), ""),
+        "Requisito o factor": c["descripcion"],
+        "Acreditación": c.get("acreditacion") or "",
+        "Puntaje máx.": c.get("puntaje_maximo") or "",
+        "Referencia": c.get("referencia") or "",
+    } for c in ordenar_criterios(criterios)]
+
+
+def badge_resultado(veredicto: str) -> str:
+    icono = ICONOS_RESULTADO.get(veredicto, "🔴")
+    clase = {"🟢": "ml-badge-cumple", "🟡": "ml-badge-pendiente"}.get(icono, "ml-badge-no-cumple")
+    return badge_html(f"{icono} {veredicto}", clase)
 
 
 def _lista_paginas(paginas: list[int]) -> str:

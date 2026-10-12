@@ -7,10 +7,17 @@ FRAGMENTOS = [
 ]
 
 
-def test_normalizar_veredicto():
-    assert normalizar_veredicto(" cumple ") == "Cumple"
-    assert normalizar_veredicto("Cumple parcialmente") == "No Cumple"
-    assert normalizar_veredicto(None) == "No Cumple"
+def test_veredicto_de_requisitos():
+    assert normalizar_veredicto(" cumple ", "calificacion") == "Cumple"
+    assert normalizar_veredicto("NO CUMPLE", "admision") == "No Cumple"
+    assert normalizar_veredicto("requiere revision", "calificacion") == "Requiere revisión"
+
+
+def test_una_respuesta_ambigua_queda_para_el_comite():
+    assert normalizar_veredicto("Cumple parcialmente", "calificacion") == "Requiere revisión"
+    assert normalizar_veredicto(None, "admision") == "Requiere revisión"
+    assert normalizar_veredicto("Cumple", "evaluacion") == "Requiere revisión"
+    assert normalizar_veredicto("evaluado", "evaluacion") == "Evaluado"
 
 
 def test_cita_con_documento_y_pagina_validos():

@@ -2,6 +2,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 from agents.coordinador import consolidar_dictamen
+from agents.evaluador import texto_de_busqueda
 from agents.gemini_client import ContextoIA
 from agents.legal import evaluar_criterio_legal
 from agents.tecnico import evaluar_criterio_tecnico
@@ -12,20 +13,20 @@ from rag.embeddings import embed_consultas
 PAUSA_ENTRE_CRITERIOS = 2.0
 
 
-def _evaluar_criterios(concurso_id: str, postor_id: str, tareas: list[tuple]) -> list[dict]:
-    if not tareas:
+def _evaluar_criterios(concurso_id: str, postor_id: str, criterios: list[dict]) -> list[dict]:
+    if not criterios:
         return []
 
-    embeddings = embed_consultas([criterio["descripcion"] for _, criterio in tareas])
+    agentes = {"legal": evaluar_criterio_legal, "tecnico": evaluar_criterio_tecnico}
+    embeddings = embed_consultas([texto_de_busqueda(c) for c in criterios])
 
-    def ejecutar(tarea: tuple, embedding: list[float]) -> dict:
-        evaluar, criterio = tarea
-        resultado = evaluar(concurso_id, postor_id, criterio, embedding)
+    def ejecutar(criterio: dict, embedding: list[float]) -> dict:
+        resultado = agentes[criterio["tipo"]](concurso_id, postor_id, criterio, embedding)
         time.sleep(PAUSA_ENTRE_CRITERIOS)
-        return resultado
+        return {**resultado, "agente": criterio["tipo"]}
 
     with ThreadPoolExecutor(max_workers=EVAL_HILOS) as executor:
-        return list(executor.map(ejecutar, tareas, embeddings))
+        return list(executor.map(ejecutar, criterios, embeddings))
 
 
 def evaluar_postor(postor_id: str) -> dict:
@@ -33,44 +34,40 @@ def evaluar_postor(postor_id: str) -> dict:
 
     postor = client.table("postores").select("*").eq("id", postor_id).single().execute().data
     concurso_id = postor["concurso_id"]
+    concurso = client.table("concursos").select("*").eq("id", concurso_id).single().execute().data
 
     criterios = client.table("criterios").select("*").eq("concurso_id", concurso_id).execute().data
-    criterios_legales = [c for c in criterios if c["tipo"] == "legal"]
-    criterios_tecnicos = [c for c in criterios if c["tipo"] == "tecnico"]
+    criterios.sort(key=lambda c: (c.get("orden") is None, c.get("orden") or 0))
 
-    resultados = _evaluar_criterios(concurso_id, postor_id, [
-        *((evaluar_criterio_legal, c) for c in criterios_legales),
-        *((evaluar_criterio_tecnico, c) for c in criterios_tecnicos),
-    ])
-    resultados_legal = resultados[:len(criterios_legales)]
-    resultados_tecnico = resultados[len(criterios_legales):]
-
+    resultados = _evaluar_criterios(concurso_id, postor_id, criterios)
     dictamen = consolidar_dictamen(
-        criterios_legales, resultados_legal, resultados_tecnico, ContextoIA("coordinador", concurso_id, postor_id)
+        resultados, concurso.get("puntaje_minimo"), ContextoIA("coordinador", concurso_id, postor_id)
     )
 
-    filas_dictamenes = []
-    for agente, resultados in (("legal", resultados_legal), ("tecnico", resultados_tecnico)):
-        for r in resultados:
-            filas_dictamenes.append({
-                "postor_id": postor_id,
-                "concurso_id": concurso_id,
-                "criterio_id": r["criterio_id"],
-                "criterio_descripcion": r["criterio_descripcion"],
-                "agente": agente,
-                "veredicto": r["veredicto"],
-                "justificacion": r["justificacion"],
-                "citas": r.get("citas", []),
-            })
+    filas_dictamenes = [{
+        "postor_id": postor_id,
+        "concurso_id": concurso_id,
+        "criterio_id": r["criterio_id"],
+        "criterio_descripcion": r["criterio_descripcion"],
+        "agente": r["agente"],
+        "etapa": r["etapa"],
+        "obligatorio": r["obligatorio"],
+        "puntaje_maximo": r["puntaje_maximo"],
+        "veredicto": r["veredicto"],
+        "puntaje": r["puntaje"],
+        "justificacion": r["justificacion"],
+        "citas": r["citas"],
+    } for r in resultados]
 
     filas_dictamenes.append({
         "postor_id": postor_id,
         "concurso_id": concurso_id,
         "agente": "coordinador",
         "veredicto": dictamen["veredicto"],
+        "puntaje": dictamen["puntaje"],
+        "puntaje_maximo": dictamen["puntaje_maximo"],
         "justificacion": dictamen["justificacion"],
         "citas": dictamen["citas"],
-        "puntaje": dictamen["puntaje"],
     })
 
     # Se insertan los nuevos antes de borrar los anteriores: si algo falla, no se pierde la evaluación previa.
@@ -81,9 +78,4 @@ def evaluar_postor(postor_id: str) -> dict:
 
     client.table("postores").update({"estado": "evaluado"}).eq("id", postor_id).execute()
 
-    return {
-        "postor": postor,
-        "resultados_legal": resultados_legal,
-        "resultados_tecnico": resultados_tecnico,
-        "dictamen": dictamen,
-    }
+    return {"postor": postor, "resultados": resultados, "dictamen": dictamen}

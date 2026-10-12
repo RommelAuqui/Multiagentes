@@ -1,8 +1,12 @@
+from datetime import datetime
 from io import BytesIO
 
 from docx import Document
 
+from agents.reglas import ETAPAS, REQUIERE_REVISION, puntaje_efectivo, veredicto_efectivo
+
 NOMBRES_DOCUMENTO = {"propuesta": "Propuesta Técnica", "cv": "CV Documentado"}
+ENCABEZADOS = ("Criterio", "Propuesta de la IA", "Decisión del comité", "Sustento y citas")
 
 
 def _texto_cita(cita: dict) -> str:
@@ -11,30 +15,82 @@ def _texto_cita(cita: dict) -> str:
     return f"{ubicacion}: {cita.get('extracto', '')}"
 
 
-def generar_acta(concurso: dict, postor: dict, resultado_evaluacion: dict) -> BytesIO:
-    dictamen = resultado_evaluacion["dictamen"]
+def _fecha(valor: str) -> str:
+    try:
+        return datetime.fromisoformat(valor).strftime("%d/%m/%Y %H:%M")
+    except (TypeError, ValueError):
+        return str(valor)
 
+
+def _numero(valor) -> str:
+    return f"{float(valor):g}"
+
+
+def _decision(fila: dict, del_comite: bool) -> str:
+    veredicto = fila.get("veredicto_comite") if del_comite else fila["veredicto"]
+    if not veredicto:
+        return "—"
+    puntaje = fila.get("puntaje_comite") if del_comite else fila.get("puntaje")
+    if fila.get("etapa") != "evaluacion" or puntaje is None:
+        return veredicto
+    texto = f"{_numero(puntaje)} de {_numero(fila.get('puntaje_maximo') or 0)} puntos"
+    return f"{texto} ({REQUIERE_REVISION.lower()})" if veredicto == REQUIERE_REVISION else texto
+
+
+def _sustento(fila: dict) -> str:
+    partes = [fila.get("justificacion") or ""]
+    if fila.get("justificacion_comite"):
+        partes.append(f"Comité: {fila['justificacion_comite']}")
+    if fila.get("citas"):
+        partes.append("Citas: " + "; ".join(_texto_cita(c) for c in fila["citas"]))
+    return "\n".join(p for p in partes if p)
+
+
+def generar_acta(concurso: dict, postor: dict, filas: list[dict], dictamen: dict) -> BytesIO:
     doc = Document()
     doc.add_heading("Acta de Dictamen Técnico", level=1)
     doc.add_paragraph(f"Concurso: {concurso['nombre']}")
     doc.add_paragraph(f"Postor: {postor['razon_social']} (RUC {postor['ruc']})")
-    doc.add_paragraph(f"Veredicto final: {dictamen['veredicto']}")
-    doc.add_paragraph(f"Puntaje técnico: {dictamen['puntaje']}")
-    doc.add_paragraph(dictamen["justificacion"])
 
-    doc.add_heading("Evaluación Legal", level=2)
-    for r in resultado_evaluacion["resultados_legal"]:
-        doc.add_paragraph(f"{r['criterio_descripcion']} — {r['veredicto']}")
-        doc.add_paragraph(r["justificacion"])
+    doc.add_heading("Resultado", level=2)
+    doc.add_paragraph(f"Resultado final: {veredicto_efectivo(dictamen)}")
+    if dictamen.get("puntaje_maximo"):
+        doc.add_paragraph(
+            f"Puntaje técnico: {_numero(puntaje_efectivo(dictamen) or 0)} de {_numero(dictamen['puntaje_maximo'])}"
+        )
+    if dictamen.get("revisado_en"):
+        doc.add_paragraph(
+            f"Revisado por el comité de selección: {dictamen['revisado_por']}, {_fecha(dictamen['revisado_en'])}. "
+            f"Propuesta original de la IA: {dictamen['veredicto']}."
+        )
+        if dictamen.get("justificacion_comite"):
+            doc.add_paragraph(f"Observaciones del comité: {dictamen['justificacion_comite']}")
+    else:
+        doc.add_paragraph("Propuesta de la IA pendiente de revisión por el comité de selección.")
 
-    doc.add_heading("Evaluación Técnica", level=2)
-    for r in resultado_evaluacion["resultados_tecnico"]:
-        doc.add_paragraph(f"{r['criterio_descripcion']} — {r['veredicto']}")
-        doc.add_paragraph(r["justificacion"])
+    doc.add_heading("Conciliación del Agente Coordinador", level=2)
+    doc.add_paragraph(dictamen.get("justificacion") or "")
 
-    doc.add_heading("Citas y Trazabilidad", level=2)
-    for cita in dictamen.get("citas") or []:
-        doc.add_paragraph(_texto_cita(cita))
+    for etapa, nombre in ETAPAS.items():
+        de_la_etapa = [f for f in filas if f.get("etapa") == etapa]
+        if not de_la_etapa:
+            continue
+        doc.add_heading(nombre, level=2)
+        tabla = doc.add_table(rows=1, cols=len(ENCABEZADOS))
+        tabla.style = "Table Grid"
+        for celda, encabezado in zip(tabla.rows[0].cells, ENCABEZADOS):
+            celda.text = encabezado
+        for fila in de_la_etapa:
+            celdas = tabla.add_row().cells
+            celdas[0].text = fila["criterio_descripcion"]
+            celdas[1].text = _decision(fila, del_comite=False)
+            celdas[2].text = _decision(fila, del_comite=True)
+            celdas[3].text = _sustento(fila)
+
+    doc.add_paragraph(
+        "Documento generado con apoyo de un sistema multiagente de inteligencia artificial. "
+        "La decisión corresponde al comité de selección."
+    )
 
     buffer = BytesIO()
     doc.save(buffer)

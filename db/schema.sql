@@ -77,6 +77,31 @@ create table if not exists consultas_ia (
 );
 create index if not exists consultas_ia_concurso_idx on consultas_ia (concurso_id);
 
+-- Matriz según la estructura de las bases estándar (admisión, calificación y factores de
+-- evaluación con puntaje) y revisión del comité sobre lo que propone la IA.
+alter table concursos add column if not exists puntaje_minimo numeric;
+alter table criterios add column if not exists etapa text not null default 'calificacion';
+alter table criterios add column if not exists acreditacion text;
+alter table criterios add column if not exists puntaje_maximo numeric;
+alter table criterios add column if not exists asignacion_puntaje text;
+alter table criterios add column if not exists orden integer;
+alter table dictamenes add column if not exists etapa text;
+alter table dictamenes add column if not exists obligatorio boolean;
+alter table dictamenes add column if not exists puntaje_maximo numeric;
+alter table dictamenes add column if not exists veredicto_comite text;
+alter table dictamenes add column if not exists puntaje_comite numeric;
+alter table dictamenes add column if not exists justificacion_comite text;
+alter table dictamenes add column if not exists revisado_por text;
+alter table dictamenes add column if not exists revisado_en timestamptz;
+
+do $$
+begin
+    if not exists (select 1 from pg_constraint where conname = 'criterios_etapa_check') then
+        alter table criterios add constraint criterios_etapa_check
+            check (etapa in ('admision', 'calificacion', 'evaluacion'));
+    end if;
+end $$;
+
 -- La app usa la clave service_role/secret, que ignora RLS. Activarlo sin políticas impide que
 -- las claves públicas (anon/publishable) lean o modifiquen estas tablas.
 alter table concursos enable row level security;

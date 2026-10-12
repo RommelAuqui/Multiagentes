@@ -4,38 +4,43 @@ from agents.gemini_client import ContextoIA
 CONTEXTO = ContextoIA("coordinador", "C1", "P1")
 
 
-def _resultado(veredicto, citas=()):
-    return {"criterio_descripcion": "c", "veredicto": veredicto, "justificacion": "j", "citas": list(citas)}
+def _resultado(etapa, veredicto, puntaje=None, maximo=None, citas=()):
+    return {"criterio_descripcion": f"criterio de {etapa}", "etapa": etapa, "obligatorio": True,
+            "veredicto": veredicto, "puntaje": puntaje, "puntaje_maximo": maximo, "justificacion": "j",
+            "citas": list(citas), "agente": "tecnico"}
 
 
-def _no_debe_deliberar(*_):
-    raise AssertionError("Un incumplimiento legal obligatorio no pasa a deliberación.")
-
-
-def test_incumplimiento_legal_obligatorio_descalifica_sin_deliberar(monkeypatch):
-    monkeypatch.setattr(coordinador, "_deliberar", _no_debe_deliberar)
+def test_el_coordinador_no_puede_aprobar_a_quien_no_cumple(monkeypatch):
+    # Aunque el LLM no vea problemas, la regla de las Bases manda.
+    monkeypatch.setattr(coordinador, "generar_json", lambda *_: {"conciliacion": "Todo en orden.", "tensiones": []})
 
     dictamen = coordinador.consolidar_dictamen(
-        criterios_legales=[{"obligatorio": True}, {"obligatorio": False}],
-        resultados_legal=[_resultado("No Cumple"), _resultado("Cumple")],
-        resultados_tecnico=[_resultado("Cumple"), _resultado("No Cumple")],
-        contexto=CONTEXTO,
+        [_resultado("admision", "No Cumple"), _resultado("evaluacion", "Evaluado", 60, 60)], None, CONTEXTO
     )
 
-    assert dictamen["veredicto"] == "No Cumple"
-    assert dictamen["puntaje"] == 50.0
-    assert dictamen["justificacion"].startswith("Descalificado")
+    assert dictamen["veredicto"] == "No admitido"
+    assert "Motivos: criterio de admision" in dictamen["justificacion"]
 
 
-def test_delibera_y_normaliza_la_respuesta(monkeypatch):
-    monkeypatch.setattr(coordinador, "_deliberar", lambda *_: {"veredicto": "cumple", "conciliacion": " ok "})
+def test_las_tensiones_mandan_el_caso_al_comite(monkeypatch):
+    monkeypatch.setattr(coordinador, "generar_json", lambda *_: {
+        "conciliacion": " Ambos agentes coinciden. ", "tensiones": ["El RUC del CV no coincide con el de la propuesta", ""],
+    })
     cita = {"documento": "cv", "pagina": 2, "extracto": "x"}
 
     dictamen = coordinador.consolidar_dictamen(
-        criterios_legales=[{"obligatorio": False}],
-        resultados_legal=[_resultado("No Cumple")],
-        resultados_tecnico=[_resultado("Cumple", [cita]), _resultado("Cumple"), _resultado("No Cumple")],
-        contexto=CONTEXTO,
+        [_resultado("calificacion", "Cumple", citas=[cita]), _resultado("evaluacion", "Evaluado", 45, 60)], 40, CONTEXTO
     )
 
-    assert dictamen == {"veredicto": "Cumple", "puntaje": 66.67, "justificacion": "ok", "citas": [cita]}
+    assert dictamen["veredicto"] == "Requiere revisión"
+    assert dictamen["tensiones"] == ["El RUC del CV no coincide con el de la propuesta"]
+    assert dictamen["justificacion"].startswith("Ambos agentes coinciden.")
+    assert (dictamen["puntaje"], dictamen["puntaje_maximo"], dictamen["citas"]) == (45, 60, [cita])
+
+
+def test_sin_tensiones_se_mantiene_el_resultado_de_las_reglas(monkeypatch):
+    monkeypatch.setattr(coordinador, "generar_json", lambda *_: {"conciliacion": "ok", "tensiones": "no es lista"})
+
+    dictamen = coordinador.consolidar_dictamen([_resultado("evaluacion", "Evaluado", 30, 60)], 40, CONTEXTO)
+
+    assert dictamen["veredicto"] == "Puntaje insuficiente"

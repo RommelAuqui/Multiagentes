@@ -4,7 +4,7 @@ from google.genai import types
 from pypdf import PdfReader, PdfWriter
 
 from agents.gemini_client import ContextoIA, generar_json
-from agents.respuestas import normalizar_texto
+from agents.reglas import normalizar_texto
 from config import MODELO_LECTOR
 
 PAGINAS_POR_LOTE = 5
