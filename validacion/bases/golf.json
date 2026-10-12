@@ -1,0 +1,41 @@
+{
+  "nombre": "CP N.° 02-2026-GRML-1 — Gobierno Regional Metropolitano de Lima (GOLF)",
+  "descripcion": "106 páginas, todas escaneadas.",
+  "puntaje_minimo": 70,
+  "puntaje_total": 100,
+  "criterios": [
+    {"etapa": "admision", "palabras": ["datos del postor"]},
+    {"etapa": "admision", "palabras": ["pacto de integridad"]},
+    {"etapa": "admision", "palabras": ["representacion"]},
+    {"etapa": "admision", "palabras": ["veracidad"]},
+    {"etapa": "admision", "palabras": ["promesa de consorcio"], "condicional": true},
+    {"etapa": "admision", "palabras": ["desafectacion"], "condicional": true},
+    {"etapa": "calificacion", "palabras": ["experiencia del postor", "549"]},
+    {"etapa": "calificacion", "palabras": ["jefe de supervision", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["especialista en calidad", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["especialista ambiental", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["seguridad en obra", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["arqueolog", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["jefe de supervision", "36"]},
+    {"etapa": "calificacion", "palabras": ["especialista en calidad", "12"]},
+    {"etapa": "calificacion", "palabras": ["especialista ambiental", "18"]},
+    {"etapa": "calificacion", "palabras": ["seguridad en obra", "24"]},
+    {"etapa": "calificacion", "palabras": ["arqueolog", "24"]},
+    {"etapa": "calificacion", "palabras": ["consorci"], "condicional": true, "varios": true},
+    {"etapa": "evaluacion", "palabras": ["experiencia especifica adicional"], "puntaje": 40},
+    {"etapa": "evaluacion", "palabras": ["sostenibilidad ambiental"], "puntaje": 20, "varios": true},
+    {"etapa": "evaluacion", "palabras": ["integridad"], "puntaje": 20},
+    {"etapa": "evaluacion", "palabras": ["gestion de calidad"], "puntaje": 20, "varios": true}
+  ],
+  "excluidos": [
+    {"palabras": ["sostenibilidad social"], "motivo": "Factor que no corresponde (cuantía menor a 9350 UIT)"},
+    {"palabras": ["equipamiento estrategico"], "motivo": "Se acredita para la suscripción del contrato"},
+    {"palabras": ["infraestructura estrategica"], "motivo": "Se acredita para la suscripción del contrato"},
+    {"palabras": ["mejora al requerimiento"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["gestion de riesgos"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["planificacion detallada"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["monitoreo y control"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["plan de ejecucion bim"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["oferta economica"], "motivo": "No se evalúa en la oferta técnica"}
+  ]
+}

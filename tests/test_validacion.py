@@ -122,3 +122,63 @@ def test_el_ejecutor_completo_con_servicios_simulados(db_falsa, monkeypatch, tmp
     assert "No hubo errores" in reporte
     assert (carpeta / "decisiones.csv").exists() and (carpeta / "metricas.json").exists()
     assert db_falsa.filas("concursos") == []  # la convocatoria de validación se elimina
+
+
+def test_comparar_la_matriz_extraida_con_la_correcta():
+    from validacion.extractor import comparar_matriz
+
+    esperada = {
+        "puntaje_minimo": 70, "puntaje_total": 100,
+        "criterios": [
+            {"etapa": "admision", "palabras": ["datos del postor"]},
+            {"etapa": "admision", "palabras": ["promesa de consorcio"], "condicional": True},
+            {"etapa": "calificacion", "palabras": ["jefe", "36"]},
+            {"etapa": "calificacion", "palabras": ["consorci"], "condicional": True, "varios": True},
+            {"etapa": "evaluacion", "palabras": ["sostenibilidad ambiental"], "puntaje": 20, "varios": True},
+            {"etapa": "evaluacion", "palabras": ["integridad"], "puntaje": 80},
+        ],
+        "excluidos": [{"palabras": ["equipamiento"], "motivo": "Al firmar el contrato"},
+                      {"palabras": ["sostenibilidad social"], "motivo": "No corresponde"}],
+    }
+    criterios = [
+        {"etapa": "admision", "descripcion": "Declaración jurada de datos del postor", "puntaje_maximo": None},
+        {"etapa": "admision", "descripcion": "Promesa de consorcio (Anexo 4)", "puntaje_maximo": None},  # sin la condición
+        {"etapa": "calificacion", "descripcion": "Experiencia del Jefe: 36 meses; en caso de consorcio...", "puntaje_maximo": None},
+        {"etapa": "calificacion", "descripcion": "Solo si el postor se presenta en consorcio: C.1 máximo 2 consorciados", "puntaje_maximo": None},
+        {"etapa": "calificacion", "descripcion": "Solo si el postor se presenta en consorcio: C.2 participación mínima", "puntaje_maximo": None},
+        {"etapa": "calificacion", "descripcion": "Equipamiento estratégico: camioneta 4x4", "puntaje_maximo": None},
+        {"etapa": "evaluacion", "descripcion": "Sostenibilidad ambiental - b.1 ISO 14001", "puntaje_maximo": 8},
+        {"etapa": "evaluacion", "descripcion": "Sostenibilidad ambiental - b.3 cursos", "puntaje_maximo": 12},
+        {"etapa": "evaluacion", "descripcion": "Integridad en la contratación pública", "puntaje_maximo": 80},
+    ]
+
+    resultado = comparar_matriz(esperada, criterios, puntaje_minimo=70)
+
+    assert (resultado["encontrados"], resultado["esperados"], resultado["exhaustividad"]) == (6, 6, 1.0)
+    # El jefe (que menciona «consorcio») no se lo queda el criterio de consorcio, y los subfactores suman 20.
+    assert resultado["precision"] == round(8 / 9, 4) and resultado["sobrantes"] == ["Equipamiento estratégico: camioneta 4x4"]
+    assert resultado["condicionales_marcados"] == "1/2"
+    assert resultado["puntajes_correctos"] == "2/2"
+    assert resultado["exclusiones_respetadas"] == "1/2"
+    assert resultado["puntaje_minimo_correcto"] and resultado["suma_correcta"]
+
+
+def test_tasas_de_error_del_lector():
+    from validacion.lector import distancia_edicion, normalizar, tasas_de_error
+
+    assert distancia_edicion("supervision", "supervisión") == 1
+    assert distancia_edicion(["monto", "S/", "500"], ["monto", "500"]) == 1
+    # El formato de tabla que agrega el lector no cuenta como error.
+    assert normalizar("| Cargo | Meses |\n| --- | --- |\n| **Jefe** | 36 |") == "Cargo Meses Jefe 36"
+    tasas = tasas_de_error("Jefe de supervision 36 meses", "Jefe de supervisión 36 meses")
+    assert tasas == {"cer": round(1 / 28, 4), "wer": 0.2, "caracteres": 28}  # 1 de 5 palabras
+
+
+def test_las_paginas_digitales_se_convierten_en_escaneos():
+    from validacion.lector import paginas_escaneadas
+    from validacion.pdfs import construir_pdf
+
+    pdf = construir_pdf([{"lineas": ["Pagina digital con texto de prueba."]}] * 2)
+    escaneos = paginas_escaneadas(pdf, [2])
+    assert [numero for numero, _, _ in escaneos] == [2]
+    assert escaneos[0][1][:3] == b"\xff\xd8\xff"  # JPEG

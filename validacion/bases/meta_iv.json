@@ -1,0 +1,42 @@
+{
+  "nombre": "CP-02-2026-GRL/CS-1 — Gobierno Regional de Lima (META IV)",
+  "descripcion": "107 páginas digitales; el TDR (pp. 26-53) está escaneado.",
+  "puntaje_minimo": 70,
+  "puntaje_total": 100,
+  "criterios": [
+    {"etapa": "admision", "palabras": ["datos del postor"]},
+    {"etapa": "admision", "palabras": ["pacto de integridad"]},
+    {"etapa": "admision", "palabras": ["representacion"]},
+    {"etapa": "admision", "palabras": ["veracidad"]},
+    {"etapa": "admision", "palabras": ["promesa de consorcio"], "condicional": true},
+    {"etapa": "admision", "palabras": ["desafectacion"], "condicional": true},
+    {"etapa": "calificacion", "palabras": ["experiencia del postor", "500"]},
+    {"etapa": "calificacion", "palabras": ["supervisor de obra", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["suelos", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["especialista ambiental", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["seguridad y salud", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["topografia", "titulo"]},
+    {"etapa": "calificacion", "palabras": ["supervisor de obra", "36"]},
+    {"etapa": "calificacion", "palabras": ["suelos", "24"]},
+    {"etapa": "calificacion", "palabras": ["especialista ambiental", "24"]},
+    {"etapa": "calificacion", "palabras": ["seguridad y salud", "24"]},
+    {"etapa": "calificacion", "palabras": ["topografia", "24"]},
+    {"etapa": "calificacion", "palabras": ["consorcio"], "condicional": true, "varios": true},
+    {"etapa": "evaluacion", "palabras": ["experiencia especifica adicional"], "puntaje": 55},
+    {"etapa": "evaluacion", "palabras": ["sostenibilidad ambiental"], "puntaje": 5, "varios": true},
+    {"etapa": "evaluacion", "palabras": ["sostenibilidad social"], "puntaje": 5, "varios": true},
+    {"etapa": "evaluacion", "palabras": ["integridad"], "puntaje": 5},
+    {"etapa": "evaluacion", "palabras": ["gestion de calidad"], "puntaje": 30, "varios": true}
+  ],
+  "excluidos": [
+    {"palabras": ["equipamiento estrategico"], "motivo": "Se acredita para la suscripción del contrato"},
+    {"palabras": ["infraestructura estrategica"], "motivo": "Se acredita para la suscripción del contrato"},
+    {"palabras": ["iso 9001"], "motivo": "Ítem i.1 suprimido por la Absolución N.° 08"},
+    {"palabras": ["mejora al requerimiento"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["gestion de riesgos"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["planificacion detallada"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["monitoreo y control"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["plan de ejecucion bim"], "motivo": "Factor que no corresponde"},
+    {"palabras": ["oferta economica"], "motivo": "No se evalúa en la oferta técnica"}
+  ]
+}
