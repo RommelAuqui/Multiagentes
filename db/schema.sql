@@ -56,10 +56,15 @@ create table if not exists dictamenes (
     created_at timestamptz not null default now()
 );
 
-create index if not exists documentos_chunks_embedding_idx
-    on documentos_chunks using ivfflat (embedding vector_cosine_ops) with (lists = 100);
+-- La búsqueda vectorial es exacta: siempre se filtra por concurso/postor (pocos cientos de
+-- fragmentos), y un índice aproximado (ivfflat/hnsw) aplica ese filtro después de buscar,
+-- con lo que puede devolver menos evidencia de la que existe.
+drop index if exists documentos_chunks_embedding_idx;
+create index if not exists documentos_chunks_concurso_idx on documentos_chunks (concurso_id);
+create index if not exists documentos_chunks_postor_idx on documentos_chunks (postor_id);
 
-create or replace function match_documentos(
+drop function if exists match_documentos(vector, uuid, uuid, text, int);
+create function match_documentos(
     query_embedding vector(768),
     match_concurso_id uuid,
     match_postor_id uuid,
@@ -68,6 +73,7 @@ create or replace function match_documentos(
 )
 returns table (
     id uuid,
+    origen text,
     pagina integer,
     contenido text,
     similarity float
@@ -76,6 +82,7 @@ language sql stable
 as $$
     select
         documentos_chunks.id,
+        documentos_chunks.origen,
         documentos_chunks.pagina,
         documentos_chunks.contenido,
         1 - (documentos_chunks.embedding <=> query_embedding) as similarity

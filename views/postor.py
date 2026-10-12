@@ -1,8 +1,10 @@
+from contextlib import suppress
+
 import streamlit as st
 
 from db.client import get_client
-from db.storage import descargar_archivo, subir_archivo
-from rag.ingest import indexar_documento
+from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
+from rag.ingest import DocumentoPreparado, guardar_fragmentos, preparar_documento
 from views.avisos import mostrar_avisos_extraccion
 
 COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
@@ -71,38 +73,75 @@ def render():
         st.error("Todos los campos son obligatorios.")
         return
 
+    propuesta_bytes = propuesta_pdf.getvalue()
+    cv_bytes = cv_pdf.getvalue()
+
+    # Los documentos se procesan antes de registrar al postor, para no dejar postulaciones sin evidencia.
+    try:
+        with st.spinner("Leyendo e indexando tus documentos para la evaluación..."):
+            propuesta = preparar_documento(propuesta_bytes)
+            cv = preparar_documento(cv_bytes)
+    except Exception:
+        st.error(
+            "No se pudieron procesar tus documentos (el PDF podría estar dañado o el servicio de IA "
+            "no respondió). Tu postulación no se registró; vuelve a intentarlo."
+        )
+        return
+
+    mostrar_avisos_extraccion("Propuesta Técnica", propuesta.extraccion)
+    mostrar_avisos_extraccion("CV Documentado", cv.extraccion)
+
+    ilegibles = [
+        nombre for nombre, documento in (("Propuesta Técnica", propuesta), ("CV Documentado", cv))
+        if not documento.fragmentos
+    ]
+    if ilegibles:
+        st.error(
+            f"No se pudo leer texto de: {', '.join(ilegibles)}. Verifica que el PDF no esté "
+            "protegido o dañado. Tu postulación no se registró."
+        )
+        return
+
+    try:
+        _registrar_postulacion(concurso["id"], ruc, razon_social, propuesta_bytes, cv_bytes, propuesta, cv)
+    except Exception:
+        st.error("Hubo un problema al registrar tu postulación. No se guardó nada; vuelve a intentarlo.")
+        return
+
+    st.success("Postulación registrada correctamente. El comité evaluará tu expediente.")
+
+
+def _registrar_postulacion(
+    concurso_id: str,
+    ruc: str,
+    razon_social: str,
+    propuesta_bytes: bytes,
+    cv_bytes: bytes,
+    propuesta: DocumentoPreparado,
+    cv: DocumentoPreparado,
+) -> None:
+    client = get_client()
     postor = client.table("postores").insert({
-        "concurso_id": concurso["id"],
+        "concurso_id": concurso_id,
         "ruc": ruc,
         "razon_social": razon_social,
         "estado": "recibido",
     }).execute().data[0]
 
-    propuesta_bytes = propuesta_pdf.getvalue()
-    cv_bytes = cv_pdf.getvalue()
-
     propuesta_path = f"postores/{postor['id']}/propuesta.pdf"
     cv_path = f"postores/{postor['id']}/cv.pdf"
-    subir_archivo(propuesta_path, propuesta_bytes)
-    subir_archivo(cv_path, cv_bytes)
-
-    client.table("postores").update({
-        "propuesta_pdf_path": propuesta_path,
-        "cv_pdf_path": cv_path,
-    }).eq("id", postor["id"]).execute()
-
     try:
-        with st.spinner("Leyendo e indexando tus documentos para la evaluación..."):
-            extraccion_propuesta = indexar_documento(concurso["id"], postor["id"], "propuesta", propuesta_bytes)
-            extraccion_cv = indexar_documento(concurso["id"], postor["id"], "cv", cv_bytes)
+        subir_archivo(propuesta_path, propuesta_bytes)
+        subir_archivo(cv_path, cv_bytes)
+        client.table("postores").update({
+            "propuesta_pdf_path": propuesta_path,
+            "cv_pdf_path": cv_path,
+        }).eq("id", postor["id"]).execute()
+        guardar_fragmentos(concurso_id, postor["id"], "propuesta", propuesta)
+        guardar_fragmentos(concurso_id, postor["id"], "cv", cv)
     except Exception:
-        st.error(
-            "Tu postulación se registró, pero hubo un problema al procesar tus documentos. "
-            "Por favor contacta al comité para confirmar que tus archivos se recibieron correctamente."
-        )
-        return
-
-    mostrar_avisos_extraccion("Propuesta Técnica", extraccion_propuesta)
-    mostrar_avisos_extraccion("CV Documentado", extraccion_cv)
-
-    st.success("Postulación registrada correctamente. El comité evaluará tu expediente.")
+        with suppress(Exception):
+            client.table("postores").delete().eq("id", postor["id"]).execute()
+        with suppress(Exception):
+            eliminar_archivos([propuesta_path, cv_path])
+        raise

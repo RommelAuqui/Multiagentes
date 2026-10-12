@@ -1,9 +1,11 @@
+from contextlib import suppress
+
 import streamlit as st
 
-from agents.extractor import extraer_criterios
+from agents.extractor import MAX_CARACTERES_BASES, extraer_criterios
 from agents.orchestrator import evaluar_postor
 from db.client import get_client
-from db.storage import descargar_archivo, subir_archivo
+from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.pdf_extract import extraer_paginas, texto_completo
 from reports.acta import generar_acta
 from reports.matriz import generar_matriz_comparativa
@@ -33,29 +35,18 @@ def _crear_concurso():
         st.error("El nombre y las bases en PDF son obligatorios.")
         return
 
-    client = get_client()
-    concurso = client.table("concursos").insert({
-        "nombre": nombre,
-        "descripcion": descripcion,
-        "estado": "abierto",
-    }).execute().data[0]
-
     contenido = bases_pdf.getvalue()
-    path = f"bases/{concurso['id']}.pdf"
-    subir_archivo(path, contenido)
-    client.table("concursos").update({"bases_pdf_path": path}).eq("id", concurso["id"]).execute()
 
+    # Primero se analiza el PDF: la convocatoria solo se guarda si se obtuvo la matriz de requisitos.
     try:
         with st.spinner("Leyendo las Bases y generando la matriz de requisitos..."):
             extraccion = extraer_paginas(contenido)
-            criterios = (
-                extraer_criterios(texto_completo(extraccion.paginas)) if extraccion.paginas else []
-            )
+            texto_bases = texto_completo(extraccion.paginas)
+            criterios = extraer_criterios(texto_bases) if extraccion.paginas else []
     except Exception:
         st.error(
-            f"La convocatoria '{nombre}' se creó, pero el Agente Extractor no pudo generar "
-            "la matriz de requisitos (el PDF podría estar dañado o el servicio de IA no "
-            "respondió). Puedes eliminar esta convocatoria y volver a intentarlo."
+            "El Agente Extractor no pudo generar la matriz de requisitos (el PDF podría estar "
+            "dañado o el servicio de IA no respondió). La convocatoria no se creó; vuelve a intentarlo."
         )
         return
 
@@ -63,18 +54,67 @@ def _crear_concurso():
 
     if not extraccion.paginas:
         st.error(
-            f"La convocatoria '{nombre}' se creó, pero no se pudo leer texto de las Bases. "
-            "Verifica que el PDF no esté protegido o dañado, y vuelve a intentarlo."
+            "No se pudo leer texto de las Bases. Verifica que el PDF no esté protegido o dañado. "
+            "La convocatoria no se creó."
         )
         return
 
-    if criterios:
-        client.table("criterios").insert([
-            {**c, "concurso_id": concurso["id"]} for c in criterios
-        ]).execute()
+    if len(texto_bases) > MAX_CARACTERES_BASES:
+        st.warning(
+            f"Las Bases son muy extensas: solo se analizaron los primeros {MAX_CARACTERES_BASES:,} "
+            "caracteres. Revisa que la matriz incluya todos los requisitos."
+        )
+
+    if not criterios:
+        st.error(
+            "El Agente Extractor no encontró criterios de evaluación en las Bases. "
+            "La convocatoria no se creó."
+        )
+        return
+
+    try:
+        _registrar_concurso(nombre, descripcion, contenido, criterios)
+    except Exception:
+        st.error("Hubo un problema al guardar la convocatoria. No se guardó nada; vuelve a intentarlo.")
+        return
 
     st.success(f"Convocatoria '{nombre}' creada con {len(criterios)} criterios extraídos.")
     st.table(_tabla_criterios(criterios))
+
+
+def _registrar_concurso(nombre: str, descripcion: str, contenido: bytes, criterios: list[dict]) -> dict:
+    client = get_client()
+    concurso = client.table("concursos").insert({
+        "nombre": nombre,
+        "descripcion": descripcion,
+        "estado": "abierto",
+    }).execute().data[0]
+
+    path = f"bases/{concurso['id']}.pdf"
+    try:
+        subir_archivo(path, contenido)
+        client.table("concursos").update({"bases_pdf_path": path}).eq("id", concurso["id"]).execute()
+        client.table("criterios").insert([
+            {**c, "concurso_id": concurso["id"]} for c in criterios
+        ]).execute()
+    except Exception:
+        with suppress(Exception):
+            client.table("concursos").delete().eq("id", concurso["id"]).execute()
+        with suppress(Exception):
+            eliminar_archivos([path])
+        raise
+
+    return concurso
+
+
+def _evaluar(postor: dict) -> None:
+    try:
+        with st.spinner("Los agentes Legal y Técnico están deliberando..."):
+            evaluar_postor(postor["id"])
+    except Exception as e:
+        st.error(f"No se pudo completar la evaluación de {postor['razon_social']}: {e}")
+        return
+    st.rerun()
 
 
 def _badge_veredicto(veredicto: str) -> str:
@@ -152,9 +192,7 @@ def _gestionar_concursos():
                 with columnas[1]:
                     st.markdown(badge_html("⏳ Pendiente", "ml-badge-pendiente"), unsafe_allow_html=True)
                 if columnas[2].button("Evaluar", key=f"evaluar_{postor['id']}"):
-                    with st.spinner("Los agentes Legal y Técnico están deliberando..."):
-                        evaluar_postor(postor["id"])
-                    st.rerun()
+                    _evaluar(postor)
 
     postor_id_acta = st.session_state.get("postor_para_acta")
     postor_acta = next((p for p in postores if p["id"] == postor_id_acta), None)

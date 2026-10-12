@@ -12,6 +12,12 @@ def subir_archivo(path: str, contenido: bytes) -> str:
     return path
 
 
+def eliminar_archivos(paths: list[str]) -> None:
+    paths = [p for p in paths if p]
+    if paths:
+        get_client().storage.from_(STORAGE_BUCKET).remove(paths)
+
+
 def descargar_archivo(path: str) -> bytes:
     client = get_client()
     return client.storage.from_(STORAGE_BUCKET).download(path)

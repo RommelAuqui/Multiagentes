@@ -54,7 +54,11 @@ def evaluar_postor(postor_id: str) -> dict:
         "puntaje": dictamen["puntaje"],
     })
 
-    client.table("dictamenes").insert(filas_dictamenes).execute()
+    # Se insertan los nuevos antes de borrar los anteriores: si algo falla, no se pierde la evaluación previa.
+    nuevos = client.table("dictamenes").insert(filas_dictamenes).execute().data
+    client.table("dictamenes").delete().eq("postor_id", postor_id).not_.in_(
+        "id", [d["id"] for d in nuevos]
+    ).execute()
 
     client.table("postores").update({"estado": "evaluado"}).eq("id", postor_id).execute()
 

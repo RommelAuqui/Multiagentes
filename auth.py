@@ -1,3 +1,5 @@
+import hmac
+
 import streamlit as st
 
 from config import ADMIN_PASSWORD
@@ -14,7 +16,7 @@ def acceso_autorizado() -> bool:
     st.subheader("Acceso restringido — Portal del Comité")
     clave = st.text_input("Contraseña del comité", type="password")
     if st.button("Ingresar"):
-        if clave == ADMIN_PASSWORD:
+        if hmac.compare_digest(clave.encode(), ADMIN_PASSWORD.encode()):
             st.session_state["admin_autenticado"] = True
             st.rerun()
         else:

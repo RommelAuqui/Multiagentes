@@ -1,6 +1,8 @@
 from agents.gemini_client import generar_json
 from config import LLM_MODEL
 
+MAX_CARACTERES_BASES = 300_000
+
 PROMPT = """Eres el Agente Extractor de Bases de un comité evaluador de concursos públicos de \
 consultoría en Perú, regidos por la Ley N.º 32069.
 
@@ -38,7 +40,10 @@ def _normalizar_criterio(c: dict) -> dict | None:
 
 
 def extraer_criterios(texto_bases: str) -> list[dict]:
-    prompt = PROMPT.format(texto=texto_bases[:30000])
+    prompt = PROMPT.format(texto=texto_bases[:MAX_CARACTERES_BASES])
     datos = generar_json(LLM_MODEL, prompt)
-    criterios = [_normalizar_criterio(c) for c in datos["criterios"]]
-    return [c for c in criterios if c is not None]
+    criterios = datos.get("criterios")
+    if not isinstance(criterios, list):
+        return []
+    normalizados = (_normalizar_criterio(c) for c in criterios if isinstance(c, dict))
+    return [c for c in normalizados if c is not None]

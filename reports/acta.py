@@ -2,6 +2,14 @@ from io import BytesIO
 
 from docx import Document
 
+NOMBRES_DOCUMENTO = {"propuesta": "Propuesta Técnica", "cv": "CV Documentado"}
+
+
+def _texto_cita(cita: dict) -> str:
+    documento = NOMBRES_DOCUMENTO.get(cita.get("documento"))
+    ubicacion = f"{documento}, página {cita.get('pagina')}" if documento else f"Página {cita.get('pagina')}"
+    return f"{ubicacion}: {cita.get('extracto', '')}"
+
 
 def generar_acta(concurso: dict, postor: dict, resultado_evaluacion: dict) -> BytesIO:
     dictamen = resultado_evaluacion["dictamen"]
@@ -25,8 +33,8 @@ def generar_acta(concurso: dict, postor: dict, resultado_evaluacion: dict) -> By
         doc.add_paragraph(r["justificacion"])
 
     doc.add_heading("Citas y Trazabilidad", level=2)
-    for cita in dictamen["citas"]:
-        doc.add_paragraph(f"Página {cita['pagina']}: {cita['extracto']}")
+    for cita in dictamen.get("citas") or []:
+        doc.add_paragraph(_texto_cita(cita))
 
     buffer = BytesIO()
     doc.save(buffer)

@@ -1,4 +1,5 @@
 from agents.gemini_client import generar_json
+from agents.respuestas import normalizar_texto, normalizar_veredicto
 from config import LLM_MODEL
 
 PROMPT_DELIBERACION = """Eres el Agente Coordinador de un comité evaluador de concursos públicos de \
@@ -79,8 +80,8 @@ def consolidar_dictamen(
 
     deliberacion = _deliberar(resultados_legal, resultados_tecnico, puntaje)
     return {
-        "veredicto": deliberacion["veredicto"],
+        "veredicto": normalizar_veredicto(deliberacion.get("veredicto")),
         "puntaje": puntaje,
-        "justificacion": deliberacion["conciliacion"],
+        "justificacion": normalizar_texto(deliberacion.get("conciliacion")),
         "citas": citas,
     }

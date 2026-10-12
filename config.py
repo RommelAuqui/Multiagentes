@@ -27,3 +27,12 @@ OCR_IDIOMA = get_secret("OCR_IDIOMA", "spa")
 OCR_DPI = int(get_secret("OCR_DPI", 200))
 TESSERACT_CMD = get_secret("TESSERACT_CMD")
 POPPLER_PATH = get_secret("POPPLER_PATH")
+
+
+def configuracion_faltante() -> list[str]:
+    obligatorias = {
+        "SUPABASE_URL": SUPABASE_URL,
+        "SUPABASE_KEY": SUPABASE_KEY,
+        "GEMINI_API_KEY": GEMINI_API_KEY,
+    }
+    return [nombre for nombre, valor in obligatorias.items() if not valor]
