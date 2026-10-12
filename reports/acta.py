@@ -5,12 +5,17 @@ from docx import Document
 
 from agents.reglas import ETAPAS, REQUIERE_REVISION, puntaje_efectivo, veredicto_efectivo
 
+# Ofertas de la versión anterior: dos documentos fijos en lugar de archivos con nombre propio.
 NOMBRES_DOCUMENTO = {"propuesta": "Propuesta Técnica", "cv": "CV Documentado"}
 ENCABEZADOS = ("Criterio", "Propuesta de la IA", "Decisión del comité", "Sustento y citas")
 
 
+def nombre_legible(documento: str | None) -> str | None:
+    return NOMBRES_DOCUMENTO.get(documento, documento)
+
+
 def _texto_cita(cita: dict) -> str:
-    documento = NOMBRES_DOCUMENTO.get(cita.get("documento"))
+    documento = nombre_legible(cita.get("documento"))
     ubicacion = f"{documento}, página {cita.get('pagina')}" if documento else f"Página {cita.get('pagina')}"
     return f"{ubicacion}: {cita.get('extracto', '')}"
 

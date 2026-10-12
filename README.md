@@ -42,7 +42,8 @@ no borran nada.
 
 > **¿Ya tenías la base creada con una versión anterior?** Vuelve a ejecutar `db/schema.sql`
 > completo: es idempotente y aplica los cambios (índices, RUC único por concurso, la nueva
-> `match_documentos`, la tabla `consultas_ia` y las columnas de etapas, puntajes y revisión del comité).
+> `match_documentos`, la tabla `consultas_ia`, las columnas de etapas, puntajes y revisión del comité,
+> y las de la oferta en varios archivos).
 > Si ya existen postulaciones duplicadas del mismo RUC en un concurso, el índice único fallará:
 > elimina primero los duplicados. Los documentos indexados antes de esta versión siguen
 > funcionando, pero se recuperan mejor si se vuelven a subir.
@@ -125,12 +126,14 @@ creación y eliminación de convocatorias, evaluación) y se ejecutan en GitHub 
    editable (puede agregar, quitar o editar criterios y fijar el puntaje mínimo) y la **publica**.
    Desde ese momento la matriz queda fija y la convocatoria aparece en el Portal del Postor.
 3. **Postulación**: el participante elige una convocatoria abierta, ingresa su RUC (se valida el
-   dígito verificador de SUNAT) y Razón Social, y sube su Propuesta Técnica y CV en PDF. Cada RUC
-   puede postular una sola vez por concurso.
+   dígito verificador de SUNAT) y Razón Social, y sube su oferta técnica en uno o varios PDF (hasta
+   10, como en el SEACE). Cada fragmento indexado recuerda su archivo y página, así que las citas
+   dicen, por ejemplo, «Anexo 15 - Personal clave.pdf, página 3». Cada RUC puede postular una sola
+   vez por concurso.
 4. **Evaluación**: se evalúa cada postor (o todos los pendientes a la vez). Los Agentes Legal y
    Técnico proponen el veredicto o el puntaje de cada criterio con citas, y el Coordinador concilia.
-5. **Revisión del comité**: en «Ver detalle y revisión del comité» se confirma o corrige cada
-   criterio. Resolver un caso dudoso o cambiar la propuesta de la IA exige justificación, y la
+5. **Revisión del comité**: en «Ver detalle y revisión del comité» se descargan los archivos de la
+   oferta y se confirma o corrige cada criterio (Cumple, No Cumple o No aplica, o el puntaje). Resolver un caso dudoso o cambiar la propuesta de la IA exige justificación, y la
    revisión queda firmada con el nombre del miembro del comité y la fecha. Un postor ya revisado no
    se puede reevaluar con la IA.
 6. **Administración**: cerrar o reabrir postulaciones, o eliminar la convocatoria con sus documentos.

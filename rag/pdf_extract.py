@@ -13,6 +13,7 @@ MIN_PIXELES_IMAGEN = 500_000
 
 @dataclass
 class ResultadoExtraccion:
+    total_paginas: int = 0
     paginas: list[dict] = field(default_factory=list)
     paginas_ia: list[int] = field(default_factory=list)
     paginas_imagen_sin_leer: list[int] = field(default_factory=list)
@@ -54,7 +55,7 @@ def extraer_paginas(contenido: bytes, contexto: ContextoIA) -> ResultadoExtracci
         if _necesita_lectura_con_ia(pagina, texto)
     ]
 
-    resultado = ResultadoExtraccion()
+    resultado = ResultadoExtraccion(total_paginas=len(reader.pages))
     leidas = {}
     if por_leer:
         leidas, resultado.error_lectura = leer_paginas_con_ia(reader, por_leer, contexto)

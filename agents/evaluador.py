@@ -1,6 +1,6 @@
 from agents.gemini_client import ContextoIA, generar_json
 from agents.reglas import ETAPAS, normalizar_puntaje, normalizar_texto
-from agents.respuestas import normalizar_citas, normalizar_veredicto
+from agents.respuestas import nombre_documento, normalizar_citas, normalizar_veredicto
 from config import LLM_MODEL
 from rag.retriever import buscar_fragmentos
 
@@ -58,11 +58,11 @@ nunca le quites puntos al postor por un dato que tú no tienes."""
 
 FORMATO_REQUISITO = (
     '{"veredicto": "Cumple" | "No Cumple" | "No aplica" | "Requiere revisión", "justificacion": "...", '
-    '"citas": [{"documento": "propuesta" | "cv", "pagina": n, "extracto": "..."}]}'
+    '"citas": [{"documento": "nombre del documento", "pagina": n, "extracto": "..."}]}'
 )
 FORMATO_FACTOR = (
     '{"veredicto": "Evaluado" | "Requiere revisión", "puntaje": n, "justificacion": "...", '
-    '"citas": [{"documento": "propuesta" | "cv", "pagina": n, "extracto": "..."}]}'
+    '"citas": [{"documento": "nombre del documento", "pagina": n, "extracto": "..."}]}'
 )
 
 
@@ -71,8 +71,8 @@ def texto_de_busqueda(criterio: dict) -> str:
 
 
 def _etiqueta(fragmento: dict) -> str:
-    if fragmento.get("origen"):
-        return f"[Documento: {fragmento['origen']} | Página {fragmento['pagina']}]"
+    if documento := nombre_documento(fragmento):
+        return f"[Documento: {documento} | Página {fragmento['pagina']}]"
     return f"[Página {fragmento['pagina']}]"
 
 

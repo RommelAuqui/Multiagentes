@@ -10,24 +10,23 @@ FILAS_POR_INSERCION = 100
 
 @dataclass
 class DocumentoPreparado:
+    nombre: str
     extraccion: ResultadoExtraccion
     fragmentos: list[dict]
 
 
-def preparar_documento(contenido: bytes, contexto: ContextoIA) -> DocumentoPreparado:
+def preparar_documento(contenido: bytes, contexto: ContextoIA, nombre: str) -> DocumentoPreparado:
     extraccion = extraer_paginas(contenido, contexto)
     fragmentos = dividir_en_fragmentos(extraccion.paginas)
     embeddings = embed_documentos([f["contenido"] for f in fragmentos])
     for fragmento, embedding in zip(fragmentos, embeddings):
         fragmento["embedding"] = embedding
-    return DocumentoPreparado(extraccion, fragmentos)
+    return DocumentoPreparado(nombre, extraccion, fragmentos)
 
 
-def guardar_fragmentos(
-    concurso_id: str, postor_id: str | None, origen: str, documento: DocumentoPreparado
-) -> None:
+def guardar_fragmentos(concurso_id: str, postor_id: str | None, origen: str, documento: DocumentoPreparado) -> None:
     filas = [
-        {"concurso_id": concurso_id, "postor_id": postor_id, "origen": origen, **fragmento}
+        {"concurso_id": concurso_id, "postor_id": postor_id, "origen": origen, "documento": documento.nombre, **fragmento}
         for fragmento in documento.fragmentos
     ]
     for inicio in range(0, len(filas), FILAS_POR_INSERCION):

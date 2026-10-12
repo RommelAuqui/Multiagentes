@@ -10,6 +10,9 @@ from rag.ingest import DocumentoPreparado, guardar_fragmentos, preparar_document
 from validaciones import ruc_valido
 from views.componentes import mostrar_avisos_extraccion, tabla_criterios
 
+# Máximo de archivos por oferta que admite el SEACE.
+MAX_ARCHIVOS = 10
+
 
 def render():
     st.title("Portal del Postor / Participante")
@@ -51,16 +54,18 @@ def render():
             st.table(tabla_criterios(criterios))
 
     st.markdown(
-        "**Formato de presentación:** sube tu Propuesta Técnica y tu CV Documentado, cada "
-        "uno como un único archivo PDF, incluyendo todas las Declaraciones Juradas y Anexos "
-        "exigidos en las Bases Integradas dentro del mismo documento."
+        f"**Formato de presentación:** sube tu oferta técnica en PDF, en uno o varios archivos (hasta "
+        f"{MAX_ARCHIVOS}): anexos, declaraciones juradas, CV del personal clave, contratos, constancias, "
+        "etc. Ponles nombres claros (por ejemplo, «Anexo 15 - Personal clave.pdf»): las citas de la "
+        "evaluación indicarán el archivo y la página de cada evidencia."
     )
 
     with st.form("postulacion"):
         ruc = st.text_input("RUC")
         razon_social = st.text_input("Razón Social")
-        propuesta_pdf = st.file_uploader("Propuesta Técnica (PDF)", type="pdf")
-        cv_pdf = st.file_uploader("CV Documentado (PDF)", type="pdf")
+        archivos = st.file_uploader(
+            f"Oferta técnica (PDF, hasta {MAX_ARCHIVOS} archivos)", type="pdf", accept_multiple_files=True
+        )
         enviado = st.form_submit_button("Enviar Postulación")
 
     if not enviado:
@@ -69,8 +74,12 @@ def render():
     ruc = ruc.strip()
     razon_social = razon_social.strip()
 
-    if not ruc or not razon_social or not propuesta_pdf or not cv_pdf:
-        st.error("Todos los campos son obligatorios.")
+    if not ruc or not razon_social or not archivos:
+        st.error("Todos los campos son obligatorios: RUC, Razón Social y al menos un PDF de la oferta.")
+        return
+
+    if len(archivos) > MAX_ARCHIVOS:
+        st.error(f"Puedes subir hasta {MAX_ARCHIVOS} archivos; subiste {len(archivos)}. Junta algunos en un solo PDF.")
         return
 
     if not ruc_valido(ruc):
@@ -93,30 +102,29 @@ def render():
         )
         return
 
-    propuesta_bytes = propuesta_pdf.getvalue()
-    cv_bytes = cv_pdf.getvalue()
+    oferta = list(zip(_nombres_unicos([a.name for a in archivos]), (a.getvalue() for a in archivos)))
 
     # Los documentos se procesan antes de registrar al postor, para no dejar postulaciones sin evidencia.
-    try:
-        with st.spinner("Leyendo e indexando tus documentos para la evaluación..."):
-            lector = ContextoIA("lector", concurso["id"])
-            propuesta = preparar_documento(propuesta_bytes, lector)
-            cv = preparar_documento(cv_bytes, lector)
-    except Exception:
-        st.error(
-            "No se pudieron procesar tus documentos (el PDF podría estar dañado o el servicio de IA "
-            "no respondió). Tu postulación no se registró; vuelve a intentarlo."
-        )
-        return
+    lector = ContextoIA("lector", concurso["id"])
+    progreso = st.progress(0.0, text="Leyendo e indexando tus documentos para la evaluación...")
+    documentos = []
+    for numero, (nombre, contenido) in enumerate(oferta, start=1):
+        progreso.progress((numero - 1) / len(oferta), text=f"Leyendo {nombre} ({numero} de {len(oferta)})...")
+        try:
+            documentos.append(preparar_documento(contenido, lector, nombre))
+        except Exception:
+            progreso.empty()
+            st.error(
+                f"No se pudo procesar «{nombre}» (el PDF podría estar dañado o el servicio de IA no respondió). "
+                "Tu postulación no se registró; vuelve a intentarlo."
+            )
+            return
+    progreso.empty()
 
-    mostrar_avisos_extraccion("Propuesta Técnica", propuesta.extraccion)
-    mostrar_avisos_extraccion("CV Documentado", cv.extraccion)
+    for documento in documentos:
+        mostrar_avisos_extraccion(documento.nombre, documento.extraccion)
 
-    ilegibles = [
-        nombre for nombre, documento in (("Propuesta Técnica", propuesta), ("CV Documentado", cv))
-        if not documento.fragmentos
-    ]
-    if ilegibles:
+    if ilegibles := [d.nombre for d in documentos if not d.fragmentos]:
         st.error(
             f"No se pudo leer texto de: {', '.join(ilegibles)}. Verifica que el PDF no esté "
             "protegido o dañado. Tu postulación no se registró."
@@ -124,22 +132,30 @@ def render():
         return
 
     try:
-        _registrar_postulacion(concurso["id"], ruc, razon_social, propuesta_bytes, cv_bytes, propuesta, cv)
+        _registrar_postulacion(concurso["id"], ruc, razon_social, oferta, documentos)
     except Exception:
         st.error("Hubo un problema al registrar tu postulación. No se guardó nada; vuelve a intentarlo.")
         return
 
-    st.success("Postulación registrada correctamente. El comité evaluará tu expediente.")
+    st.success(
+        f"Postulación registrada correctamente con {len(documentos)} archivo(s). El comité evaluará tu expediente."
+    )
+
+
+def _nombres_unicos(nombres: list[str]) -> list[str]:
+    vistos: dict[str, int] = {}
+    unicos = []
+    for nombre in nombres:
+        vistos[nombre] = vistos.get(nombre, 0) + 1
+        if vistos[nombre] > 1:
+            base, punto, extension = nombre.rpartition(".")
+            nombre = f"{base} ({vistos[nombre]}).{extension}" if punto else f"{nombre} ({vistos[nombre]})"
+        unicos.append(nombre)
+    return unicos
 
 
 def _registrar_postulacion(
-    concurso_id: str,
-    ruc: str,
-    razon_social: str,
-    propuesta_bytes: bytes,
-    cv_bytes: bytes,
-    propuesta: DocumentoPreparado,
-    cv: DocumentoPreparado,
+    concurso_id: str, ruc: str, razon_social: str, oferta: list[tuple[str, bytes]], documentos: list[DocumentoPreparado]
 ) -> None:
     client = get_client()
     postor = client.table("postores").insert({
@@ -149,20 +165,20 @@ def _registrar_postulacion(
         "estado": "recibido",
     }).execute().data[0]
 
-    propuesta_path = f"postores/{postor['id']}/propuesta.pdf"
-    cv_path = f"postores/{postor['id']}/cv.pdf"
+    # Las rutas del Storage no llevan el nombre original, que puede tener tildes o símbolos no permitidos.
+    paths = [f"postores/{postor['id']}/{numero:02d}.pdf" for numero in range(1, len(oferta) + 1)]
     try:
-        subir_archivo(propuesta_path, propuesta_bytes)
-        subir_archivo(cv_path, cv_bytes)
-        client.table("postores").update({
-            "propuesta_pdf_path": propuesta_path,
-            "cv_pdf_path": cv_path,
-        }).eq("id", postor["id"]).execute()
-        guardar_fragmentos(concurso_id, postor["id"], "propuesta", propuesta)
-        guardar_fragmentos(concurso_id, postor["id"], "cv", cv)
+        for path, (_, contenido) in zip(paths, oferta):
+            subir_archivo(path, contenido)
+        client.table("postores").update({"archivos": [
+            {"nombre": documento.nombre, "path": path, "paginas": documento.extraccion.total_paginas}
+            for documento, path in zip(documentos, paths)
+        ]}).eq("id", postor["id"]).execute()
+        for documento in documentos:
+            guardar_fragmentos(concurso_id, postor["id"], "oferta", documento)
     except Exception:
         with suppress(Exception):
             client.table("postores").delete().eq("id", postor["id"]).execute()
         with suppress(Exception):
-            eliminar_archivos([propuesta_path, cv_path])
+            eliminar_archivos(paths)
         raise

@@ -94,6 +94,13 @@ alter table dictamenes add column if not exists justificacion_comite text;
 alter table dictamenes add column if not exists revisado_por text;
 alter table dictamenes add column if not exists revisado_en timestamptz;
 
+-- Oferta en varios archivos (hasta 10, como en el SEACE): cada fragmento recuerda su archivo.
+alter table postores add column if not exists archivos jsonb not null default '[]';
+alter table documentos_chunks add column if not exists documento text;
+alter table documentos_chunks drop constraint if exists documentos_chunks_origen_check;
+alter table documentos_chunks add constraint documentos_chunks_origen_check
+    check (origen in ('bases', 'oferta', 'propuesta', 'cv'));
+
 do $$
 begin
     if not exists (select 1 from pg_constraint where conname = 'criterios_etapa_check') then
@@ -129,6 +136,7 @@ create function match_documentos(
 returns table (
     id uuid,
     origen text,
+    documento text,
     pagina integer,
     contenido text,
     similarity float
@@ -138,6 +146,7 @@ as $$
     select
         documentos_chunks.id,
         documentos_chunks.origen,
+        documentos_chunks.documento,
         documentos_chunks.pagina,
         documentos_chunks.contenido,
         1 - (documentos_chunks.embedding <=> query_embedding) as similarity

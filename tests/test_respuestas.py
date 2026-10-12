@@ -38,3 +38,19 @@ def test_se_descartan_citas_ambiguas_inventadas_o_malformadas():
     citas = [{"pagina": 3}, {"pagina": 99}, {"pagina": "x"}, "texto suelto"]
     assert normalizar_citas(citas, FRAGMENTOS) == []
     assert normalizar_citas("no es lista", FRAGMENTOS) == []
+
+
+def test_citas_de_una_oferta_en_varios_archivos():
+    fragmentos = [
+        {"origen": "oferta", "documento": "Anexo 15 - Personal clave.pdf", "pagina": 3},
+        {"origen": "oferta", "documento": "Constancias de experiencia.pdf", "pagina": 3},
+    ]
+    citas = [
+        {"documento": "anexo 15 - personal clave", "pagina": 3, "extracto": "Ing. Pérez"},  # sin .pdf y en minúsculas
+        {"documento": "Constancias de Experiencia.PDF", "pagina": "3"},
+        {"documento": "Otro archivo.pdf", "pagina": 3},  # no existe y la página es ambigua
+    ]
+    assert normalizar_citas(citas, fragmentos) == [
+        {"documento": "Anexo 15 - Personal clave.pdf", "pagina": 3, "extracto": "Ing. Pérez"},
+        {"documento": "Constancias de experiencia.pdf", "pagina": 3, "extracto": ""},
+    ]

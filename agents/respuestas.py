@@ -8,15 +8,24 @@ def normalizar_veredicto(valor, etapa: str) -> str:
     return {"cumple": CUMPLE, "no cumple": NO_CUMPLE, "no aplica": NO_APLICA}.get(clave(valor), REQUIERE_REVISION)
 
 
+def nombre_documento(fragmento: dict) -> str | None:
+    # Los fragmentos de ofertas en varios archivos llevan el nombre del archivo; los antiguos, su origen.
+    return fragmento.get("documento") or fragmento.get("origen")
+
+
+def _clave_documento(nombre) -> str:
+    return clave(nombre).removesuffix(".pdf")
+
+
 def normalizar_citas(citas, fragmentos: list[dict]) -> list[dict]:
     # Solo se aceptan citas que apuntan a un fragmento que realmente se entregó al agente.
     if not isinstance(citas, list):
         return []
 
-    validas = {(f.get("origen"), f["pagina"]) for f in fragmentos}
-    origenes_por_pagina: dict[int, set] = {}
-    for origen, pagina in validas:
-        origenes_por_pagina.setdefault(pagina, set()).add(origen)
+    validas = {(_clave_documento(nombre_documento(f)), f["pagina"]): nombre_documento(f) for f in fragmentos}
+    documentos_por_pagina: dict[int, set] = {}
+    for f in fragmentos:
+        documentos_por_pagina.setdefault(f["pagina"], set()).add(nombre_documento(f))
 
     normalizadas = []
     for cita in citas:
@@ -27,12 +36,12 @@ def normalizar_citas(citas, fragmentos: list[dict]) -> list[dict]:
         except (TypeError, ValueError):
             continue
 
-        documento = normalizar_texto(cita.get("documento")).lower()
-        if (documento, pagina) not in validas:
-            origenes = origenes_por_pagina.get(pagina, set())
-            if len(origenes) != 1:
+        documento = validas.get((_clave_documento(cita.get("documento")), pagina))
+        if documento is None:
+            documentos = documentos_por_pagina.get(pagina, set())
+            if len(documentos) != 1:
                 continue
-            documento = next(iter(origenes))
+            documento = next(iter(documentos))
 
         normalizadas.append({
             "documento": documento,

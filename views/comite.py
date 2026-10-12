@@ -23,7 +23,7 @@ from agents.reglas import (
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.pdf_extract import extraer_paginas, texto_completo
-from reports.acta import NOMBRES_DOCUMENTO, generar_acta
+from reports.acta import generar_acta, nombre_legible
 from reports.matriz import generar_matriz_comparativa
 from theme import badge_html
 from views.componentes import badge_resultado, mostrar_avisos_extraccion, ordenar_criterios, tabla_criterios
@@ -245,9 +245,7 @@ def _cambiar_estado(concurso: dict, estado: str) -> None:
 
 
 def _eliminar_concurso(concurso: dict, postores: list[dict]) -> None:
-    archivos = [concurso.get("bases_pdf_path")] + [
-        p.get(campo) for p in postores for campo in ("propuesta_pdf_path", "cv_pdf_path")
-    ]
+    archivos = [concurso.get("bases_pdf_path")] + [a["path"] for p in postores for a in _archivos_oferta(p)]
     # Al borrar el concurso se eliminan en cascada criterios, postores, fragmentos, dictámenes y consultas.
     get_client().table("concursos").delete().eq("id", concurso["id"]).execute()
     try:
@@ -296,7 +294,7 @@ def _evaluar(postores: list[dict]) -> None:
 
 def _texto_citas(citas: list[dict]) -> str:
     return "; ".join(
-        f"{NOMBRES_DOCUMENTO.get(c.get('documento'), 'Documento')} p. {c.get('pagina')}" for c in citas or []
+        f"{nombre_legible(c.get('documento')) or 'Documento'}, p. {c.get('pagina')}" for c in citas or []
     )
 
 
@@ -340,7 +338,34 @@ def _decision_del_comite(fila: dict) -> dict:
     return decision
 
 
+def _archivos_oferta(postor: dict) -> list[dict]:
+    if postor.get("archivos"):
+        return postor["archivos"]
+    # Ofertas de la versión anterior: propuesta y CV en columnas fijas.
+    return [
+        {"nombre": nombre, "path": postor[campo]}
+        for campo, nombre in (("propuesta_pdf_path", "Propuesta Técnica.pdf"), ("cv_pdf_path", "CV Documentado.pdf"))
+        if postor.get(campo)
+    ]
+
+
+def _descargas_oferta(postor: dict) -> None:
+    archivos = _archivos_oferta(postor)
+    st.markdown(f"**Oferta del postor ({len(archivos)} archivo(s))**")
+    for numero, archivo in enumerate(archivos):
+        paginas = f" · {archivo['paginas']} páginas" if archivo.get("paginas") else ""
+        st.download_button(
+            f"📄 {archivo['nombre']}{paginas}",
+            data=partial(descargar_archivo, archivo["path"]),
+            file_name=archivo["nombre"],
+            mime="application/pdf",
+            key=f"oferta_{postor['id']}_{numero}",
+            on_click="ignore",
+        )
+
+
 def _revisar_evaluacion(concurso: dict, postor: dict, dictamen: dict, filas: list[dict]) -> None:
+    _descargas_oferta(postor)
     st.markdown("**Conciliación del Agente Coordinador**")
     st.write(dictamen.get("justificacion") or "")
 

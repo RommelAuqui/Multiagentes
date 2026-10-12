@@ -8,6 +8,11 @@ from rag.ingest import DocumentoPreparado
 from rag.pdf_extract import ResultadoExtraccion
 
 PDF = ("documento.pdf", b"%PDF-1.4 de prueba", "application/pdf")
+OFERTA = [
+    ("Anexos 1 al 4.pdf", b"%PDF-1.4 anexos", "application/pdf"),
+    ("Anexo 15 - Personal clave.pdf", b"%PDF-1.4 personal", "application/pdf"),
+    ("Anexo 15 - Personal clave.pdf", b"%PDF-1.4 personal 2", "application/pdf"),
+]
 CRITERIO_ADMISION = {"etapa": "admision", "tipo": "legal", "descripcion": "Declaración jurada (Anexo 2)",
                      "acreditacion": "Anexo 2", "referencia": "Cap. II", "obligatorio": True,
                      "puntaje_maximo": None, "asignacion_puntaje": None}
@@ -16,9 +21,9 @@ CRITERIO_FACTOR = {"etapa": "evaluacion", "tipo": "tecnico", "descripcion": "Exp
                    "puntaje_maximo": 60, "asignacion_puntaje": "M >= 3 veces: 60 puntos"}
 
 
-def _documento(texto: str = "Experiencia de 10 años en supervisión de obras") -> DocumentoPreparado:
-    extraccion = ResultadoExtraccion(paginas=[{"pagina": 1, "texto": texto, "ia": False}])
-    return DocumentoPreparado(extraccion, [{"pagina": 1, "contenido": texto, "embedding": [0.1, 0.2]}])
+def _documento(texto: str = "Experiencia de 10 años en supervisión de obras", nombre: str = "oferta.pdf") -> DocumentoPreparado:
+    extraccion = ResultadoExtraccion(total_paginas=1, paginas=[{"pagina": 1, "texto": texto, "ia": False}])
+    return DocumentoPreparado(nombre, extraccion, [{"pagina": 1, "contenido": texto, "embedding": [0.1, 0.2]}])
 
 
 def _boton(at: AppTest, etiqueta: str):
@@ -51,29 +56,48 @@ def _portal_postor() -> AppTest:
     return at
 
 
-def _postular(at: AppTest, ruc: str, razon_social: str = "Consultora Andina SAC") -> AppTest:
+def _postular(at: AppTest, ruc: str, razon_social: str = "Consultora Andina SAC", archivos=OFERTA) -> AppTest:
     at.text_input[0].input(ruc)
     at.text_input[1].input(razon_social)
-    at.file_uploader[0].set_value(PDF)
-    at.file_uploader[1].set_value(PDF)
+    at.file_uploader[0].set_value(archivos)
     return _boton(at, "Enviar Postulación").click().run()
 
 
-def test_postulacion_exitosa(db_falsa, concurso, monkeypatch):
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: _documento())
+def _preparar(contenido, _contexto, nombre):
+    return _documento(f"Contenido de {contenido.decode()}", nombre)
+
+
+def test_postulacion_con_varios_archivos(db_falsa, concurso, monkeypatch):
+    monkeypatch.setattr(postor, "preparar_documento", _preparar)
 
     at = _postular(_portal_postor(), " 20131312955 ")
 
     assert not at.exception
-    assert any("Postulación registrada" in m for m in _mensajes(at.success))
+    assert any("registrada correctamente con 3 archivo(s)" in m for m in _mensajes(at.success))
     [registrado] = db_falsa.filas("postores")
     assert registrado["ruc"] == "20131312955"
-    assert {f["origen"] for f in db_falsa.filas("documentos_chunks")} == {"propuesta", "cv"}
-    assert sorted(db_falsa.archivos) == sorted([registrado["propuesta_pdf_path"], registrado["cv_pdf_path"]])
+    # Los nombres repetidos se distinguen, y cada archivo se guarda con una ruta sin caracteres especiales.
+    nombres = ["Anexos 1 al 4.pdf", "Anexo 15 - Personal clave.pdf", "Anexo 15 - Personal clave (2).pdf"]
+    assert [a["nombre"] for a in registrado["archivos"]] == nombres
+    assert [a["path"].rsplit("/", 1)[1] for a in registrado["archivos"]] == ["01.pdf", "02.pdf", "03.pdf"]
+    assert sorted(db_falsa.archivos) == sorted(a["path"] for a in registrado["archivos"])
+    chunks = db_falsa.filas("documentos_chunks")
+    assert [(c["origen"], c["documento"]) for c in chunks] == [("oferta", n) for n in nombres]
+    assert chunks[2]["contenido"] == "Contenido de %PDF-1.4 personal 2"
+
+
+def test_no_se_aceptan_mas_de_10_archivos(db_falsa, concurso, monkeypatch):
+    monkeypatch.setattr(postor, "preparar_documento", lambda *_: pytest.fail("no debe procesar"))
+    archivos = [(f"anexo {n}.pdf", b"%PDF-1.4", "application/pdf") for n in range(11)]
+
+    at = _postular(_portal_postor(), "20131312955", archivos=archivos)
+
+    assert any("hasta 10 archivos" in m for m in _mensajes(at.error))
+    assert db_falsa.filas("postores") == []
 
 
 def test_ruc_invalido_no_registra_ni_procesa(db_falsa, concurso, monkeypatch):
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: pytest.fail("no debe procesar"))
+    monkeypatch.setattr(postor, "preparar_documento", lambda *_: pytest.fail("no debe procesar"))
 
     at = _postular(_portal_postor(), "20131312954")
 
@@ -83,7 +107,7 @@ def test_ruc_invalido_no_registra_ni_procesa(db_falsa, concurso, monkeypatch):
 
 def test_ruc_duplicado_en_el_mismo_concurso(db_falsa, concurso, monkeypatch):
     _registrar_postor(db_falsa, concurso, "20131312955", "Primera SAC")
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: pytest.fail("no debe procesar"))
+    monkeypatch.setattr(postor, "preparar_documento", lambda *_: pytest.fail("no debe procesar"))
 
     at = _postular(_portal_postor(), "20131312955")
 
@@ -92,18 +116,18 @@ def test_ruc_duplicado_en_el_mismo_concurso(db_falsa, concurso, monkeypatch):
 
 
 def test_si_falla_el_procesamiento_no_queda_nada_registrado(db_falsa, concurso, monkeypatch):
-    def fallar(_contenido, _contexto):
+    def fallar(_contenido, _contexto, nombre):
         raise RuntimeError("Gemini no respondió")
     monkeypatch.setattr(postor, "preparar_documento", fallar)
 
     at = _postular(_portal_postor(), "20131312955")
 
-    assert any("no se registró" in m for m in _mensajes(at.error))
+    assert any("No se pudo procesar «Anexos 1 al 4.pdf»" in m for m in _mensajes(at.error))
     assert db_falsa.filas("postores") == [] and db_falsa.archivos == {}
 
 
 def test_si_falla_el_guardado_se_revierte_la_postulacion(db_falsa, concurso, monkeypatch):
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: _documento())
+    monkeypatch.setattr(postor, "preparar_documento", _preparar)
 
     def fallar_fragmentos(*_):
         raise RuntimeError("Supabase caído")
@@ -283,3 +307,21 @@ def test_revision_del_comite_corrige_y_firma_el_dictamen(db_falsa, concurso):
     assert db_falsa.filas("postores")[0]["estado"] == "revisado"
     # Ya revisado: la IA no puede reemplazar la decisión del comité.
     assert not [b for b in at.button if b.label == "Reevaluar"]
+
+
+def test_el_comite_puede_descargar_cada_archivo_de_la_oferta(db_falsa, concurso):
+    postor_registrado = db_falsa.table("postores").insert({
+        "concurso_id": concurso["id"], "ruc": "20131312955", "razon_social": "Consultora SAC", "estado": "evaluado",
+        "archivos": [{"nombre": "Anexos.pdf", "path": "postores/x/01.pdf", "paginas": 12},
+                     {"nombre": "Constancias.pdf", "path": "postores/x/02.pdf", "paginas": 30}],
+    }).execute().data[0]
+    _evaluacion_de_la_ia(db_falsa, concurso, postor_registrado)
+    db_falsa.archivos.update({"postores/x/01.pdf": b"pdf", "postores/x/02.pdf": b"pdf"})
+
+    at = _portal_comite()
+    etiquetas = [b.label for b in at.get("download_button")]
+    assert "📄 Anexos.pdf · 12 páginas" in etiquetas and "📄 Constancias.pdf · 30 páginas" in etiquetas
+
+    next(c for c in at.checkbox if c.label.startswith("Entiendo")).check().run()
+    _boton(at, "🗑️ Eliminar convocatoria").click().run()
+    assert db_falsa.archivos == {}
