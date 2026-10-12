@@ -105,6 +105,6 @@ def evaluar_postor(postor_id: str) -> dict:
         "id", [d["id"] for d in nuevos]
     ).execute()
 
-    client.table("postores").update({"estado": "evaluado"}).eq("id", postor_id).execute()
+    client.table("postores").update({"estado": "evaluado", "error_evaluacion": None}).eq("id", postor_id).execute()
 
     return {"postor": postor, "resultados": resultados, "dictamen": dictamen}

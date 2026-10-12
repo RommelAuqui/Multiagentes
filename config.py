@@ -35,6 +35,7 @@ EMBEDDING_MODEL = get_secret("EMBEDDING_MODEL", "gemini-embedding-001")
 EMBEDDING_DIMENSIONS = int(get_secret("EMBEDDING_DIMENSIONS", 768))
 MODELO_LECTOR = get_secret("MODELO_LECTOR", LLM_MODEL)
 EVAL_HILOS = max(1, int(get_secret("EVAL_HILOS", 1)))
+LIMITE_DIARIO_CONSULTAS = int(get_secret("LIMITE_DIARIO_CONSULTAS", 400))
 
 
 def configuracion_faltante() -> list[str]:

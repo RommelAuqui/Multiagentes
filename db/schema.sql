@@ -106,6 +106,24 @@ alter table documentos_chunks add constraint documentos_chunks_origen_check
 alter table documentos_chunks add column if not exists orden integer;
 alter table dictamenes add column if not exists pasos jsonb;
 
+-- Flujo automático: cierre por fecha, evaluación automática al cerrar y bitácora de cada ejecución.
+alter table concursos add column if not exists fecha_cierre timestamptz;
+alter table concursos add column if not exists evaluacion_automatica boolean not null default false;
+alter table postores add column if not exists error_evaluacion text;
+alter table postores add column if not exists evaluacion_iniciada_en timestamptz;
+create index if not exists consultas_ia_fecha_idx on consultas_ia (created_at);
+
+create table if not exists ejecuciones_automaticas (
+    id uuid primary key default gen_random_uuid(),
+    inicio timestamptz not null default now(),
+    fin timestamptz,
+    convocatorias_cerradas integer not null default 0,
+    postores_evaluados integer not null default 0,
+    postores_con_error integer not null default 0,
+    pausada_por_limite boolean not null default false,
+    detalle text
+);
+
 do $$
 begin
     if not exists (select 1 from pg_constraint where conname = 'criterios_etapa_check') then
@@ -122,6 +140,7 @@ alter table postores enable row level security;
 alter table documentos_chunks enable row level security;
 alter table dictamenes enable row level security;
 alter table consultas_ia enable row level security;
+alter table ejecuciones_automaticas enable row level security;
 
 -- La búsqueda vectorial es exacta: siempre se filtra por concurso/postor (pocos cientos de
 -- fragmentos), y un índice aproximado (ivfflat/hnsw) aplica ese filtro después de buscar,

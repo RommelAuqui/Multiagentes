@@ -1,5 +1,5 @@
 from contextlib import suppress
-from datetime import datetime, timezone
+from datetime import datetime, time, timezone
 from functools import partial
 from io import BytesIO
 
@@ -20,6 +20,9 @@ from agents.reglas import (
     validar_matriz,
     veredicto_efectivo,
 )
+from automatizacion import evaluar_registrando
+from config import LIMITE_DIARIO_CONSULTAS
+from consumo import ZONA_HORARIA, consultas_de_hoy, consumo_por_postor, hay_cupo
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.pdf_extract import extraer_paginas, texto_completo
@@ -256,6 +259,43 @@ def _eliminar_concurso(concurso: dict, postores: list[dict]) -> None:
     st.rerun()
 
 
+def _fecha_local(valor: str | None) -> datetime | None:
+    return datetime.fromisoformat(valor).astimezone(ZONA_HORARIA) if valor else None
+
+
+def _programar(concurso: dict) -> None:
+    st.markdown("**Cierre y evaluación automática**")
+    cierre = _fecha_local(concurso.get("fecha_cierre"))
+    with st.form(f"programacion_{concurso['id']}"):
+        columnas = st.columns(2)
+        dia = columnas[0].date_input(
+            "Fecha de cierre", value=cierre.date() if cierre else None, format="DD/MM/YYYY", key=f"dia_{concurso['id']}",
+        )
+        hora = columnas[1].time_input(
+            "Hora de cierre (hora de Lima)", value=cierre.time() if cierre else time(18, 0), key=f"hora_{concurso['id']}",
+        )
+        automatica = st.checkbox(
+            "Evaluar automáticamente a los postores cuando se cierre la convocatoria",
+            value=bool(concurso.get("evaluacion_automatica")), key=f"automatica_{concurso['id']}",
+        )
+        guardar = st.form_submit_button("Guardar programación")
+
+    if guardar:
+        fecha = datetime.combine(dia, hora, tzinfo=ZONA_HORARIA).astimezone(timezone.utc).isoformat() if dia else None
+        get_client().table("concursos").update({
+            "fecha_cierre": fecha, "evaluacion_automatica": automatica,
+        }).eq("id", concurso["id"]).execute()
+        _avisar("success", "Programación guardada.")
+        st.rerun()
+
+    cierre_texto = f"se cierra el {cierre:%d/%m/%Y a las %H:%M}" if cierre else "sin fecha de cierre (se cierra a mano)"
+    automatica_texto = (
+        f"los postores se evalúan solos al cerrarse (revisión cada hora, máximo {LIMITE_DIARIO_CONSULTAS} "
+        "consultas a la IA por día)" if concurso.get("evaluacion_automatica") else "la evaluación se hace con el botón «Evaluar»"
+    )
+    st.caption(f"La convocatoria {cierre_texto}; {automatica_texto}.")
+
+
 def _administrar_concurso(concurso: dict, postores: list[dict]) -> None:
     with st.expander("Administrar convocatoria"):
         if concurso["estado"] == "abierto":
@@ -270,6 +310,9 @@ def _administrar_concurso(concurso: dict, postores: list[dict]) -> None:
             st.write("La convocatoria está **en revisión**: se publica desde la matriz de abajo.")
 
         st.divider()
+        _programar(concurso)
+
+        st.divider()
         st.write(
             f"Eliminar la convocatoria borra también sus {len(postores)} postulaciones, documentos "
             "y dictámenes. Esta acción no se puede deshacer."
@@ -281,11 +324,17 @@ def _administrar_concurso(concurso: dict, postores: list[dict]) -> None:
 
 # ---------- Evaluación y revisión del comité ----------
 
-def _evaluar(postores: list[dict]) -> None:
+def _evaluar(postores: list[dict], criterios: int) -> None:
     progreso = st.progress(0.0, text="Los agentes Legal y Técnico están evaluando...")
     for numero, postor in enumerate(postores, start=1):
+        if not hay_cupo(criterios):
+            _avisar("warning", (
+                f"Se alcanzó el límite diario de {LIMITE_DIARIO_CONSULTAS} consultas a la IA: los postores restantes "
+                "quedan pendientes hasta mañana. El límite se cambia con LIMITE_DIARIO_CONSULTAS."
+            ))
+            break
         try:
-            evaluar_postor(postor["id"])
+            evaluar_registrando(postor, evaluar_postor)
         except Exception as e:
             _avisar("error", f"No se pudo completar la evaluación de {postor['razon_social']}: {e}")
         progreso.progress(numero / len(postores), text=f"Evaluados {numero} de {len(postores)} postores...")
@@ -425,18 +474,35 @@ def _guardar_revision(
     st.rerun()
 
 
-def _tarjeta_postor(concurso: dict, postor: dict, dictamen: dict | None, filas: list[dict]) -> None:
+def _estado_sin_dictamen(postor: dict) -> None:
+    if postor.get("estado") == "evaluando":
+        st.markdown(badge_html("⏳ Evaluando…", "ml-badge-pendiente"), unsafe_allow_html=True)
+        if inicio := _fecha_local(postor.get("evaluacion_iniciada_en")):
+            st.caption(f"Desde las {inicio:%H:%M}")
+    elif postor.get("estado") == "error":
+        st.markdown(badge_html("⚠️ Error en la evaluación", "ml-badge-no-cumple"), unsafe_allow_html=True)
+        st.caption(postor.get("error_evaluacion") or "")
+    else:
+        st.markdown(badge_html("⏳ Pendiente", "ml-badge-pendiente"), unsafe_allow_html=True)
+
+
+def _tarjeta_postor(
+    concurso: dict, postor: dict, dictamen: dict | None, filas: list[dict], criterios: int, consumo: dict | None
+) -> None:
     with st.container(border=True):
         columnas = st.columns([3, 3, 2, 2])
         with columnas[0]:
             st.markdown(f"**{postor['razon_social']}**")
             st.caption(f"RUC {postor['ruc']}")
+            if consumo:
+                st.caption(f"🤖 IA: {consumo['consultas']} consultas · {consumo['tokens'] / 1000:,.0f} mil tokens")
 
         if not dictamen:
             with columnas[1]:
-                st.markdown(badge_html("⏳ Pendiente", "ml-badge-pendiente"), unsafe_allow_html=True)
-            if columnas[2].button("Evaluar", key=f"evaluar_{postor['id']}"):
-                _evaluar([postor])
+                _estado_sin_dictamen(postor)
+            etiqueta = "Reintentar" if postor.get("estado") == "error" else "Evaluar"
+            if postor.get("estado") != "evaluando" and columnas[2].button(etiqueta, key=f"evaluar_{postor['id']}"):
+                _evaluar([postor], criterios)
             return
 
         revisado = bool(dictamen.get("revisado_en"))
@@ -447,6 +513,8 @@ def _tarjeta_postor(concurso: dict, postor: dict, dictamen: dict | None, filas: 
                     f"Puntaje técnico: {_numero(puntaje_efectivo(dictamen) or 0)} de {_numero(dictamen['puntaje_maximo'])}"
                 )
             st.caption(f"✔️ Revisado por {dictamen['revisado_por']}" if revisado else "Propuesta de la IA · falta revisión del comité")
+            if postor.get("estado") == "error":
+                st.caption(f"⚠️ La última reevaluación falló: {postor.get('error_evaluacion') or ''}")
         columnas[2].download_button(
             "Descargar Acta (.docx)",
             data=partial(_acta_docx, concurso, postor, dictamen),
@@ -456,15 +524,31 @@ def _tarjeta_postor(concurso: dict, postor: dict, dictamen: dict | None, filas: 
             on_click="ignore",
         )
         if not revisado and columnas[3].button("Reevaluar", key=f"reevaluar_{postor['id']}"):
-            _evaluar([postor])
+            _evaluar([postor], criterios)
 
         with st.expander("Ver detalle y revisión del comité"):
             _revisar_evaluacion(concurso, postor, dictamen, filas)
 
 
+def _estado_automatizacion() -> None:
+    ultima = (
+        get_client().table("ejecuciones_automaticas").select("*").order("inicio", desc=True).limit(1).execute().data
+    )
+    texto = f"🤖 Consultas a la IA hoy: {consultas_de_hoy()} de {LIMITE_DIARIO_CONSULTAS}"
+    if ultima:
+        ejecucion = ultima[0]
+        texto += (
+            f" · Última revisión automática: {_fecha_local(ejecucion['inicio']):%d/%m %H:%M} — "
+            f"{ejecucion['postores_evaluados']} evaluados, {ejecucion['postores_con_error']} con error"
+            + (", pausada por el límite diario" if ejecucion["pausada_por_limite"] else "")
+        )
+    st.caption(texto)
+
+
 def _gestionar_concursos():
     st.subheader("Gestión de Concursos")
     _mostrar_avisos()
+    _estado_automatizacion()
 
     client = get_client()
     concursos = client.table("concursos").select("*").order("created_at", desc=True).execute().data
@@ -514,13 +598,16 @@ def _gestionar_concursos():
     dictamenes_por_postor = {d["postor_id"]: d for d in dictamenes}
 
     st.markdown("### Postores")
-    pendientes = [p for p in postores if p["id"] not in dictamenes_por_postor]
+    pendientes = [p for p in postores if p["id"] not in dictamenes_por_postor and p.get("estado") != "evaluando"]
     if len(pendientes) > 1 and st.button(f"Evaluar los {len(pendientes)} postores pendientes"):
-        _evaluar(pendientes)
+        _evaluar(pendientes, len(criterios))
 
+    consumo = consumo_por_postor(concurso["id"])
     for postor in postores:
         filas = [d for d in todos if d["postor_id"] == postor["id"] and d["agente"] != "coordinador"]
-        _tarjeta_postor(concurso, postor, dictamenes_por_postor.get(postor["id"]), filas)
+        _tarjeta_postor(
+            concurso, postor, dictamenes_por_postor.get(postor["id"]), filas, len(criterios), consumo.get(postor["id"]),
+        )
 
     st.markdown("### Matriz Comparativa")
     st.download_button(

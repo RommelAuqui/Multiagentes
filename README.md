@@ -90,6 +90,7 @@ Variables opcionales:
 | --- | --- | --- |
 | `LLM_MODEL` | `gemini-3.5-flash-lite` | Modelo de los agentes. Se usa una versión fija (no un alias `-latest`) para que los resultados sean reproducibles. |
 | `MODELO_LECTOR` | igual a `LLM_MODEL` | Modelo que transcribe las páginas escaneadas. |
+| `LIMITE_DIARIO_CONSULTAS` | `400` | Máximo de consultas a la IA por día (hora de Lima), para la evaluación manual y la automática. |
 | `EMBEDDING_MODEL` | `gemini-embedding-001` | Modelo de embeddings. |
 | `EVAL_HILOS` | `1` | Criterios evaluados en paralelo. Súbelo a 3–4 si tu plan de Gemini tiene cuota suficiente; con el plan gratuito, déjalo en 1. |
 
@@ -118,6 +119,26 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
+
+## Evaluación automática (GitHub Actions)
+
+Cada convocatoria puede tener **fecha y hora de cierre** y la opción **«Evaluar automáticamente al
+cerrar»** (en «Administrar convocatoria»). Vencida la fecha, el Portal del Postor deja de aceptar
+ofertas. Cada hora, el workflow [`evaluacion-automatica.yml`](.github/workflows/evaluacion-automatica.yml)
+ejecuta [`automatizacion.py`](automatizacion.py), que:
+
+1. Cierra las convocatorias vencidas.
+2. Evalúa una sola vez a cada postor pendiente de las convocatorias cerradas con evaluación automática.
+   Si una evaluación falla, el postor queda «con error» y no se reintenta solo: el comité decide.
+3. Respeta `LIMITE_DIARIO_CONSULTAS`: si evaluar al siguiente postor lo superaría, se pausa hasta el
+   día siguiente.
+4. Deja cada ejecución en la tabla `ejecuciones_automaticas`; el comité ve la última, el consumo del
+   día y los tokens gastados por cada postor.
+
+Para activarlo, en GitHub → **Settings → Secrets and variables → Actions** crea los *secrets*
+`SUPABASE_URL`, `SUPABASE_KEY` y `GEMINI_API_KEY` (y, si quieres, las *variables* `LLM_MODEL` y
+`LIMITE_DIARIO_CONSULTAS`). También se puede ejecutar a mano desde la pestaña **Actions** o con
+`python automatizacion.py`. Cada ejecución sin tareas no consulta a la IA.
 
 ## Tests
 

@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
 
 # Borrado en cascada equivalente a las llaves foráneas de db/schema.sql.
@@ -19,10 +20,10 @@ class _Consulta:
         self.db, self.tabla = db, tabla
         self.accion, self.datos = "select", None
         self.filtros, self.orden, self.limite = [], None, None
-        self.negar, self.unico = False, False
+        self.negar, self.unico, self.contar = False, False, False
 
-    def select(self, *_):
-        self.accion = "select"
+    def select(self, *_, count=None):
+        self.accion, self.contar = "select", count is not None
         return self
 
     def insert(self, datos):
@@ -52,6 +53,13 @@ class _Consulta:
 
     def in_(self, campo, valores):
         return self._filtrar(lambda fila: fila.get(campo) in valores)
+
+    # Las fechas se guardan en ISO UTC, así que compararlas como texto respeta el orden cronológico.
+    def gte(self, campo, valor):
+        return self._filtrar(lambda fila: fila.get(campo) is not None and fila[campo] >= valor)
+
+    def lt(self, campo, valor):
+        return self._filtrar(lambda fila: fila.get(campo) is not None and fila[campo] < valor)
 
     def order(self, campo, desc=False):
         self.orden = (campo, desc)
@@ -90,13 +98,14 @@ class _Consulta:
                 self.db.borrar(self.tabla, fila)
             return SimpleNamespace(data=[dict(f) for f in seleccion])
 
+        total = len(seleccion)
         if self.orden:
             campo, desc = self.orden
             seleccion = sorted(seleccion, key=lambda f: f.get(campo), reverse=desc)
         if self.limite is not None:
             seleccion = seleccion[:self.limite]
         datos = [dict(f) for f in seleccion]
-        return SimpleNamespace(data=datos[0] if self.unico else datos)
+        return SimpleNamespace(data=datos[0] if self.unico else datos, count=total if self.contar else None)
 
 
 class _Bucket:
@@ -121,10 +130,12 @@ class SupabaseFalso:
         self.archivos: dict[str, bytes] = {}
         self.storage = SimpleNamespace(from_=lambda _bucket: _Bucket(self.archivos))
         self._marca = 0
+        self._inicio = datetime.now(timezone.utc)
 
     def siguiente_marca(self) -> str:
+        # Fechas reales y siempre crecientes, para que los filtros "de hoy" y el orden funcionen.
         self._marca += 1
-        return f"2026-01-01T00:00:{self._marca:06d}"
+        return (self._inicio + timedelta(microseconds=self._marca)).isoformat()
 
     def table(self, tabla: str) -> _Consulta:
         return _Consulta(self, tabla)

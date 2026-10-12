@@ -1,9 +1,11 @@
 from contextlib import suppress
+from datetime import datetime, timezone
 from functools import partial
 
 import streamlit as st
 
 from agents.gemini_client import ContextoIA
+from consumo import ZONA_HORARIA
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.ingest import DocumentoPreparado, guardar_fragmentos, preparar_documento
@@ -18,7 +20,12 @@ def render():
     st.title("Portal del Postor / Participante")
 
     client = get_client()
-    concursos = client.table("concursos").select("*").eq("estado", "abierto").execute().data
+    ahora = datetime.now(timezone.utc)
+    # Vencida la fecha de cierre ya no se aceptan ofertas, aunque el proceso automático aún no la haya cerrado.
+    concursos = [
+        c for c in client.table("concursos").select("*").eq("estado", "abierto").execute().data
+        if not c.get("fecha_cierre") or datetime.fromisoformat(c["fecha_cierre"]) > ahora
+    ]
 
     if not concursos:
         st.info("No hay concursos abiertos en este momento.")
@@ -32,6 +39,9 @@ def render():
     )
     concurso = opciones[concurso_id_seleccionado]
     st.caption(concurso.get("descripcion") or "")
+    if concurso.get("fecha_cierre"):
+        cierre = datetime.fromisoformat(concurso["fecha_cierre"]).astimezone(ZONA_HORARIA)
+        st.markdown(f"⏰ **Fecha límite para postular:** {cierre:%d/%m/%Y a las %H:%M} (hora de Lima)")
 
     if concurso.get("bases_pdf_path"):
         st.download_button(

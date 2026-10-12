@@ -325,3 +325,58 @@ def test_el_comite_puede_descargar_cada_archivo_de_la_oferta(db_falsa, concurso)
     next(c for c in at.checkbox if c.label.startswith("Entiendo")).check().run()
     _boton(at, "🗑️ Eliminar convocatoria").click().run()
     assert db_falsa.archivos == {}
+
+
+def test_programar_cierre_y_evaluacion_automatica(db_falsa, concurso):
+    from datetime import date, datetime, time
+
+    at = _portal_comite()
+    at.date_input(key=f"dia_{concurso['id']}").set_value(date(2030, 3, 15))
+    at.time_input(key=f"hora_{concurso['id']}").set_value(time(17, 30))
+    at.checkbox(key=f"automatica_{concurso['id']}").check()
+    _boton(at, "Guardar programación").click().run()
+
+    guardado = db_falsa.filas("concursos")[0]
+    assert guardado["evaluacion_automatica"] is True
+    # 17:30 en Lima (UTC-5) son las 22:30 UTC.
+    assert datetime.fromisoformat(guardado["fecha_cierre"]).strftime("%Y-%m-%d %H:%M %z") == "2030-03-15 22:30 +0000"
+    assert any("se cierra el 15/03/2030 a las 17:30" in c.value for c in at.caption)
+
+
+def test_vencida_la_fecha_el_postor_ya_no_puede_postular(db_falsa, concurso):
+    from datetime import datetime, timedelta, timezone
+
+    db_falsa.table("concursos").update({"fecha_cierre": (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat()}).eq(
+        "id", concurso["id"]).execute()
+    assert any("No hay concursos abiertos" in m for m in _mensajes(_portal_postor().info))
+
+    db_falsa.table("concursos").update({"fecha_cierre": "2030-03-15T22:30:00+00:00"}).eq("id", concurso["id"]).execute()
+    assert any("Fecha límite para postular:** 15/03/2030 a las 17:30" in m.value for m in _portal_postor().markdown)
+
+
+def test_un_postor_con_error_se_puede_reintentar(db_falsa, concurso, monkeypatch):
+    registrado = _registrar_postor(db_falsa, concurso, "20131312955", "Consultora SAC")
+    db_falsa.table("postores").update({"estado": "error", "error_evaluacion": "503 alta demanda"}).eq("id", registrado["id"]).execute()
+    evaluados = []
+    monkeypatch.setattr(comite, "evaluar_postor", lambda postor_id: evaluados.append(postor_id))
+
+    at = _portal_comite()
+    assert any("Error en la evaluación" in m.value for m in at.markdown)
+    assert any("503 alta demanda" in c.value for c in at.caption)
+    _boton(at, "Reintentar").click().run()
+
+    assert evaluados == [registrado["id"]]
+
+
+def test_la_evaluacion_manual_respeta_el_limite_diario(db_falsa, concurso, monkeypatch):
+    import consumo
+
+    _registrar_postor(db_falsa, concurso, "20131312955", "Consultora SAC")
+    monkeypatch.setattr(consumo, "LIMITE_DIARIO_CONSULTAS", 3)
+    monkeypatch.setattr(comite, "evaluar_postor", lambda _id: pytest.fail("no debe evaluar"))
+
+    at = _portal_comite()
+    _boton(at, "Evaluar").click().run()
+
+    assert any("límite diario" in m for m in _mensajes(at.warning))
+    assert db_falsa.filas("postores")[0]["estado"] == "recibido"
