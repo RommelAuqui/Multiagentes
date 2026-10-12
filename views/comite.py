@@ -133,6 +133,12 @@ def _extraer_matriz(concurso: dict, contenido: bytes) -> list[dict]:
             "caracteres. Revisa que la matriz incluya todos los requisitos."
         )
 
+    if not matriz.cuadra:
+        st.warning(
+            f"Los factores extraídos suman {matriz.suma_factores:g} puntos, pero las Bases declaran "
+            f"{matriz.puntaje_total:g}. Revisa en la matriz si falta o sobra algún factor antes de publicar."
+        )
+
     if not matriz.criterios:
         st.warning(f"El Agente Extractor no encontró criterios en las Bases. {aviso_manual}")
         return []
@@ -205,6 +211,8 @@ def _revisar_matriz(concurso: dict, criterios: list[dict]) -> None:
     nuevos, errores = validar_matriz(_filas_del_editor(editado))
     suma = sum(c["puntaje_maximo"] for c in nuevos if c["etapa"] == "evaluacion")
     st.caption(f"{len(nuevos)} criterios · suma de puntajes de los factores de evaluación: {suma:g}")
+    if suma and suma != 100:
+        st.warning(f"Los factores suman {suma:g} puntos; en las bases estándar la evaluación técnica suma 100.")
 
     columnas = st.columns(2)
     guardar = columnas[0].button("💾 Guardar cambios", key=f"guardar_matriz_{concurso['id']}")

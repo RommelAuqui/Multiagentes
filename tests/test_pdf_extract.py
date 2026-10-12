@@ -97,3 +97,23 @@ def test_dividir_en_fragmentos_respeta_tamano_y_pagina():
 
 def test_texto_completo_marca_paginas():
     assert texto_completo([{"pagina": 3, "texto": "hola"}]) == "[Página 3]\nhola"
+
+
+def test_un_lote_mal_formado_se_reintenta_por_mitades(monkeypatch, gemini_lector):
+    generar_original = lector.generar_json
+    lotes = []
+
+    def falla_con_lotes_grandes(modelo, prompt, contexto, adjuntos):
+        total = len(PdfReader(BytesIO(adjuntos[0].inline_data.data)).pages)
+        lotes.append(total)
+        if total > 2:
+            raise lector.RespuestaInvalidaError("JSON mal formado")
+        return generar_original(modelo, prompt, contexto, adjuntos)
+    monkeypatch.setattr(lector, "generar_json", falla_con_lotes_grandes)
+
+    pdf = construir_pdf([{"imagen": imagen_gris(1000 + n, 1000)} for n in range(5)])
+    resultado = extraer_paginas(pdf, CONTEXTO)
+
+    assert lotes == [5, 2, 3, 1, 2]
+    assert resultado.paginas_ia == [1, 2, 3, 4, 5] and resultado.error_lectura is None
+    assert all(f"Escaneo de {1000 + n} px" in p["texto"] for n, p in enumerate(resultado.paginas))

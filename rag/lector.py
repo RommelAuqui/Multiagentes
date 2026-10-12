@@ -3,7 +3,7 @@ from io import BytesIO
 from google.genai import types
 from pypdf import PdfReader, PdfWriter
 
-from agents.gemini_client import ContextoIA, generar_json
+from agents.gemini_client import ContextoIA, RespuestaInvalidaError, generar_json
 from agents.reglas import normalizar_texto
 from config import MODELO_LECTOR
 
@@ -38,18 +38,28 @@ def _pdf_con_paginas(reader: PdfReader, numeros: list[int]) -> bytes:
     return buffer.getvalue()
 
 
+def _leer_por_mitades(reader: PdfReader, numeros: list[int], contexto: ContextoIA) -> dict[int, str]:
+    mitad = len(numeros) // 2
+    return {**_leer_lote(reader, numeros[:mitad], contexto), **_leer_lote(reader, numeros[mitad:], contexto)}
+
+
 def _leer_lote(reader: PdfReader, numeros: list[int], contexto: ContextoIA) -> dict[int, str]:
     pdf = _pdf_con_paginas(reader, numeros)
     if len(pdf) > MAX_BYTES_LOTE and len(numeros) > 1:
-        mitad = len(numeros) // 2
-        return {**_leer_lote(reader, numeros[:mitad], contexto), **_leer_lote(reader, numeros[mitad:], contexto)}
+        return _leer_por_mitades(reader, numeros, contexto)
 
-    datos = generar_json(
-        MODELO_LECTOR,
-        PROMPT.format(total=len(numeros)),
-        contexto,
-        adjuntos=(types.Part.from_bytes(data=pdf, mime_type="application/pdf"),),
-    )
+    try:
+        datos = generar_json(
+            MODELO_LECTOR,
+            PROMPT.format(total=len(numeros)),
+            contexto,
+            adjuntos=(types.Part.from_bytes(data=pdf, mime_type="application/pdf"),),
+        )
+    except RespuestaInvalidaError:
+        # Con páginas muy densas la transcripción conjunta puede salir mal formada: se reintenta por partes.
+        if len(numeros) == 1:
+            raise
+        return _leer_por_mitades(reader, numeros, contexto)
 
     textos = {}
     for entrada in datos.get("paginas") or []:

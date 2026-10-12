@@ -47,3 +47,40 @@ def test_extraer_criterios_recorta_bases_muy_largas(monkeypatch):
     monkeypatch.setattr(extractor, "generar_json", lambda _modelo, prompt, _contexto: prompts.append(prompt) or {})
     extractor.extraer_criterios("§" * (extractor.MAX_CARACTERES_BASES + 500), CONTEXTO)
     assert prompts[0].count("§") == extractor.MAX_CARACTERES_BASES
+
+
+def _factor(nombre, puntos):
+    return {"etapa": "evaluacion", "tipo": "tecnico", "descripcion": nombre, "puntaje_maximo": puntos}
+
+
+def test_si_los_factores_no_suman_el_total_el_extractor_se_corrige(monkeypatch):
+    respuestas = iter([
+        {"puntaje_total": 100, "criterios": [_factor("A", 55), _factor("B", 45), _factor("B duplicado", 45)]},
+        {"puntaje_total": 100, "criterios": [_factor("A", 55), _factor("B", 45)]},
+    ])
+    prompts = []
+    monkeypatch.setattr(extractor, "generar_json", lambda _m, prompt, _c: prompts.append(prompt) or next(respuestas))
+
+    matriz = extractor.extraer_criterios("bases", CONTEXTO)
+
+    assert matriz.cuadra and matriz.suma_factores == 100 and len(prompts) == 2
+    assert "suma de los puntajes máximos de los factores de evaluación fue 145" in prompts[1]
+    assert "- B duplicado (45 puntos)" in prompts[1]
+
+
+def test_si_la_correccion_empeora_se_conserva_el_primer_intento(monkeypatch):
+    respuestas = iter([
+        {"puntaje_total": 100, "criterios": [_factor("A", 55), _factor("B", 40)]},
+        {"criterios": [_factor("A", 55)]},
+    ])
+    monkeypatch.setattr(extractor, "generar_json", lambda *_: next(respuestas))
+
+    matriz = extractor.extraer_criterios("bases", CONTEXTO)
+
+    assert matriz.suma_factores == 95 and not matriz.cuadra
+
+
+def test_sin_total_declarado_no_se_corrige(monkeypatch):
+    llamadas = []
+    monkeypatch.setattr(extractor, "generar_json", lambda *_: llamadas.append(1) or {"criterios": [_factor("A", 30)]})
+    assert extractor.extraer_criterios("bases", CONTEXTO).cuadra and len(llamadas) == 1

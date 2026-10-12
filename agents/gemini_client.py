@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 import time
 from dataclasses import dataclass
 from functools import cache
@@ -13,6 +14,7 @@ from retry_utils import con_reintentos
 INTENTOS_JSON = 3
 # Con temperatura 0 y semilla fija, una misma consulta devuelve (casi siempre) la misma respuesta.
 SEMILLA = 2026
+ESCAPE_INVALIDO = re.compile(r'\\(?!["\\/bfnrtu])')
 
 registro = logging.getLogger(__name__)
 
@@ -75,10 +77,17 @@ def generar_json(modelo: str, prompt: str, contexto: ContextoIA, adjuntos: tuple
             raise
         _registrar_consulta(contexto, modelo, prompt, len(adjuntos), respuesta, inicio)
 
-        try:
-            datos = json.loads(respuesta.text or "")
-        except json.JSONDecodeError:
-            continue
+        datos = _cargar_json(respuesta.text or "")
         if isinstance(datos, dict):
             return datos
     raise RespuestaInvalidaError("El modelo no devolvió un JSON válido tras varios intentos.")
+
+
+def _cargar_json(texto: str):
+    # Al transcribir Markdown, el modelo a veces deja escapes inválidos (\_ \*) o tabulaciones sin escapar.
+    for candidato in (texto, ESCAPE_INVALIDO.sub(r"\\\\", texto)):
+        try:
+            return json.loads(candidato, strict=False)
+        except json.JSONDecodeError:
+            continue
+    return None

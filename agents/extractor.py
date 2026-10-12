@@ -33,7 +33,8 @@ contrato (por ejemplo, equipamiento o infraestructura estratégica), porque no s
 oferta; salvo que las Bases indiquen que en este concurso sí se acreditan en la oferta.
 - Si un requisito solo se exige en ciertos casos ("de ser el caso", "de corresponder", "en caso de \
 consorcio"), empieza la descripción con la condición, por ejemplo: "Solo si el postor se presenta en \
-consorcio: ...". Sigue siendo obligatorio cuando la condición se cumple.
+consorcio: ...". Sigue siendo obligatorio cuando la condición se cumple. Los requisitos de \
+participación en consorcio son siempre condicionales.
 - Si un requisito o factor enumera varios cargos del personal clave con exigencias distintas, crea \
 un criterio por cada cargo.
 - Copia la forma de acreditación (qué documento lo prueba) y, para los factores, la forma de asignar \
@@ -45,14 +46,26 @@ especialidad), escribe ese dato con su valor dentro de la descripción o de la f
 - Indica en "puntaje_minimo" el puntaje técnico mínimo para continuar en el concurso, si las Bases \
 lo fijan.
 
+- Indica en "puntaje_total" el puntaje total de la evaluación técnica que declaran las Bases (la \
+suma de todos los factores de evaluación), si lo indican.
+
 Responde únicamente con un JSON de la forma:
-{{"puntaje_minimo": n | null, "criterios": [{{"etapa": "admision" | "calificacion" | "evaluacion", \
-"tipo": "legal" | "tecnico", "descripcion": "...", "acreditacion": "..." | null, \
-"referencia": "Capítulo/numeral/página" | null, "obligatorio": true | false, \
-"puntaje_maximo": n | null, "asignacion_puntaje": "..." | null}}]}}
+{{"puntaje_minimo": n | null, "puntaje_total": n | null, "criterios": [{{"etapa": "admision" | \
+"calificacion" | "evaluacion", "tipo": "legal" | "tecnico", "descripcion": "...", \
+"acreditacion": "..." | null, "referencia": "Capítulo/numeral/página" | null, \
+"obligatorio": true | false, "puntaje_maximo": n | null, "asignacion_puntaje": "..." | null}}]}}
 
 Texto de las Bases:
 {texto}
+"""
+
+CORRECCION = """
+
+Revisión de un intento anterior: la suma de los puntajes máximos de los factores de evaluación fue \
+{suma:g}, pero las Bases declaran un puntaje total de {total:g}. Factores de ese intento:
+{factores}
+Revisa que no haya factores duplicados, subfactores contados además de su factor, ni factores que \
+no corresponden o que fueron suprimidos, y devuelve la matriz completa corregida con el mismo formato.
 """
 
 
@@ -60,6 +73,15 @@ Texto de las Bases:
 class MatrizExtraida:
     criterios: list[dict]
     puntaje_minimo: float | None
+    puntaje_total: float | None = None
+
+    @property
+    def suma_factores(self) -> float:
+        return sum(c["puntaje_maximo"] or 0 for c in self.criterios if c["etapa"] == "evaluacion")
+
+    @property
+    def cuadra(self) -> bool:
+        return self.puntaje_total is None or abs(self.suma_factores - self.puntaje_total) < 0.01
 
 
 def _a_booleano(valor, default: bool) -> bool:
@@ -99,13 +121,30 @@ def normalizar_criterio(c: dict) -> dict | None:
     }
 
 
-def extraer_criterios(texto_bases: str, contexto: ContextoIA) -> MatrizExtraida:
-    prompt = PROMPT.format(texto=texto_bases[:MAX_CARACTERES_BASES])
-    datos = generar_json(LLM_MODEL, prompt, contexto)
-
+def _matriz(datos: dict) -> MatrizExtraida:
     criterios = datos.get("criterios")
     normalizados = (normalizar_criterio(c) for c in criterios if isinstance(c, dict)) if isinstance(criterios, list) else ()
     return MatrizExtraida(
         criterios=[c for c in normalizados if c is not None],
         puntaje_minimo=normalizar_puntaje(datos.get("puntaje_minimo"), None) or None,
+        puntaje_total=normalizar_puntaje(datos.get("puntaje_total"), None) or None,
     )
+
+
+def extraer_criterios(texto_bases: str, contexto: ContextoIA) -> MatrizExtraida:
+    prompt = PROMPT.format(texto=texto_bases[:MAX_CARACTERES_BASES])
+    matriz = _matriz(generar_json(LLM_MODEL, prompt, contexto))
+    if matriz.cuadra:
+        return matriz
+
+    # Autoverificación: si los factores no suman el total que declaran las Bases, el agente se corrige una vez.
+    factores = "\n".join(
+        f"- {c['descripcion'][:150]} ({c['puntaje_maximo']:g} puntos)"
+        for c in matriz.criterios if c["etapa"] == "evaluacion" and c["puntaje_maximo"]
+    )
+    correccion = CORRECCION.format(suma=matriz.suma_factores, total=matriz.puntaje_total, factores=factores)
+    corregida = _matriz(generar_json(LLM_MODEL, prompt + correccion, contexto))
+    corregida.puntaje_total = corregida.puntaje_total or matriz.puntaje_total
+    if abs(corregida.suma_factores - matriz.puntaje_total) <= abs(matriz.suma_factores - matriz.puntaje_total):
+        return corregida
+    return matriz

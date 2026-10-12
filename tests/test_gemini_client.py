@@ -66,3 +66,9 @@ def test_error_de_la_api_queda_registrado(monkeypatch, db_falsa):
         gemini_client.generar_json("modelo", "prompt", CONTEXTO)
 
     assert "cuota agotada" in db_falsa.filas("consultas_ia")[0]["error"]
+
+
+def test_repara_escapes_de_markdown_y_tabulaciones(monkeypatch):
+    # Transcripciones reales: "\_" de Markdown y tabulaciones sin escapar dentro del texto.
+    _cliente_con_respuestas(monkeypatch, [r'{"texto": "N\_1' + "\t" + r'Supervisor \| Ing. Civil"}'])
+    assert gemini_client.generar_json("modelo", "prompt", CONTEXTO) == {"texto": r"N\_1" + "\t" + r"Supervisor \| Ing. Civil"}
