@@ -59,6 +59,14 @@ create table if not exists dictamenes (
     created_at timestamptz not null default now()
 );
 
+-- La app usa la clave service_role/secret, que ignora RLS. Activarlo sin políticas impide que
+-- las claves públicas (anon/publishable) lean o modifiquen estas tablas.
+alter table concursos enable row level security;
+alter table criterios enable row level security;
+alter table postores enable row level security;
+alter table documentos_chunks enable row level security;
+alter table dictamenes enable row level security;
+
 -- La búsqueda vectorial es exacta: siempre se filtra por concurso/postor (pocos cientos de
 -- fragmentos), y un índice aproximado (ivfflat/hnsw) aplica ese filtro después de buscar,
 -- con lo que puede devolver menos evidencia de la que existe.

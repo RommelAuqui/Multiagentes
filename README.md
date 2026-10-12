@@ -28,7 +28,13 @@ y recupera los documentos; `views/` contiene los dos portales de Streamlit.
 ### 1. Base de datos
 
 En el panel SQL de tu proyecto Supabase, ejecuta el contenido de [`db/schema.sql`](db/schema.sql).
-Esto habilita `pgvector`, crea las tablas y la función `match_documentos` usada por el RAG.
+Esto habilita `pgvector`, crea las tablas (con Row Level Security activado) y la función
+`match_documentos` usada por el RAG. Supabase avisará de "operaciones destructivas": son los
+`drop ... if exists` que actualizan bases creadas con versiones anteriores; en una base nueva
+no borran nada.
+
+> En `SUPABASE_KEY` usa la clave **secret** o **service_role**, nunca la anon/publishable:
+> la app necesita saltarse RLS, y la clave pública no debe poder leer las propuestas.
 
 > **¿Ya tenías la base creada con una versión anterior?** Vuelve a ejecutar `db/schema.sql`
 > completo: es idempotente y aplica los cambios (quita el índice `ivfflat`, agrega índices por
