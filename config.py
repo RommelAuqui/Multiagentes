@@ -27,6 +27,7 @@ OCR_IDIOMA = get_secret("OCR_IDIOMA", "spa")
 OCR_DPI = int(get_secret("OCR_DPI", 200))
 TESSERACT_CMD = get_secret("TESSERACT_CMD")
 POPPLER_PATH = get_secret("POPPLER_PATH")
+EVAL_HILOS = max(1, int(get_secret("EVAL_HILOS", 1)))
 
 
 def configuracion_faltante() -> list[str]:

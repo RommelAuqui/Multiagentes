@@ -1,4 +1,6 @@
 from contextlib import suppress
+from functools import partial
+from io import BytesIO
 
 import streamlit as st
 
@@ -13,6 +15,8 @@ from theme import badge_html
 from views.avisos import mostrar_avisos_extraccion
 
 COLUMNAS_CRITERIOS = ["tipo", "descripcion", "referencia", "obligatorio"]
+MIME_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 
 def _tabla_criterios(criterios: list[dict]) -> list[dict]:
@@ -144,12 +148,12 @@ def _gestionar_concursos():
     st.caption(concurso.get("descripcion") or "")
 
     if concurso.get("bases_pdf_path"):
-        bases_pdf_bytes = descargar_archivo(concurso["bases_pdf_path"])
         st.download_button(
             "📄 Descargar Bases Integradas (.pdf)",
-            data=bases_pdf_bytes,
+            data=partial(descargar_archivo, concurso["bases_pdf_path"]),
             file_name=f"bases_{concurso['nombre']}.pdf",
             mime="application/pdf",
+            on_click="ignore",
         )
 
     criterios = client.table("criterios").select("*").eq("concurso_id", concurso["id"]).execute().data
@@ -186,59 +190,44 @@ def _gestionar_concursos():
                 with columnas[1]:
                     st.markdown(_badge_veredicto(dictamen["veredicto"]), unsafe_allow_html=True)
                 columnas[2].write(f"Puntaje: {dictamen['puntaje']}")
-                if columnas[3].button("Ver / Descargar Acta", key=f"acta_{postor['id']}"):
-                    st.session_state["postor_para_acta"] = postor["id"]
+                columnas[3].download_button(
+                    "Descargar Acta (.docx)",
+                    data=partial(_acta_docx, concurso, postor, dictamen),
+                    file_name=f"acta_{postor['ruc']}.docx",
+                    mime=MIME_DOCX,
+                    key=f"acta_{postor['id']}",
+                    on_click="ignore",
+                )
             else:
                 with columnas[1]:
                     st.markdown(badge_html("⏳ Pendiente", "ml-badge-pendiente"), unsafe_allow_html=True)
                 if columnas[2].button("Evaluar", key=f"evaluar_{postor['id']}"):
                     _evaluar(postor)
 
-    postor_id_acta = st.session_state.get("postor_para_acta")
-    postor_acta = next((p for p in postores if p["id"] == postor_id_acta), None)
-
-    if postor_id_acta and not postor_acta:
-        del st.session_state["postor_para_acta"]
-
-    if postor_acta:
-        postor_id = postor_id_acta
-        postor = postor_acta
-
-        legal_rows = (
-            client.table("dictamenes")
-            .select("*")
-            .eq("postor_id", postor_id)
-            .eq("agente", "legal")
-            .execute()
-            .data
-        )
-        tecnico_rows = (
-            client.table("dictamenes")
-            .select("*")
-            .eq("postor_id", postor_id)
-            .eq("agente", "tecnico")
-            .execute()
-            .data
-        )
-        resultado = {
-            "resultados_legal": legal_rows,
-            "resultados_tecnico": tecnico_rows,
-            "dictamen": dictamenes_por_postor[postor_id],
-        }
-        acta = generar_acta(concurso, postor, resultado)
-        st.download_button(
-            "Descargar Acta de Dictamen (.docx)",
-            data=acta,
-            file_name=f"acta_{postor['ruc']}.docx",
-        )
-
     st.markdown("### Matriz Comparativa")
-    matriz = generar_matriz_comparativa(concurso["id"])
     st.download_button(
         "Descargar Matriz Comparativa (.xlsx)",
-        data=matriz,
+        data=partial(generar_matriz_comparativa, postores, dictamenes),
         file_name=f"matriz_{concurso['nombre']}.xlsx",
+        mime=MIME_XLSX,
+        on_click="ignore",
     )
+
+
+def _acta_docx(concurso: dict, postor: dict, dictamen: dict) -> BytesIO:
+    filas = (
+        get_client().table("dictamenes")
+        .select("*")
+        .eq("postor_id", postor["id"])
+        .in_("agente", ["legal", "tecnico"])
+        .execute()
+        .data
+    )
+    return generar_acta(concurso, postor, {
+        "resultados_legal": [f for f in filas if f["agente"] == "legal"],
+        "resultados_tecnico": [f for f in filas if f["agente"] == "tecnico"],
+        "dictamen": dictamen,
+    })
 
 
 def render():

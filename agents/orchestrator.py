@@ -1,11 +1,30 @@
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 from agents.coordinador import consolidar_dictamen
 from agents.legal import evaluar_criterio_legal
 from agents.tecnico import evaluar_criterio_tecnico
+from config import EVAL_HILOS
 from db.client import get_client
+from rag.embeddings import embed_consultas
 
 PAUSA_ENTRE_CRITERIOS = 2.0
+
+
+def _evaluar_criterios(concurso_id: str, postor_id: str, tareas: list[tuple]) -> list[dict]:
+    if not tareas:
+        return []
+
+    embeddings = embed_consultas([criterio["descripcion"] for _, criterio in tareas])
+
+    def ejecutar(tarea: tuple, embedding: list[float]) -> dict:
+        evaluar, criterio = tarea
+        resultado = evaluar(concurso_id, postor_id, criterio, embedding)
+        time.sleep(PAUSA_ENTRE_CRITERIOS)
+        return resultado
+
+    with ThreadPoolExecutor(max_workers=EVAL_HILOS) as executor:
+        return list(executor.map(ejecutar, tareas, embeddings))
 
 
 def evaluar_postor(postor_id: str) -> dict:
@@ -18,15 +37,12 @@ def evaluar_postor(postor_id: str) -> dict:
     criterios_legales = [c for c in criterios if c["tipo"] == "legal"]
     criterios_tecnicos = [c for c in criterios if c["tipo"] == "tecnico"]
 
-    resultados_legal = []
-    for c in criterios_legales:
-        resultados_legal.append(evaluar_criterio_legal(concurso_id, postor_id, c))
-        time.sleep(PAUSA_ENTRE_CRITERIOS)
-
-    resultados_tecnico = []
-    for c in criterios_tecnicos:
-        resultados_tecnico.append(evaluar_criterio_tecnico(concurso_id, postor_id, c))
-        time.sleep(PAUSA_ENTRE_CRITERIOS)
+    resultados = _evaluar_criterios(concurso_id, postor_id, [
+        *((evaluar_criterio_legal, c) for c in criterios_legales),
+        *((evaluar_criterio_tecnico, c) for c in criterios_tecnicos),
+    ])
+    resultados_legal = resultados[:len(criterios_legales)]
+    resultados_tecnico = resultados[len(criterios_legales):]
 
     dictamen = consolidar_dictamen(criterios_legales, resultados_legal, resultados_tecnico)
 

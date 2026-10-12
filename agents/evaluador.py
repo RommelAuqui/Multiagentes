@@ -41,10 +41,12 @@ def _formatear_evidencia(fragmentos: list[dict]) -> str:
     ) or "No se encontró evidencia relacionada en los documentos del postor."
 
 
-def evaluar_criterio(rol: str, concurso_id: str, postor_id: str, criterio: dict) -> dict:
+def evaluar_criterio(
+    rol: str, concurso_id: str, postor_id: str, criterio: dict, query_embedding: list[float]
+) -> dict:
     fragmentos = buscar_fragmentos(
         concurso_id=concurso_id,
-        query=criterio["descripcion"],
+        query_embedding=query_embedding,
         postor_id=postor_id,
         k=5,
     )

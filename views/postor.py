@@ -1,4 +1,5 @@
 from contextlib import suppress
+from functools import partial
 
 import streamlit as st
 
@@ -34,12 +35,12 @@ def render():
     st.caption(concurso.get("descripcion") or "")
 
     if concurso.get("bases_pdf_path"):
-        bases_pdf_bytes = descargar_archivo(concurso["bases_pdf_path"])
         st.download_button(
             "📄 Descargar Bases Integradas / TDR (.pdf)",
-            data=bases_pdf_bytes,
+            data=partial(descargar_archivo, concurso["bases_pdf_path"]),
             file_name=f"bases_{concurso['nombre']}.pdf",
             mime="application/pdf",
+            on_click="ignore",
         )
     else:
         st.warning("Esta convocatoria todavía no tiene las Bases Integradas disponibles para descarga.")

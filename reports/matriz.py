@@ -2,21 +2,9 @@ from io import BytesIO
 
 import pandas as pd
 
-from db.client import get_client
 
-
-def generar_matriz_comparativa(concurso_id: str) -> BytesIO:
-    client = get_client()
-    postores = client.table("postores").select("*").eq("concurso_id", concurso_id).execute().data
-    dictamenes = (
-        client.table("dictamenes")
-        .select("*")
-        .eq("concurso_id", concurso_id)
-        .eq("agente", "coordinador")
-        .execute()
-        .data
-    )
-    dictamenes_por_postor = {d["postor_id"]: d for d in dictamenes}
+def generar_matriz_comparativa(postores: list[dict], dictamenes_coordinador: list[dict]) -> BytesIO:
+    dictamenes_por_postor = {d["postor_id"]: d for d in dictamenes_coordinador}
 
     filas = []
     for p in postores:
