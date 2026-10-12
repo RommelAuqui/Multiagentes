@@ -1,4 +1,4 @@
-from agents.gemini_client import generar_json
+from agents.gemini_client import ContextoIA, generar_json
 from agents.respuestas import normalizar_texto, normalizar_veredicto
 from config import LLM_MODEL
 
@@ -45,19 +45,22 @@ def _resumen_resultados(resultados: list[dict]) -> str:
     ) or "Sin criterios evaluados por este agente."
 
 
-def _deliberar(resultados_legal: list[dict], resultados_tecnico: list[dict], puntaje_tecnico: float) -> dict:
+def _deliberar(
+    resultados_legal: list[dict], resultados_tecnico: list[dict], puntaje_tecnico: float, contexto: ContextoIA
+) -> dict:
     prompt = PROMPT_DELIBERACION.format(
         legal=_resumen_resultados(resultados_legal),
         tecnico=_resumen_resultados(resultados_tecnico),
         puntaje_tecnico=puntaje_tecnico,
     )
-    return generar_json(LLM_MODEL, prompt)
+    return generar_json(LLM_MODEL, prompt, contexto)
 
 
 def consolidar_dictamen(
     criterios_legales: list[dict],
     resultados_legal: list[dict],
     resultados_tecnico: list[dict],
+    contexto: ContextoIA,
 ) -> dict:
     obligatorios_incumplidos = [
         r for r, c in zip(resultados_legal, criterios_legales)
@@ -78,7 +81,7 @@ def consolidar_dictamen(
             "citas": citas,
         }
 
-    deliberacion = _deliberar(resultados_legal, resultados_tecnico, puntaje)
+    deliberacion = _deliberar(resultados_legal, resultados_tecnico, puntaje, contexto)
     return {
         "veredicto": normalizar_veredicto(deliberacion.get("veredicto")),
         "puntaje": puntaje,

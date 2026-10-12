@@ -2,6 +2,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 from agents.coordinador import consolidar_dictamen
+from agents.gemini_client import ContextoIA
 from agents.legal import evaluar_criterio_legal
 from agents.tecnico import evaluar_criterio_tecnico
 from config import EVAL_HILOS
@@ -44,7 +45,9 @@ def evaluar_postor(postor_id: str) -> dict:
     resultados_legal = resultados[:len(criterios_legales)]
     resultados_tecnico = resultados[len(criterios_legales):]
 
-    dictamen = consolidar_dictamen(criterios_legales, resultados_legal, resultados_tecnico)
+    dictamen = consolidar_dictamen(
+        criterios_legales, resultados_legal, resultados_tecnico, ContextoIA("coordinador", concurso_id, postor_id)
+    )
 
     filas_dictamenes = []
     for agente, resultados in (("legal", resultados_legal), ("tecnico", resultados_tecnico)):

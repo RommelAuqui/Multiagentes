@@ -1,4 +1,4 @@
-from agents.gemini_client import generar_json
+from agents.gemini_client import ContextoIA, generar_json
 from agents.respuestas import normalizar_citas, normalizar_texto, normalizar_veredicto
 from config import LLM_MODEL
 from rag.retriever import buscar_fragmentos
@@ -42,7 +42,7 @@ def _formatear_evidencia(fragmentos: list[dict]) -> str:
 
 
 def evaluar_criterio(
-    rol: str, concurso_id: str, postor_id: str, criterio: dict, query_embedding: list[float]
+    agente: str, rol: str, concurso_id: str, postor_id: str, criterio: dict, query_embedding: list[float]
 ) -> dict:
     fragmentos = buscar_fragmentos(
         concurso_id=concurso_id,
@@ -57,7 +57,7 @@ def evaluar_criterio(
         referencia=criterio.get("referencia") or "sin referencia",
         evidencia=_formatear_evidencia(fragmentos),
     )
-    resultado = generar_json(LLM_MODEL, prompt)
+    resultado = generar_json(LLM_MODEL, prompt, ContextoIA(agente, concurso_id, postor_id))
 
     return {
         "criterio_id": criterio["id"],

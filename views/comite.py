@@ -5,6 +5,7 @@ from io import BytesIO
 import streamlit as st
 
 from agents.extractor import MAX_CARACTERES_BASES, extraer_criterios
+from agents.gemini_client import ContextoIA
 from agents.orchestrator import evaluar_postor
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
@@ -41,7 +42,7 @@ def _crear_concurso():
         with st.spinner("Leyendo las Bases y generando la matriz de requisitos..."):
             extraccion = extraer_paginas(contenido)
             texto_bases = texto_completo(extraccion.paginas)
-            criterios = extraer_criterios(texto_bases) if extraccion.paginas else []
+            criterios = extraer_criterios(texto_bases, ContextoIA("extractor")) if extraccion.paginas else []
     except Exception:
         st.error(
             "El Agente Extractor no pudo generar la matriz de requisitos (el PDF podría estar "

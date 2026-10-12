@@ -59,6 +59,24 @@ create table if not exists dictamenes (
     created_at timestamptz not null default now()
 );
 
+-- Trazabilidad: cada consulta a la IA (prompt, respuesta, modelo, tokens y tiempo).
+create table if not exists consultas_ia (
+    id uuid primary key default gen_random_uuid(),
+    concurso_id uuid references concursos(id) on delete cascade,
+    postor_id uuid references postores(id) on delete cascade,
+    agente text not null,
+    modelo text not null,
+    prompt text not null,
+    adjuntos integer not null default 0,
+    respuesta text,
+    tokens_entrada integer,
+    tokens_salida integer,
+    duracion_ms integer,
+    error text,
+    created_at timestamptz not null default now()
+);
+create index if not exists consultas_ia_concurso_idx on consultas_ia (concurso_id);
+
 -- La app usa la clave service_role/secret, que ignora RLS. Activarlo sin políticas impide que
 -- las claves públicas (anon/publishable) lean o modifiquen estas tablas.
 alter table concursos enable row level security;
@@ -66,6 +84,7 @@ alter table criterios enable row level security;
 alter table postores enable row level security;
 alter table documentos_chunks enable row level security;
 alter table dictamenes enable row level security;
+alter table consultas_ia enable row level security;
 
 -- La búsqueda vectorial es exacta: siempre se filtra por concurso/postor (pocos cientos de
 -- fragmentos), y un índice aproximado (ivfflat/hnsw) aplica ese filtro después de buscar,

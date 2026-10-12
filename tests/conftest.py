@@ -16,7 +16,8 @@ import db.client
 from tests.fakes import SupabaseFalso
 
 
-@pytest.fixture
+# Automática: ningún test puede tocar el Supabase real (por ejemplo, al registrar consultas a la IA).
+@pytest.fixture(autouse=True)
 def db_falsa(monkeypatch):
     falsa = SupabaseFalso()
     monkeypatch.setattr(db.client, "create_client", lambda *_: falsa)

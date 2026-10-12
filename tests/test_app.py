@@ -138,7 +138,7 @@ def test_contrasena_del_comite(db_falsa):
 
 def test_crear_convocatoria(db_falsa, monkeypatch):
     monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido: _documento("Bases").extraccion)
-    monkeypatch.setattr(comite, "extraer_criterios", lambda _texto: [
+    monkeypatch.setattr(comite, "extraer_criterios", lambda _texto, _contexto: [
         {"tipo": "legal", "descripcion": "Declaración jurada", "referencia": "Pág. 3", "obligatorio": True},
     ])
 
@@ -155,7 +155,7 @@ def test_crear_convocatoria(db_falsa, monkeypatch):
 
 def test_convocatoria_sin_criterios_no_se_crea(db_falsa, monkeypatch):
     monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido: _documento("Bases").extraccion)
-    monkeypatch.setattr(comite, "extraer_criterios", lambda _texto: [])
+    monkeypatch.setattr(comite, "extraer_criterios", lambda _texto, _contexto: [])
 
     at = _portal_comite()
     at.text_input[0].input("Supervisión de obra")

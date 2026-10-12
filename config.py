@@ -7,12 +7,15 @@ load_dotenv()
 
 
 def get_secret(key, default=None):
+    # Primero las variables de entorno (el .env en local, o las de los tests); luego los Secrets de Streamlit.
+    if os.environ.get(key):
+        return os.environ[key]
     try:
         if key in st.secrets:
             return st.secrets[key]
     except Exception:
         pass
-    return os.environ.get(key, default)
+    return default
 
 
 def normalizar_url_supabase(url: str | None) -> str | None:
@@ -27,7 +30,7 @@ SUPABASE_KEY = get_secret("SUPABASE_KEY")
 GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
 ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
 STORAGE_BUCKET = get_secret("STORAGE_BUCKET", "licitaciones")
-LLM_MODEL = get_secret("LLM_MODEL", "gemini-flash-lite-latest")
+LLM_MODEL = get_secret("LLM_MODEL", "gemini-3.5-flash-lite")
 EMBEDDING_MODEL = get_secret("EMBEDDING_MODEL", "gemini-embedding-001")
 EMBEDDING_DIMENSIONS = int(get_secret("EMBEDDING_DIMENSIONS", 768))
 OCR_IDIOMA = get_secret("OCR_IDIOMA", "spa")

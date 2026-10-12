@@ -1,4 +1,4 @@
-from agents.gemini_client import generar_json
+from agents.gemini_client import ContextoIA, generar_json
 from config import LLM_MODEL
 
 MAX_CARACTERES_BASES = 300_000
@@ -39,9 +39,9 @@ def _normalizar_criterio(c: dict) -> dict | None:
     }
 
 
-def extraer_criterios(texto_bases: str) -> list[dict]:
+def extraer_criterios(texto_bases: str, contexto: ContextoIA) -> list[dict]:
     prompt = PROMPT.format(texto=texto_bases[:MAX_CARACTERES_BASES])
-    datos = generar_json(LLM_MODEL, prompt)
+    datos = generar_json(LLM_MODEL, prompt, contexto)
     criterios = datos.get("criterios")
     if not isinstance(criterios, list):
         return []
