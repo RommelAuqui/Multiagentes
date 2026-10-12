@@ -15,7 +15,14 @@ def get_secret(key, default=None):
     return os.environ.get(key, default)
 
 
-SUPABASE_URL = get_secret("SUPABASE_URL")
+def normalizar_url_supabase(url: str | None) -> str | None:
+    # El panel de Supabase también muestra la URL de la API REST (.../rest/v1/); el cliente necesita la base.
+    if not url:
+        return url
+    return url.strip().rstrip("/").removesuffix("/rest/v1")
+
+
+SUPABASE_URL = normalizar_url_supabase(get_secret("SUPABASE_URL"))
 SUPABASE_KEY = get_secret("SUPABASE_KEY")
 GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
 ADMIN_PASSWORD = get_secret("ADMIN_PASSWORD")
