@@ -8,7 +8,7 @@ contra las Bases/TDR de un concurso público, citando documento, página y artí
 - Streamlit (frontend, dos vistas)
 - Supabase: PostgreSQL + pgvector + Storage
 - Google Gemini API (razonamiento y embeddings)
-- pypdf + Tesseract OCR (extracción de texto por página)
+- pypdf (texto de cada página) + Gemini multimodal (páginas escaneadas, imágenes y tablas)
 - python-docx / openpyxl (generación de actas y matriz comparativa)
 
 ## Arquitectura
@@ -62,25 +62,22 @@ Variables opcionales:
 
 | Variable | Por defecto | Uso |
 | --- | --- | --- |
-| `LLM_MODEL` | `gemini-flash-lite-latest` | Modelo de los agentes. |
+| `LLM_MODEL` | `gemini-3.5-flash-lite` | Modelo de los agentes. Se usa una versión fija (no un alias `-latest`) para que los resultados sean reproducibles. |
+| `MODELO_LECTOR` | igual a `LLM_MODEL` | Modelo que transcribe las páginas escaneadas. |
 | `EMBEDDING_MODEL` | `gemini-embedding-001` | Modelo de embeddings. |
 | `EVAL_HILOS` | `1` | Criterios evaluados en paralelo. Súbelo a 3–4 si tu plan de Gemini tiene cuota suficiente; con el plan gratuito, déjalo en 1. |
-| `OCR_IDIOMA` / `OCR_DPI` | `spa` / `200` | Configuración de Tesseract. |
 
-### 3.1. OCR para PDFs escaneados (opcional en local)
+### 3.1. PDF escaneados
 
-Las páginas sin texto seleccionable (imágenes escaneadas) se leen con OCR (Tesseract). Un PDF
-con texto normal no lo necesita. Para usarlo en local en Windows:
+No hay que instalar nada. Cada página se lee primero como texto; las páginas escaneadas (sin texto
+seleccionable) y las que tienen una imagen grande pegada —por ejemplo, una constancia escaneada
+dentro de un documento de Word— se envían a Gemini en lotes de 5 para que las transcriba
+literalmente, con las tablas en formato Markdown. Los logos y firmas pequeñas no activan esta lectura.
 
-1. Instala [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki) y marca el idioma
-   **Spanish** durante la instalación.
-2. Instala [Poppler para Windows](https://github.com/oschwartz10612/poppler-windows/releases)
-   y descomprímelo en una carpeta.
-3. En `.env` define `TESSERACT_CMD` (ruta a `tesseract.exe`) y `POPPLER_PATH` (carpeta `bin`
-   de Poppler) si no están en el PATH.
+### 3.2. Trazabilidad y reproducibilidad
 
-En Streamlit Community Cloud no hace falta configurar nada: el archivo `packages.txt` instala
-Tesseract (con español) y Poppler automáticamente.
+Todas las consultas a la IA usan temperatura 0 y semilla fija, y quedan registradas en la tabla
+`consultas_ia` (agente, concurso, postor, modelo, prompt, respuesta, tokens, duración y error).
 
 ### 4. Instalación
 

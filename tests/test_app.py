@@ -10,7 +10,7 @@ PDF = ("documento.pdf", b"%PDF-1.4 de prueba", "application/pdf")
 
 
 def _documento(texto: str = "Experiencia de 10 años en supervisión de obras") -> DocumentoPreparado:
-    extraccion = ResultadoExtraccion(paginas=[{"pagina": 1, "texto": texto, "ocr": False}])
+    extraccion = ResultadoExtraccion(paginas=[{"pagina": 1, "texto": texto, "ia": False}])
     return DocumentoPreparado(extraccion, [{"pagina": 1, "contenido": texto, "embedding": [0.1, 0.2]}])
 
 
@@ -53,7 +53,7 @@ def _postular(at: AppTest, ruc: str, razon_social: str = "Consultora Andina SAC"
 
 
 def test_postulacion_exitosa(db_falsa, concurso, monkeypatch):
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido: _documento())
+    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: _documento())
 
     at = _postular(_portal_postor(), " 20131312955 ")
 
@@ -66,7 +66,7 @@ def test_postulacion_exitosa(db_falsa, concurso, monkeypatch):
 
 
 def test_ruc_invalido_no_registra_ni_procesa(db_falsa, concurso, monkeypatch):
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido: pytest.fail("no debe procesar"))
+    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: pytest.fail("no debe procesar"))
 
     at = _postular(_portal_postor(), "20131312954")
 
@@ -76,7 +76,7 @@ def test_ruc_invalido_no_registra_ni_procesa(db_falsa, concurso, monkeypatch):
 
 def test_ruc_duplicado_en_el_mismo_concurso(db_falsa, concurso, monkeypatch):
     _registrar_postor(db_falsa, concurso, "20131312955", "Primera SAC")
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido: pytest.fail("no debe procesar"))
+    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: pytest.fail("no debe procesar"))
 
     at = _postular(_portal_postor(), "20131312955")
 
@@ -85,7 +85,7 @@ def test_ruc_duplicado_en_el_mismo_concurso(db_falsa, concurso, monkeypatch):
 
 
 def test_si_falla_el_procesamiento_no_queda_nada_registrado(db_falsa, concurso, monkeypatch):
-    def fallar(_contenido):
+    def fallar(_contenido, _contexto):
         raise RuntimeError("Gemini no respondió")
     monkeypatch.setattr(postor, "preparar_documento", fallar)
 
@@ -96,7 +96,7 @@ def test_si_falla_el_procesamiento_no_queda_nada_registrado(db_falsa, concurso, 
 
 
 def test_si_falla_el_guardado_se_revierte_la_postulacion(db_falsa, concurso, monkeypatch):
-    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido: _documento())
+    monkeypatch.setattr(postor, "preparar_documento", lambda _contenido, _contexto: _documento())
 
     def fallar_fragmentos(*_):
         raise RuntimeError("Supabase caído")
@@ -137,7 +137,7 @@ def test_contrasena_del_comite(db_falsa):
 
 
 def test_crear_convocatoria(db_falsa, monkeypatch):
-    monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido: _documento("Bases").extraccion)
+    monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido, _contexto: _documento("Bases").extraccion)
     monkeypatch.setattr(comite, "extraer_criterios", lambda _texto, _contexto: [
         {"tipo": "legal", "descripcion": "Declaración jurada", "referencia": "Pág. 3", "obligatorio": True},
     ])
@@ -154,7 +154,7 @@ def test_crear_convocatoria(db_falsa, monkeypatch):
 
 
 def test_convocatoria_sin_criterios_no_se_crea(db_falsa, monkeypatch):
-    monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido: _documento("Bases").extraccion)
+    monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido, _contexto: _documento("Bases").extraccion)
     monkeypatch.setattr(comite, "extraer_criterios", lambda _texto, _contexto: [])
 
     at = _portal_comite()

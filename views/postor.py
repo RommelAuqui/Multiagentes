@@ -3,6 +3,7 @@ from functools import partial
 
 import streamlit as st
 
+from agents.gemini_client import ContextoIA
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.ingest import DocumentoPreparado, guardar_fragmentos, preparar_documento
@@ -98,8 +99,9 @@ def render():
     # Los documentos se procesan antes de registrar al postor, para no dejar postulaciones sin evidencia.
     try:
         with st.spinner("Leyendo e indexando tus documentos para la evaluación..."):
-            propuesta = preparar_documento(propuesta_bytes)
-            cv = preparar_documento(cv_bytes)
+            lector = ContextoIA("lector", concurso["id"])
+            propuesta = preparar_documento(propuesta_bytes, lector)
+            cv = preparar_documento(cv_bytes, lector)
     except Exception:
         st.error(
             "No se pudieron procesar tus documentos (el PDF podría estar dañado o el servicio de IA "

@@ -14,13 +14,18 @@ def _lista_paginas(paginas: list[int]) -> str:
 
 
 def mostrar_avisos_extraccion(documento: str, extraccion: ResultadoExtraccion) -> None:
-    if extraccion.paginas_ocr:
+    if extraccion.paginas_ia:
         st.info(
-            f"{documento}: se aplicó OCR a las páginas {_lista_paginas(extraccion.paginas_ocr)} "
-            "porque contenían imágenes escaneadas. El texto reconocido puede tener errores."
+            f"{documento}: las páginas {_lista_paginas(extraccion.paginas_ia)} tenían imágenes o "
+            "escaneos y se leyeron con IA. Si una cita de esas páginas parece extraña, revisa el PDF original."
+        )
+    causa = " El servicio de lectura con IA no respondió." if extraccion.error_lectura else ""
+    if extraccion.paginas_imagen_sin_leer:
+        st.warning(
+            f"{documento}: no se pudieron leer las imágenes de las páginas "
+            f"{_lista_paginas(extraccion.paginas_imagen_sin_leer)}.{causa} Solo se usará su texto."
         )
     if extraccion.paginas_sin_texto:
-        causa = " El servicio de OCR no está disponible." if extraccion.error_ocr else ""
         st.warning(
             f"{documento}: no se pudo leer texto de las páginas "
             f"{_lista_paginas(extraccion.paginas_sin_texto)}.{causa} "

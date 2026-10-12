@@ -40,7 +40,7 @@ def _crear_concurso():
     # Primero se analiza el PDF: la convocatoria solo se guarda si se obtuvo la matriz de requisitos.
     try:
         with st.spinner("Leyendo las Bases y generando la matriz de requisitos..."):
-            extraccion = extraer_paginas(contenido)
+            extraccion = extraer_paginas(contenido, ContextoIA("lector"))
             texto_bases = texto_completo(extraccion.paginas)
             criterios = extraer_criterios(texto_bases, ContextoIA("extractor")) if extraccion.paginas else []
     except Exception:

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from agents.gemini_client import ContextoIA
 from db.client import get_client
 from rag.embeddings import embed_documentos
 from rag.pdf_extract import ResultadoExtraccion, dividir_en_fragmentos, extraer_paginas
@@ -13,8 +14,8 @@ class DocumentoPreparado:
     fragmentos: list[dict]
 
 
-def preparar_documento(contenido: bytes) -> DocumentoPreparado:
-    extraccion = extraer_paginas(contenido)
+def preparar_documento(contenido: bytes, contexto: ContextoIA) -> DocumentoPreparado:
+    extraccion = extraer_paginas(contenido, contexto)
     fragmentos = dividir_en_fragmentos(extraccion.paginas)
     embeddings = embed_documentos([f["contenido"] for f in fragmentos])
     for fragmento, embedding in zip(fragmentos, embeddings):

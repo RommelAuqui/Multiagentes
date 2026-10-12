@@ -33,10 +33,7 @@ STORAGE_BUCKET = get_secret("STORAGE_BUCKET", "licitaciones")
 LLM_MODEL = get_secret("LLM_MODEL", "gemini-3.5-flash-lite")
 EMBEDDING_MODEL = get_secret("EMBEDDING_MODEL", "gemini-embedding-001")
 EMBEDDING_DIMENSIONS = int(get_secret("EMBEDDING_DIMENSIONS", 768))
-OCR_IDIOMA = get_secret("OCR_IDIOMA", "spa")
-OCR_DPI = int(get_secret("OCR_DPI", 200))
-TESSERACT_CMD = get_secret("TESSERACT_CMD")
-POPPLER_PATH = get_secret("POPPLER_PATH")
+MODELO_LECTOR = get_secret("MODELO_LECTOR", LLM_MODEL)
 EVAL_HILOS = max(1, int(get_secret("EVAL_HILOS", 1)))
 
 
