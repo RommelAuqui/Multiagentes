@@ -10,7 +10,9 @@ Uso:
 Requiere pypdfium2 (requirements-dev.txt) para convertir las páginas en imágenes.
 """
 import argparse
+import json
 import random
+from collections import Counter
 import re
 import unicodedata
 from datetime import datetime
@@ -50,9 +52,13 @@ def normalizar(texto: str) -> str:
 def tasas_de_error(correcto: str, obtenido: str) -> dict:
     correcto, obtenido = normalizar(correcto), normalizar(obtenido)
     palabras_correctas, palabras_obtenidas = correcto.split(), obtenido.split()
+    # CER y WER penalizan también el orden: en tablas, pypdf no extrae el texto en orden de lectura.
+    # La cobertura de palabras no depende del orden y separa los errores de lectura de los de orden.
+    comunes = sum((Counter(palabras_correctas) & Counter(palabras_obtenidas)).values())
     return {
         "cer": round(distancia_edicion(correcto, obtenido) / max(len(correcto), 1), 4),
         "wer": round(distancia_edicion(palabras_correctas, palabras_obtenidas) / max(len(palabras_correctas), 1), 4),
+        "cobertura": round(comunes / max(len(palabras_correctas), 1), 4),
         "caracteres": len(correcto),
     }
 
@@ -116,12 +122,15 @@ def main() -> None:
     filas = []
     for posicion, (numero, _, imagen) in enumerate(escaneos, start=1):
         correcto = reader.pages[numero - 1].extract_text() or ""
-        fila = {"pagina": numero, "gemini": tasas_de_error(correcto, leidas.get(posicion, ""))}
+        fila = {"pagina": numero, "gemini": tasas_de_error(correcto, leidas.get(posicion, "")),
+                "textos": {"original": correcto, "gemini": leidas.get(posicion, "")}}
         if tesseract:
-            fila["tesseract"] = tasas_de_error(correcto, tesseract.image_to_string(imagen, lang="spa"))
+            transcripcion = tesseract.image_to_string(imagen, lang="spa")
+            fila["tesseract"] = tasas_de_error(correcto, transcripcion)
+            fila["textos"]["tesseract"] = transcripcion
         filas.append(fila)
-        print(f"Página {numero}: CER Gemini {fila['gemini']['cer']:.2%}"
-              + (f" · Tesseract {fila['tesseract']['cer']:.2%}" if tesseract else ""))
+        print(f"Página {numero}: CER Gemini {fila['gemini']['cer']:.2%} · cobertura {fila['gemini']['cobertura']:.2%}"
+              + (f" · CER Tesseract {fila['tesseract']['cer']:.2%}" if tesseract else ""))
 
     motores = ["gemini", *(["tesseract"] if tesseract else [])]
 
@@ -133,15 +142,18 @@ def main() -> None:
         total = sum(f[motor]["caracteres"] for f in filas)
         return sum(f[motor][metrica] * f[motor]["caracteres"] for f in filas) / total
 
-    encabezados = ["Página", "Caracteres", *(f"CER {m.capitalize()}" for m in motores), *(f"WER {m.capitalize()}" for m in motores)]
+    encabezados = ["Página", "Caracteres", *(f"CER {m.capitalize()}" for m in motores),
+                   *(f"WER {m.capitalize()}" for m in motores), *(f"Cobertura {m.capitalize()}" for m in motores)]
     lineas = ["| " + " | ".join(encabezados) + " |", "|" + "---|" * len(encabezados)]
     for f in filas:
         lineas.append("| " + " | ".join([str(f["pagina"]), str(f["gemini"]["caracteres"]),
                                          *(porcentaje(f[m]["cer"]) for m in motores),
-                                         *(porcentaje(f[m]["wer"]) for m in motores)]) + " |")
+                                         *(porcentaje(f[m]["wer"]) for m in motores),
+                                         *(porcentaje(f[m]["cobertura"]) for m in motores)]) + " |")
     lineas.append("| **Promedio ponderado** | " + str(sum(f["gemini"]["caracteres"] for f in filas)) + " | "
                   + " | ".join([*(porcentaje(promedio(m, "cer")) for m in motores),
-                                *(porcentaje(promedio(m, "wer")) for m in motores)]) + " |")
+                                *(porcentaje(promedio(m, "wer")) for m in motores),
+                                *(porcentaje(promedio(m, "cobertura")) for m in motores)]) + " |")
     nota_tesseract = "" if tesseract else (
         "\n\nTesseract no está instalado en este equipo, así que solo se midió Gemini. Para compararlo, instala "
         "Tesseract con el idioma español y `pip install pytesseract`, y vuelve a ejecutar este script.")
@@ -150,13 +162,17 @@ def main() -> None:
                "Cada página digital se convirtió en imagen con aspecto de escaneo (giro de 0,8°, desenfoque, ruido "
                "y JPEG al 60 %) y se comparó la transcripción con el texto original del PDF.\n\n"
                "- **CER**: proporción de caracteres mal leídos (inserciones, borrados y sustituciones).\n"
-               "- **WER**: lo mismo, contado por palabras.\n\n"
+               "- **WER**: lo mismo, contado por palabras.\n"
+               "- **Cobertura**: proporción de las palabras originales que aparecen en la transcripción, sin "
+               "importar el orden. Si el CER es alto pero la cobertura también, la diferencia es de orden "
+               "(típico en tablas), no de lectura.\n\n"
                "El texto «original» es el que extrae pypdf del PDF digital, que también tiene pequeñas "
                "imperfecciones (espacios partidos, encabezados): las tasas son una cota superior del error real.\n\n"
                + "\n".join(lineas) + nota_tesseract + "\n")
     carpeta = CARPETA_RESULTADOS / f"{datetime.now():%Y-%m-%d_%H%M}_lector"
     carpeta.mkdir(parents=True, exist_ok=True)
     (carpeta / "REPORTE_LECTOR.md").write_text(reporte, encoding="utf-8")
+    (carpeta / "transcripciones.json").write_text(json.dumps(filas, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"Reporte: {carpeta / 'REPORTE_LECTOR.md'}")
 
 

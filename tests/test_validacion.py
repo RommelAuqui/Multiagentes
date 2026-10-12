@@ -171,7 +171,9 @@ def test_tasas_de_error_del_lector():
     # El formato de tabla que agrega el lector no cuenta como error.
     assert normalizar("| Cargo | Meses |\n| --- | --- |\n| **Jefe** | 36 |") == "Cargo Meses Jefe 36"
     tasas = tasas_de_error("Jefe de supervision 36 meses", "Jefe de supervisión 36 meses")
-    assert tasas == {"cer": round(1 / 28, 4), "wer": 0.2, "caracteres": 28}  # 1 de 5 palabras
+    assert tasas == {"cer": round(1 / 28, 4), "wer": 0.2, "cobertura": 0.8, "caracteres": 28}  # 1 de 5 palabras
+    # El mismo texto en otro orden tiene CER alto, pero cobertura completa.
+    assert tasas_de_error("uno dos tres", "tres dos uno")["cobertura"] == 1.0
 
 
 def test_las_paginas_digitales_se_convierten_en_escaneos():
