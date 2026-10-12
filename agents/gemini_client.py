@@ -35,8 +35,15 @@ def obtener_cliente() -> genai.Client:
     return genai.Client(api_key=GEMINI_API_KEY)
 
 
-def _registrar_consulta(
-    contexto: ContextoIA, modelo: str, prompt: str, adjuntos: int, respuesta, inicio: float, error: str | None = None
+def registrar_consulta(
+    contexto: ContextoIA,
+    modelo: str,
+    prompt: str,
+    adjuntos: int,
+    respuesta,
+    inicio: float,
+    error: str | None = None,
+    texto_respuesta: str | None = None,
 ) -> None:
     uso = getattr(respuesta, "usage_metadata", None)
     try:
@@ -47,7 +54,7 @@ def _registrar_consulta(
             "modelo": modelo,
             "prompt": prompt,
             "adjuntos": adjuntos,
-            "respuesta": getattr(respuesta, "text", None),
+            "respuesta": texto_respuesta if texto_respuesta is not None else getattr(respuesta, "text", None),
             "tokens_entrada": getattr(uso, "prompt_token_count", None),
             "tokens_salida": getattr(uso, "candidates_token_count", None),
             "duracion_ms": round((time.monotonic() - inicio) * 1000),
@@ -73,9 +80,9 @@ def generar_json(modelo: str, prompt: str, contexto: ContextoIA, adjuntos: tuple
                 },
             ))
         except Exception as e:
-            _registrar_consulta(contexto, modelo, prompt, len(adjuntos), None, inicio, f"{type(e).__name__}: {e}")
+            registrar_consulta(contexto, modelo, prompt, len(adjuntos), None, inicio, f"{type(e).__name__}: {e}")
             raise
-        _registrar_consulta(contexto, modelo, prompt, len(adjuntos), respuesta, inicio)
+        registrar_consulta(contexto, modelo, prompt, len(adjuntos), respuesta, inicio)
 
         datos = _cargar_json(respuesta.text or "")
         if isinstance(datos, dict):

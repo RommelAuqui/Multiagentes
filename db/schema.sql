@@ -101,6 +101,11 @@ alter table documentos_chunks drop constraint if exists documentos_chunks_origen
 alter table documentos_chunks add constraint documentos_chunks_origen_check
     check (origen in ('bases', 'oferta', 'propuesta', 'cv'));
 
+-- Agentes con herramientas: posición de cada fragmento en su archivo (para leer una página completa)
+-- y los pasos que siguió el agente en cada criterio (búsquedas, lecturas, cálculos, deliberación).
+alter table documentos_chunks add column if not exists orden integer;
+alter table dictamenes add column if not exists pasos jsonb;
+
 do $$
 begin
     if not exists (select 1 from pg_constraint where conname = 'criterios_etapa_check') then
@@ -126,12 +131,14 @@ create index if not exists documentos_chunks_concurso_idx on documentos_chunks (
 create index if not exists documentos_chunks_postor_idx on documentos_chunks (postor_id);
 
 drop function if exists match_documentos(vector, uuid, uuid, text, int);
+drop function if exists match_documentos(vector, uuid, uuid, text, int, text);
 create function match_documentos(
     query_embedding vector(768),
     match_concurso_id uuid,
     match_postor_id uuid,
     match_origen text,
-    match_count int
+    match_count int,
+    match_documento text default null
 )
 returns table (
     id uuid,
@@ -154,6 +161,8 @@ as $$
     where documentos_chunks.concurso_id = match_concurso_id
         and (match_postor_id is null or documentos_chunks.postor_id = match_postor_id)
         and (match_origen is null or documentos_chunks.origen = match_origen)
+        and (match_documento is null
+             or coalesce(documentos_chunks.documento, documentos_chunks.origen) = match_documento)
     order by documentos_chunks.embedding <=> query_embedding
     limit match_count;
 $$;

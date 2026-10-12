@@ -26,8 +26,11 @@ def preparar_documento(contenido: bytes, contexto: ContextoIA, nombre: str) -> D
 
 def guardar_fragmentos(concurso_id: str, postor_id: str | None, origen: str, documento: DocumentoPreparado) -> None:
     filas = [
-        {"concurso_id": concurso_id, "postor_id": postor_id, "origen": origen, "documento": documento.nombre, **fragmento}
-        for fragmento in documento.fragmentos
+        {
+            "concurso_id": concurso_id, "postor_id": postor_id, "origen": origen,
+            "documento": documento.nombre, "orden": orden, **fragmento,
+        }
+        for orden, fragmento in enumerate(documento.fragmentos)
     ]
     for inicio in range(0, len(filas), FILAS_POR_INSERCION):
         get_client().table("documentos_chunks").insert(filas[inicio:inicio + FILAS_POR_INSERCION]).execute()

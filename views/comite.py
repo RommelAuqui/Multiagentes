@@ -314,6 +314,8 @@ def _decision_del_comite(fila: dict) -> dict:
     )
     if citas := _texto_citas(fila.get("citas")):
         st.caption(f"Citas: {citas}")
+    if pasos := fila.get("pasos"):
+        st.caption("🔎 Cómo llegó el agente: " + " → ".join(p["resumen"] for p in pasos))
 
     columnas = st.columns([1, 2])
     if fila["etapa"] == "evaluacion":
@@ -368,6 +370,8 @@ def _revisar_evaluacion(concurso: dict, postor: dict, dictamen: dict, filas: lis
     _descargas_oferta(postor)
     st.markdown("**Conciliación del Agente Coordinador**")
     st.write(dictamen.get("justificacion") or "")
+    for paso in dictamen.get("pasos") or []:
+        st.caption(f"🔁 {paso['resumen']}")
 
     with st.form(f"revision_{postor['id']}"):
         decisiones = {}

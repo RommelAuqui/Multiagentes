@@ -13,7 +13,7 @@ def nombre_documento(fragmento: dict) -> str | None:
     return fragmento.get("documento") or fragmento.get("origen")
 
 
-def _clave_documento(nombre) -> str:
+def clave_documento(nombre) -> str:
     return clave(nombre).removesuffix(".pdf")
 
 
@@ -22,7 +22,7 @@ def normalizar_citas(citas, fragmentos: list[dict]) -> list[dict]:
     if not isinstance(citas, list):
         return []
 
-    validas = {(_clave_documento(nombre_documento(f)), f["pagina"]): nombre_documento(f) for f in fragmentos}
+    validas = {(clave_documento(nombre_documento(f)), f["pagina"]): nombre_documento(f) for f in fragmentos}
     documentos_por_pagina: dict[int, set] = {}
     for f in fragmentos:
         documentos_por_pagina.setdefault(f["pagina"], set()).add(nombre_documento(f))
@@ -36,7 +36,7 @@ def normalizar_citas(citas, fragmentos: list[dict]) -> list[dict]:
         except (TypeError, ValueError):
             continue
 
-        documento = validas.get((_clave_documento(cita.get("documento")), pagina))
+        documento = validas.get((clave_documento(cita.get("documento")), pagina))
         if documento is None:
             documentos = documentos_por_pagina.get(pagina, set())
             if len(documentos) != 1:

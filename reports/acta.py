@@ -48,6 +48,8 @@ def _sustento(fila: dict) -> str:
         partes.append(f"Comité: {fila['justificacion_comite']}")
     if fila.get("citas"):
         partes.append("Citas: " + "; ".join(_texto_cita(c) for c in fila["citas"]))
+    if fila.get("pasos"):
+        partes.append("Proceso del agente: " + " → ".join(p["resumen"] for p in fila["pasos"]))
     return "\n".join(p for p in partes if p)
 
 
@@ -75,6 +77,8 @@ def generar_acta(concurso: dict, postor: dict, filas: list[dict], dictamen: dict
 
     doc.add_heading("Conciliación del Agente Coordinador", level=2)
     doc.add_paragraph(dictamen.get("justificacion") or "")
+    for paso in dictamen.get("pasos") or []:
+        doc.add_paragraph(paso["resumen"])
 
     for etapa, nombre in ETAPAS.items():
         de_la_etapa = [f for f in filas if f.get("etapa") == etapa]

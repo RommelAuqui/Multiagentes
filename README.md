@@ -21,6 +21,27 @@ contra las Bases/TDR de un concurso público, citando documento, página y artí
 | Técnico | `agents/tecnico.py` | Evalúa los criterios técnicos y asigna el puntaje de los factores según las Bases. |
 | Coordinador | `agents/coordinador.py` | Concilia ambas evaluaciones y detecta tensiones o contradicciones; si las hay, el caso pasa a revisión del comité. |
 
+### Agentes autónomos con herramientas
+
+Los agentes Legal y Técnico no responden en un solo paso: trabajan en un bucle de *function calling*
+([`agents/agente.py`](agents/agente.py)) en el que deciden qué herramienta usar, ven el resultado y
+siguen investigando hasta concluir (máximo 6 pasos):
+
+| Herramienta | Para qué |
+| --- | --- |
+| `buscar_evidencia` | Nueva búsqueda semántica con sus propias palabras, en toda la oferta o en un archivo (RAG agéntico). |
+| `leer_pagina` | Leer una página completa, por ejemplo una tabla cortada entre fragmentos. |
+| `listar_documentos` / `datos_del_postor` | Ver los archivos de la oferta; comparar el RUC registrado con el de los anexos. |
+| `calcular_experiencia` | Sumar periodos en meses calendario, contando una sola vez los traslapes. |
+| `sumar_montos` | Sumar montos facturados y compararlos con la cuantía o el valor referencial. |
+| `emitir_evaluacion` | Entregar el veredicto (o puntaje), la justificación y las citas. |
+
+Los cálculos son código determinista ([`agents/herramientas.py`](agents/herramientas.py)), no
+aritmética del modelo. Si el Coordinador detecta una contradicción en un criterio, se lo **devuelve a
+su agente** con la observación; el agente vuelve a investigar y el Coordinador revisa de nuevo. Si
+la tensión persiste, el caso pasa al comité. Cada paso (búsquedas, lecturas, cálculos, devoluciones)
+se guarda y el comité lo ve en la revisión y en el acta.
+
 El resultado final no lo decide la IA: lo calcula [`agents/reglas.py`](agents/reglas.py) a partir de
 los veredictos de cada criterio (No admitido → No califica → Requiere revisión → Puntaje insuficiente
 → Califica). Cuando la evidencia es dudosa, los agentes responden "Requiere revisión" en vez de
