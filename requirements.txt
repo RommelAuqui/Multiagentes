@@ -1,0 +1,10 @@
+streamlit
+supabase
+google-genai
+pypdf
+python-docx
+openpyxl
+pandas
+python-dotenv
+pytesseract
+pdf2image
