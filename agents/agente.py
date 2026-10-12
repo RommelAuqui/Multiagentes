@@ -13,6 +13,7 @@ from google.genai import types
 from agents.gemini_client import SEMILLA, ContextoIA, obtener_cliente, registrar_consulta
 from retry_utils import con_reintentos
 
+# La validación lo cambia a 1 para comparar con la evaluación en un solo paso (sin herramientas).
 MAX_PASOS = 6
 MAX_CARACTERES_REGISTRO = 4000
 
@@ -57,8 +58,9 @@ def ejecutar_agente(
     herramientas: list[Herramienta],
     final: Herramienta,
     contexto: ContextoIA,
-    max_pasos: int = MAX_PASOS,
+    max_pasos: int | None = None,
 ) -> ResultadoAgente:
+    max_pasos = max_pasos or MAX_PASOS
     por_nombre = {h.nombre: h for h in herramientas}
     declaraciones = types.Tool(function_declarations=[h.declaracion() for h in [*herramientas, final]])
     conversacion = [types.Content(role="user", parts=[types.Part.from_text(text=instrucciones)])]

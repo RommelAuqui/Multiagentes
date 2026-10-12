@@ -11,6 +11,8 @@ from db.client import get_client
 from rag.embeddings import embed_consultas
 
 PAUSA_ENTRE_CRITERIOS = 2.0
+# La validación la desactiva para comparar con la evaluación sin deliberación entre agentes.
+DELIBERACION = True
 
 
 def _evaluar_criterios(concurso_id: str, postor: dict, tareas: list[tuple]) -> list[dict]:
@@ -63,7 +65,7 @@ def evaluar_postor(postor_id: str) -> dict:
     dictamen = consolidar_dictamen(resultados, concurso.get("puntaje_minimo"), coordinador)
     pasos_coordinador = []
     # Deliberación: una ronda en la que los agentes revisan lo observado y el Coordinador vuelve a evaluar.
-    if devueltos := _deliberar(concurso_id, postor, criterios, embeddings, resultados, dictamen["tensiones"]):
+    if DELIBERACION and (devueltos := _deliberar(concurso_id, postor, criterios, embeddings, resultados, dictamen["tensiones"])):
         dictamen = consolidar_dictamen(resultados, concurso.get("puntaje_minimo"), coordinador, segunda_ronda=True)
         pasos_coordinador.append({
             "herramienta": "deliberacion",

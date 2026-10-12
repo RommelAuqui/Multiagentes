@@ -6,7 +6,7 @@ from pypdf import PdfReader
 import rag.lector as lector
 from agents.gemini_client import ContextoIA
 from rag.pdf_extract import dividir_en_fragmentos, extraer_paginas, texto_completo
-from tests.pdfs import construir_pdf, imagen_gris
+from validacion.pdfs import construir_pdf, imagen_gris
 
 CONTEXTO = ContextoIA("lector", "C1")
 TEXTO_LARGO = ["Declaracion jurada de no estar impedido para contratar con el Estado peruano."]

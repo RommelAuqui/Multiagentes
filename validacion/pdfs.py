@@ -54,3 +54,27 @@ def construir_pdf(paginas: list[dict]) -> bytes:
     salida += b"".join(f"{p:010d} 00000 n \n".encode() for p in posiciones)
     salida += f"trailer\n<< /Size {len(objetos) + 1} /Root 1 0 R >>\nstartxref\n{inicio_xref}\n%%EOF".encode()
     return bytes(salida)
+
+
+def pagina_escaneada(lineas: list[str], semilla: int = 1) -> dict:
+    """Dibuja el texto como una página escaneada: imagen JPEG levemente girada, borrosa y con ruido."""
+    import random
+    from io import BytesIO
+
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+    imagen = Image.new("RGB", (1240, 1754), "white")
+    dibujo = ImageDraw.Draw(imagen)
+    fuente = ImageFont.load_default(size=30)
+    y = 140
+    for linea in lineas:
+        dibujo.text((100, y), linea, font=fuente, fill="black")
+        y += 52
+    imagen = imagen.rotate(1.2, fillcolor="white").filter(ImageFilter.GaussianBlur(0.8))
+    pixeles = imagen.load()
+    azar = random.Random(semilla)
+    for _ in range(40000):
+        pixeles[azar.randrange(1240), azar.randrange(1754)] = (azar.randint(120, 200),) * 3
+    buffer = BytesIO()
+    imagen.save(buffer, "JPEG", quality=70)
+    return imagen_jpeg(buffer.getvalue(), 1240, 1754)
