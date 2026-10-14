@@ -4,6 +4,7 @@ import pytest
 
 import automatizacion
 import consumo
+from retry_utils import CuotaDiariaAgotada
 
 AHORA = datetime.now(timezone.utc)
 
@@ -91,6 +92,24 @@ def test_se_pausa_al_llegar_al_limite_diario(db_falsa, evaluador, monkeypatch):
     assert evaluador.evaluados == ["Consultora A"]
     assert "superaría el límite diario de 30 consultas" in resumen["detalle"][0]
     assert next(p for p in db_falsa.filas("postores") if p["razon_social"] == "Consultora B")["estado"] == "recibido"
+
+
+def test_se_pausa_si_se_agota_la_cuota_diaria_de_gemini(db_falsa):
+    concurso = _concurso(db_falsa, "Automática")
+    _postor(db_falsa, concurso, "Consultora A")
+    _postor(db_falsa, concurso, "Consultora B")
+    intentos = []
+
+    def sin_cuota(postor_id):
+        intentos.append(postor_id)
+        raise CuotaDiariaAgotada()
+
+    resumen = automatizacion.ejecutar(sin_cuota)
+
+    assert resumen["pausada_por_limite"] and resumen["postores_con_error"] == 0 and len(intentos) == 1
+    assert "se agotó la cuota diaria de Gemini" in resumen["detalle"][0]
+    # No es un error de la oferta: ambos siguen pendientes para la próxima ejecución.
+    assert {p["estado"] for p in db_falsa.filas("postores")} == {"recibido"}
 
 
 def test_una_evaluacion_interrumpida_queda_con_error(db_falsa, evaluador):

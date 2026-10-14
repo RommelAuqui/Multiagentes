@@ -8,3 +8,6 @@ __pycache__/
 
 # Textos leídos de Bases reales para la validación (se regeneran)
 validacion/.cache/
+
+# Archivos sueltos para entregar (PPT, zip de la demostración); no forman parte del código
+entregables/

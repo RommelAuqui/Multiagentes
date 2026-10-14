@@ -4,8 +4,8 @@ Se ejecuta cada hora desde GitHub Actions (.github/workflows/evaluacion-automati
 `python automatizacion.py`. Controles de gasto:
 - Solo se evalúan las convocatorias cerradas con la evaluación automática activada.
 - Cada postor se evalúa una sola vez: si falla, queda con error y no se reintenta solo.
-- Se respeta un límite diario de consultas a la IA; al alcanzarlo, la ejecución se pausa hasta el día
-  siguiente.
+- Se respeta un límite diario de consultas a la IA; al alcanzarlo, o si Gemini avisa que se agotó su cuota
+  diaria, la ejecución se pausa hasta el día siguiente y el postor sigue pendiente.
 """
 import logging
 from datetime import datetime, timedelta, timezone
@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone
 import consumo
 from agents.orchestrator import evaluar_postor
 from db.client import get_client
+from retry_utils import CuotaDiariaAgotada
 
 # Una evaluación que lleva más que esto en curso se considera interrumpida (p. ej., se cortó el proceso).
 MINUTOS_MAXIMOS_EVALUACION = 60
@@ -33,6 +34,11 @@ def evaluar_registrando(postor: dict, evaluar=evaluar_postor) -> None:
     }).eq("id", postor["id"]).execute()
     try:
         evaluar(postor["id"])
+    except CuotaDiariaAgotada:
+        # No es un error de la oferta: vuelve a la cola para evaluarse cuando se renueve la cuota.
+        client.table("postores").update({"estado": "recibido", "evaluacion_iniciada_en": None}).eq(
+            "id", postor["id"]).execute()
+        raise
     except Exception as e:
         client.table("postores").update({
             "estado": "error", "error_evaluacion": f"{type(e).__name__}: {e}"[:MAX_CARACTERES_ERROR],
@@ -83,6 +89,11 @@ def _evaluar_pendientes(resumen: dict, detalle: list[str], evaluar) -> None:
                 return
             try:
                 evaluar_registrando(postor, evaluar)
+            except CuotaDiariaAgotada:
+                resumen["pausada_por_limite"] = True
+                detalle.append(f"Pausada: se agotó la cuota diaria de Gemini al evaluar a {postor['razon_social']}. "
+                               "Continuará cuando se renueve.")
+                return
             except Exception as e:
                 resumen["postores_con_error"] += 1
                 detalle.append(f"Error al evaluar a {postor['razon_social']} ({concurso['nombre']}): {e}")

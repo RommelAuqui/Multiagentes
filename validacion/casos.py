@@ -87,7 +87,14 @@ def _cv(nombre: str, cip: str, experiencias: list[tuple[str, str, str, str]]) ->
     lineas = ["CURRICULUM VITAE DOCUMENTADO", f"{nombre}. Ingeniero Civil colegiado, CIP N. {cip}.",
               "EXPERIENCIA EN SUPERVISION DE OBRAS VIALES (se adjuntan certificados):"]
     lineas += [f"- {cargo}, {entidad}: del {inicio} al {fin}." for cargo, entidad, inicio, fin in experiencias]
-    return [{"lineas": lineas}]
+    # Las Bases piden un CV documentado: cada experiencia lleva su certificado.
+    certificados = [{"lineas": ["CERTIFICADO DE TRABAJO",
+                                f"{entidad} certifica que {nombre},",
+                                f"Ingeniero Civil con CIP N. {cip}, se desempeno como {cargo}",
+                                f"en la supervision de obras viales, del {inicio} al {fin}.",
+                                "Se expide a solicitud del interesado. Firmado: jefe de recursos humanos."]}
+                    for cargo, entidad, inicio, fin in experiencias]
+    return [{"lineas": lineas}, *certificados]
 
 
 def _constancia(entidad: str, razon: str, ruc: str, obra: str, monto: str, fecha: str) -> list[str]:

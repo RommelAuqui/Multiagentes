@@ -2,6 +2,7 @@ import streamlit as st
 
 from agents.reglas import CALIFICA, CUMPLE, ETAPAS, REQUIERE_REVISION, TIPOS
 from rag.pdf_extract import ResultadoExtraccion
+from retry_utils import CuotaDiariaAgotada
 from theme import badge_html
 
 ICONOS_RESULTADO = {CALIFICA: "🟢", CUMPLE: "🟢", REQUIERE_REVISION: "🟡"}
@@ -38,7 +39,11 @@ def mostrar_avisos_extraccion(documento: str, extraccion: ResultadoExtraccion) -
             f"{documento}: las páginas {_lista_paginas(extraccion.paginas_ia)} tenían imágenes o "
             "escaneos y se leyeron con IA. Si una cita de esas páginas parece extraña, revisa el PDF original."
         )
-    causa = " El servicio de lectura con IA no respondió." if extraccion.error_lectura else ""
+    causa = ""
+    if extraccion.error_lectura:
+        causa = (" Se agotó la cuota diaria de Gemini; vuelve a subir el archivo cuando se renueve."
+                 if extraccion.error_lectura.startswith(CuotaDiariaAgotada.__name__)
+                 else " El servicio de lectura con IA no respondió.")
     if extraccion.paginas_imagen_sin_leer:
         st.warning(
             f"{documento}: no se pudieron leer las imágenes de las páginas "

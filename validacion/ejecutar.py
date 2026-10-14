@@ -3,6 +3,7 @@
 Uso:
     python -m validacion.ejecutar                      # ambos modos, 1 repetición, los 10 casos
     python -m validacion.ejecutar --modos agentico --repeticiones 3 --casos P03,P05
+    python -m validacion.ejecutar --unir validacion/resultados/CORRIDA_1 validacion/resultados/CORRIDA_2
 
 Los documentos de cada caso se leen e indexan una sola vez; luego cada modo evalúa a los mismos
 postores. Al terminar se borra la convocatoria de validación (salvo con --conservar).
@@ -127,13 +128,45 @@ def ejecutar(modos: list[str], repeticiones: int, codigos: list[str] | None, con
     return carpeta
 
 
+def unir(carpetas: list[Path]) -> Path:
+    """Junta los resultados de varias corridas en un solo reporte (p. ej., si una se cortó por la cuota de Gemini).
+
+    Si un mismo caso, modo y repetición aparece en más de una corrida, vale el de la última carpeta indicada.
+    """
+    por_clave = {}
+    for carpeta in carpetas:
+        for r in json.loads((carpeta / "resultados.json").read_text(encoding="utf-8")):
+            por_clave[(r["modo"], r["repeticion"], r["caso"])] = r
+    resultados = list(por_clave.values())
+    codigos = {r["caso"] for r in resultados}
+    casos = [c for c in CASOS if c.codigo in codigos]
+    modos = [m for m in MODOS if any(r["modo"] == m for r in resultados)]
+
+    carpeta = CARPETA_RESULTADOS / f"{datetime.now():%Y-%m-%d_%H%M}_unida"
+    carpeta.mkdir(parents=True, exist_ok=True)
+    (carpeta / "resultados.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=1), encoding="utf-8")
+    configuracion = {
+        "fecha": f"{datetime.now():%d/%m/%Y %H:%M} (unión de {', '.join(c.name for c in carpetas)})",
+        "modelo": LLM_MODEL, "repeticiones": max(r["repeticion"] for r in resultados),
+        "modos": {m: MODOS[m]["nombre"] for m in modos}, "casos": [c.codigo for c in casos],
+    }
+    metricas = calcular_metricas(resultados, {c.codigo: c for c in casos})
+    escribir_reporte(carpeta, configuracion, resultados, metricas, casos)
+    return carpeta
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--modos", default="agentico,un_paso")
     parser.add_argument("--repeticiones", type=int, default=1)
     parser.add_argument("--casos", default="", help="códigos separados por comas (por defecto, todos)")
     parser.add_argument("--conservar", action="store_true", help="no borrar la convocatoria de validación")
+    parser.add_argument("--unir", nargs="+", type=Path, metavar="CARPETA",
+                        help="no evalúa: junta los resultados.json de estas carpetas en un solo reporte")
     args = parser.parse_args()
+    if args.unir:
+        print(f"Reporte: {unir(args.unir) / 'REPORTE.md'}")
+        return
     modos = [m for m in args.modos.split(",") if m]
     desconocidos = set(modos) - set(MODOS)
     if desconocidos:
