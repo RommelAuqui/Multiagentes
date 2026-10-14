@@ -1,0 +1,42 @@
+{
+ "agentico": {
+  "postores_evaluados": 1,
+  "requisitos": {
+   "total": 7,
+   "exactitud": 1.0,
+   "kappa": 1.0,
+   "aprobaciones_indebidas": 0,
+   "rechazos_indebidos": 0,
+   "derivaciones_innecesarias": 0,
+   "confusion": {
+    "Cumple": {
+     "Cumple": 5
+    },
+    "No aplica": {
+     "No aplica": 1
+    },
+    "No Cumple": {
+     "No Cumple": 1
+    }
+   }
+  },
+  "factores": {
+   "total": 2,
+   "exactitud": 1.0,
+   "error_absoluto_medio": 0.0,
+   "sobrepuntajes": 0,
+   "subpuntajes": 0
+  },
+  "resultado_final": {
+   "total": 1,
+   "exactitud": 1.0,
+   "califica_indebido": 0
+  },
+  "eficiencia": {
+   "segundos": 58.1,
+   "consultas": 13.0,
+   "tokens": 30413.0
+  },
+  "reproducibilidad": null
+ }
+}

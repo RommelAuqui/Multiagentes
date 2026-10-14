@@ -1,0 +1,89 @@
+[
+ {
+  "modo": "agentico",
+  "repeticion": 1,
+  "caso": "P03",
+  "criterios": {
+   "A1": {
+    "veredicto": "Cumple",
+    "puntaje": null,
+    "justificacion": "El postor Ingenieria Vial Peru SAC ha presentado la Declaración Jurada de Datos del Postor (Anexo N.° 1) debidamente cumplimentada con su razón social, RUC, tipo de postor y domicilio legal, conforme a lo exigido en las bases.",
+    "pasos": [
+     "Buscó «Anexo 1» en toda la oferta: 5 resultado(s) (Anexos 1 al 3.pdf p. 2, Anexos 1 al 3.pdf p. 1, Anexo 15 - Personal clave.pdf p. 1)"
+    ]
+   },
+   "A2": {
+    "veredicto": "Cumple",
+    "puntaje": null,
+    "justificacion": "El postor Ingenieria Vial Peru SAC ha presentado debidamente el Anexo N.° 2 (Pacto de integridad) en la página 2 del archivo 'Anexos 1 al 3.pdf', cumpliendo con la forma de acreditación exigida por las Bases de la convocatoria.",
+    "pasos": [
+     "Buscó «PACTO DE INTEGRIDAD» en Anexos 1 al 3.pdf: 3 resultado(s) (Anexos 1 al 3.pdf p. 2, Anexos 1 al 3.pdf p. 3, Anexos 1 al 3.pdf p. 1)",
+     "Leyó Anexos 1 al 3.pdf, página 2"
+    ]
+   },
+   "A3": {
+    "veredicto": "Cumple",
+    "puntaje": null,
+    "justificacion": "El postor Ingeniería Vial Perú SAC ha presentado el Anexo N.° 3 (Declaración Jurada de veracidad de la información y de no estar impedido para contratar con el Estado, conforme al artículo 33 de la Ley N.º 32069), debidamente suscrito por su representante legal, cumpliendo con la forma de acreditación exigida en las Bases.",
+    "pasos": [
+     "Buscó «ANEXO N. 3» en Anexos 1 al 3.pdf: 3 resultado(s) (Anexos 1 al 3.pdf p. 3, Anexos 1 al 3.pdf p. 2, Anexos 1 al 3.pdf p. 1)"
+    ]
+   },
+   "A4": {
+    "veredicto": "No aplica",
+    "puntaje": null,
+    "justificacion": "El requisito establece que la presentación de la promesa de consorcio (Anexo N.° 4) aplica únicamente si el postor se presenta en consorcio. De acuerdo con la Declaración Jurada de Datos del Postor (Anexo N.° 1), el postor \"Ingenieria Vial Peru SAC\" se presenta como persona jurídica de manera individual y no en consorcio, por lo que la condición no se da.",
+    "pasos": []
+   },
+   "C1": {
+    "veredicto": "Cumple",
+    "puntaje": null,
+    "justificacion": "El postor Ingenieria Vial Peru SAC acredita experiencia en la especialidad de supervisión de obras viales mediante constancias de prestación de servicios debidamente acompañadas de su respectiva conformidad, cumpliendo con la forma exigida por las Bases. El detalle de los servicios presentados es el siguiente: 1) Carretera Puno-Juliaca por S/ 1 200 000,00 (Provias Nacional); 2) Vía Cusco-Urcos por S/ 1 100 000,00 (Gobierno Regional de Cusco); y 3) Avenida Ejército por S/ 900 000,00 (Municipalidad Provincial de Arequipa). La suma total facturada asciende a S/ 3 200 000,00, superando ampliamente el requisito mínimo exigido de S/ 1 000 000,00 (1 vez la cuantía). Por lo tanto, cumple satisfactoriamente con el requisito de calificación.",
+    "pasos": [
+     "Sumó 3 monto(s): S/ 3,200,000.00 = 3.2 veces la referencia"
+    ]
+   },
+   "C2": {
+    "veredicto": "Cumple",
+    "puntaje": null,
+    "justificacion": "El requisito de calificación exige que el Jefe de supervisión cuente con título profesional de Ingeniero Civil y que esta condición sea acreditada mediante el Anexo N.° 15. De la revisión del documento 'Anexo 15 - Personal clave.pdf' (página 1), se advierte que el postor ha presentado el Anexo N.° 15 proponiendo al Ing. Juan Pérez Mamani para el cargo de Jefe de supervisión, consignando expresamente su título profesional de Ingeniero Civil, con lo cual se cumple cabalmente con la forma de acreditación exigida por las Bases.",
+    "pasos": [
+     "Buscó «Anexo 15» en toda la oferta: 5 resultado(s) (Anexo 15 - Personal clave.pdf p. 1, Anexos 1 al 3.pdf p. 2, Anexos 1 al 3.pdf p. 1)"
+    ]
+   },
+   "C3": {
+    "veredicto": "No Cumple",
+    "puntaje": null,
+    "justificacion": "El requisito exige un mínimo de 36 meses de experiencia como jefe de supervisión o supervisor de obras viales, acreditado mediante CV documentado con contratos, constancias o certificados. De acuerdo con los certificados presentados en el CV del Ing. Juan Pérez Mamani, se registran dos periodos: del 01/01/2019 al 30/06/2020 (Provias Nacional, 18 meses) y del 01/11/2019 al 30/06/2021 (Gobierno Regional de Puno, 20 meses). Al aplicar el cálculo de experiencia descontando el tiempo traslapado (del 01/11/2019 al 30/06/2020), el total acumulado es de 30 meses, lo cual es inferior al mínimo requerido de 36 meses. Por lo tanto, el postor no cumple con el requisito.",
+    "pasos": [
+     "Calculó la experiencia: 30.0 meses (912 días, descontando 243 días traslapados)"
+    ]
+   },
+   "F1": {
+    "veredicto": "Evaluado",
+    "puntaje": 60.0,
+    "justificacion": "Se evaluó la experiencia del postor en la especialidad mediante las constancias de prestación presentadas en el Anexo 8:\n1. Contrato con Provias Nacional (carretera Puno-Juliaca): S/ 1 200 000,00 con conformidad del 15/03/2021.\n2. Contrato con el Gobierno Regional de Cusco (vía Cusco-Urcos): S/ 1 100 000,00 con conformidad del 02/08/2022.\n3. Contrato con la Municipalidad Provincial de Arequipa (avenida Ejército): S/ 900 000,00 con conformidad del 20/11/2023.\n\nLa suma total de los montos facturados asciende a S/ 3 200 000,00. \nAplicando la fórmula establecida en las bases (M = monto facturado acumulado / S/ 1 000 000,00):\nM = S/ 3 200 000,00 / S/ 1 000 000,00 = 3,2.\n\nDado que M >= 3 (3,2 >= 3), le corresponde el puntaje máximo de 60 puntos.",
+    "pasos": [
+     "Revisó la lista de archivos de la oferta (5)",
+     "Buscó «S/» en Anexo 8 - Experiencia del postor.pdf: 3 resultado(s) (Anexo 8 - Experiencia del postor.pdf p. 1, Anexo 8 - Experiencia del postor.pdf p. 3, Anexo 8 - Experiencia del postor.pdf p. 2)",
+     "Sumó 3 monto(s): S/ 3,200,000.00 = 3.2 veces la referencia"
+    ]
+   },
+   "F2": {
+    "veredicto": "Evaluado",
+    "puntaje": 40.0,
+    "justificacion": "De acuerdo con las Bases del concurso, la asignación de puntaje para la metodología propuesta se rige por los siguientes criterios:\n- Desarrolla metodología, plan de trabajo con cronograma y plan de control de calidad: 40 puntos.\n- Desarrolla metodología pero le falta el cronograma o el plan de control de calidad: 20 puntos.\n- No presenta metodología: 0 puntos.\n\nAl revisar el documento \"Metodologia y plan de trabajo.pdf\" (página 1), se advierte que el postor presenta y desarrolla:\n1. La metodología propuesta (\"Supervision por frentes de obra, con control topografico diario y reuniones semanales\").\n2. El plan de trabajo con su respectivo cronograma (\"PLAN DE TRABAJO: 12 meses, con cronograma de actividades en diagrama de Gantt\").\n3. El plan de control de calidad (\"PLAN DE CONTROL DE CALIDAD: ensayos de laboratorio semanales, protocolos e informes mensuales\").\n\nPor lo tanto, cumple con todos los componentes exigidos por las Bases para adjudicarse el máximo de 40 puntos.",
+    "pasos": [
+     "Buscó «metodologia» en toda la oferta: 5 resultado(s) (Metodologia y plan de trabajo.pdf p. 1, Anexo 8 - Experiencia del postor.pdf p. 2, Anexo 8 - Experiencia del postor.pdf p. 1)"
+    ]
+   }
+  },
+  "resultado": "No califica",
+  "puntaje": 100.0,
+  "justificacion_final": "De acuerdo con las evaluaciones del Agente Legal y el Agente Técnico, el postor Ingeniería Vial Perú SAC cumplió satisfactoriamente con la presentación de los requisitos de admisión (Anexos 1, 2 y 3) y no requiere promesa de consorcio por postular de manera individual. Asimismo, en la etapa de calificación y evaluación, el Agente Técnico determinó que el postor cumple con la experiencia requerida en la especialidad y con los requisitos del personal clave relativos al título profesional, alcanzando un puntaje técnico total de 100 puntos (60 puntos por experiencia y 40 por metodología). Sin embargo, al verificar el criterio [7] sobre la experiencia del personal clave (Jefe de supervisión), el Agente Técnico identificó que, tras descontar el tiempo traslapado entre los dos periodos presentados (01/11/2019 al 30/06/2020), el acumulado es de 30 meses, cifra menor a los 36 meses mínimos exigidos por las Bases. Por consiguiente, habiendo ratificado la correcta aplicación de las reglas del concurso y la Ley N.º 32069, se confirma la condición de No Califica para el postor.\n\nMotivos: Experiencia del personal clave - Jefe de supervisión: mínimo 36 meses como jefe de supervisión o supervisor de obras viales. El tiempo traslapado se cuenta una sola vez..",
+  "error": null,
+  "segundos": 58.1,
+  "consultas": 13,
+  "tokens": 30413
+ }
+]

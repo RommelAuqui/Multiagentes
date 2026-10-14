@@ -1,0 +1,93 @@
+{
+ "agentico": {
+  "postores_evaluados": 10,
+  "requisitos": {
+   "total": 70,
+   "exactitud": 0.8857,
+   "kappa": 0.6861,
+   "aprobaciones_indebidas": 1,
+   "rechazos_indebidos": 0,
+   "derivaciones_innecesarias": 0,
+   "confusion": {
+    "Cumple": {
+     "Cumple": 50,
+     "Sin respuesta": 5
+    },
+    "No aplica": {
+     "No aplica": 8,
+     "Sin respuesta": 1
+    },
+    "No Cumple": {
+     "No Cumple": 3,
+     "Sin respuesta": 1
+    },
+    "Requiere revisión": {
+     "Cumple": 1,
+     "No Cumple": 1
+    }
+   }
+  },
+  "factores": {
+   "total": 20,
+   "exactitud": 0.85,
+   "error_absoluto_medio": 6.0,
+   "sobrepuntajes": 1,
+   "subpuntajes": 2
+  },
+  "resultado_final": {
+   "total": 10,
+   "exactitud": 0.9,
+   "califica_indebido": 0
+  },
+  "eficiencia": {
+   "segundos": 202.3,
+   "consultas": 19.6,
+   "tokens": 46655.6
+  },
+  "reproducibilidad": null
+ },
+ "un_paso": {
+  "postores_evaluados": 10,
+  "requisitos": {
+   "total": 70,
+   "exactitud": 0.9571,
+   "kappa": 0.8743,
+   "aprobaciones_indebidas": 2,
+   "rechazos_indebidos": 0,
+   "derivaciones_innecesarias": 1,
+   "confusion": {
+    "Cumple": {
+     "Cumple": 55
+    },
+    "No aplica": {
+     "No aplica": 9
+    },
+    "No Cumple": {
+     "No Cumple": 3,
+     "Requiere revisión": 1
+    },
+    "Requiere revisión": {
+     "Cumple": 2
+    }
+   }
+  },
+  "factores": {
+   "total": 20,
+   "exactitud": 0.9,
+   "error_absoluto_medio": 3.0,
+   "sobrepuntajes": 1,
+   "subpuntajes": 1
+  },
+  "resultado_final": {
+   "total": 10,
+   "exactitud": 0.8,
+   "califica_indebido": 0
+  },
+  "eficiencia": {
+   "segundos": 46.8,
+   "consultas": 5.3,
+   "tokens": 11921.9
+  },
+  "reproducibilidad": null
+ }
+}

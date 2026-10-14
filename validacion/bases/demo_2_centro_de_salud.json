@@ -1,0 +1,134 @@
+{
+ "nombre": "CP-02-2026-PRSSV/CS — Expediente técnico de centro de salud (ficticia)",
+ "descripcion": "Bases de demostración generadas por demo/generar.py; no se usaron para ajustar el Extractor.",
+ "puntaje_minimo": 70,
+ "puntaje_total": 100,
+ "criterios": [
+  {
+   "etapa": "admision",
+   "palabras": [
+    "datos del postor"
+   ]
+  },
+  {
+   "etapa": "admision",
+   "palabras": [
+    "pacto de integridad"
+   ]
+  },
+  {
+   "etapa": "admision",
+   "palabras": [
+    "veracidad"
+   ]
+  },
+  {
+   "etapa": "admision",
+   "palabras": [
+    "promesa de consorcio"
+   ],
+   "condicional": true
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "experiencia del postor",
+    "360"
+   ]
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "jefe de proyecto",
+    "titulo"
+   ]
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "estructuras",
+    "titulo"
+   ]
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "instalaciones electricas",
+    "titulo"
+   ]
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "jefe de proyecto",
+    "24"
+   ]
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "estructuras",
+    "24"
+   ]
+  },
+  {
+   "etapa": "calificacion",
+   "palabras": [
+    "instalaciones electricas",
+    "12"
+   ]
+  },
+  {
+   "etapa": "evaluacion",
+   "palabras": [
+    "experiencia del postor"
+   ],
+   "puntaje": 60
+  },
+  {
+   "etapa": "evaluacion",
+   "palabras": [
+    "metodologia"
+   ],
+   "puntaje": 40
+  }
+ ],
+ "excluidos": [
+  {
+   "palabras": [
+    "garantia de fiel cumplimiento"
+   ],
+   "motivo": "Se acredita para perfeccionar el contrato"
+  },
+  {
+   "palabras": [
+    "cuenta interbancaria"
+   ],
+   "motivo": "Se acredita para perfeccionar el contrato"
+  },
+  {
+   "palabras": [
+    "vigencia del poder"
+   ],
+   "motivo": "Se acredita para perfeccionar el contrato"
+  },
+  {
+   "palabras": [
+    "oferta economica"
+   ],
+   "motivo": "No se evalúa en la oferta técnica"
+  },
+  {
+   "palabras": [
+    "sostenibilidad"
+   ],
+   "motivo": "Factor que no corresponde"
+  },
+  {
+   "palabras": [
+    "integridad en la contratacion"
+   ],
+   "motivo": "Factor que no corresponde"
+  }
+ ]
+}

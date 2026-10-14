@@ -1,0 +1,1310 @@
+[
+ {
+  "bases": "demo_1_agua_potable",
+  "corrida": 1,
+  "resultado": {
+   "esperados": 12,
+   "encontrados": 12,
+   "exhaustividad": 1.0,
+   "extraidos": 12,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "3/3",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor",
+    "acreditacion": "Anexo N.° 1",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal a)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal",
+    "acreditacion": "Anexo N.° 2",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal b)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley",
+    "acreditacion": "Anexo N.° 3",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal c)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante",
+    "acreditacion": "Anexo N.° 4",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal d)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 480 000,00, es decir, una (1) vez la cuantía de la contratación, por la contratación de servicios de supervisión de obras de saneamiento (sistemas de agua potable, alcantarillado o plantas de tratamiento de agua), correspondiente a la especialidad OBRAS DE SANEAMIENTO Y AFINES, durante los 15 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Presentar el Anexo N.° 10",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra A",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE SUPERVISIÓN. Profesión: Ingeniero Sanitario y/o Ingeniero Civil. Grado o título: Título profesional",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Los evaluadores verifican los títulos en el registro nacional de grados y títulos",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN SEGURIDAD Y SALUD EN EL TRABAJO. Profesión: Ingeniero Industrial y/o Ingeniero Civil. Grado o título: Título profesional",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Los evaluadores verifican los títulos en el registro nacional de grados y títulos",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE SUPERVISIÓN. Tiempo mínimo: 36 meses. Cargos desempeñados que se aceptan: jefe de supervisión y/o supervisor de obra y/o residente de obra, en obras de saneamiento",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y fechas de inicio y fin",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN SEGURIDAD Y SALUD EN EL TRABAJO. Tiempo mínimo: 24 meses. Cargos desempeñados que se aceptan: especialista y/o responsable y/o ingeniero de seguridad y salud en el trabajo, en obras",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y fechas de inicio y fin",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. Experiencia del postor en la especialidad: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 480 000,00)",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor A",
+    "obligatorio": false,
+    "puntaje_maximo": 50.0,
+    "asignacion_puntaje": "M mayor o igual a 3: 50 puntos. M mayor o igual a 2 y menor que 3: 35 puntos. M mayor o igual a 1 y menor que 2: 20 puntos. M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. Experiencia específica adicional del personal clave: Se evalúa si el JEFE DE SUPERVISIÓN acredita al menos veinticuatro (24) meses de experiencia adicionales a los treinta y seis (36) meses exigidos en los requisitos de calificación, es decir, sesenta (60) meses o más en los cargos válidos. El tiempo traslapado se computa una sola vez",
+    "acreditacion": "Con los mismos documentos que acreditan la experiencia del personal clave (contratos con su conformidad, constancias o certificados de trabajo)",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor B",
+    "obligatorio": false,
+    "puntaje_maximo": 30.0,
+    "asignacion_puntaje": "Acredita 60 meses o más: 30 puntos. No acredita 60 meses: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "C. Metodología propuesta: Se evalúa la metodología que propone el postor para la supervisión. Debe desarrollar: (i) la metodología de supervisión de la obra; (ii) un plan de trabajo con cronograma de actividades; y (iii) un plan de control de calidad con los ensayos a realizar",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor C",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 20 puntos. Desarrolla la metodología (i) pero le falta (ii) o (iii): 10 puntos. No presenta metodología: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_1_agua_potable",
+  "corrida": 2,
+  "resultado": {
+   "esperados": 12,
+   "encontrados": 12,
+   "exhaustividad": 1.0,
+   "extraidos": 12,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "3/3",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor",
+    "acreditacion": "Anexo N.° 1",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal a)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal",
+    "acreditacion": "Anexo N.° 2",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal b)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley",
+    "acreditacion": "Anexo N.° 3",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal c)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante",
+    "acreditacion": "Anexo N.° 4",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal d)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 480 000,00, es decir, una (1) vez la cuantía de la contratación, por la contratación de servicios de supervisión de obras de saneamiento (sistemas de agua potable, alcantarillado o plantas de tratamiento de agua), correspondiente a la especialidad OBRAS DE SANEAMIENTO Y AFINES, durante los 15 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Presentar el Anexo N.° 10",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra A",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE SUPERVISIÓN. Profesión: Ingeniero Sanitario y/o Ingeniero Civil. Grado o título: Título profesional",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Los evaluadores verifican los títulos en el registro nacional de grados y títulos",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN SEGURIDAD Y SALUD EN EL TRABAJO. Profesión: Ingeniero Industrial y/o Ingeniero Civil. Grado o título: Título profesional",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Los evaluadores verifican los títulos en el registro nacional de grados y títulos",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE SUPERVISIÓN. Tiempo mínimo: 36 meses. Cargos desempeñados que se aceptan: jefe de supervisión y/o supervisor de obra y/o residente de obra, en obras de saneamiento",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y fechas de inicio y fin",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN SEGURIDAD Y SALUD EN EL TRABAJO. Tiempo mínimo: 24 meses. Cargos desempeñados que se aceptan: especialista y/o responsable y/o ingeniero de seguridad y salud en el trabajo, en obras",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y fechas de inicio y fin",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. Experiencia del postor en la especialidad: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 480 000,00)",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor A",
+    "obligatorio": false,
+    "puntaje_maximo": 50.0,
+    "asignacion_puntaje": "M mayor o igual a 3: 50 puntos. M mayor o igual a 2 y menor que 3: 35 puntos. M mayor o igual a 1 y menor que 2: 20 puntos. M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. Experiencia específica adicional del personal clave: Se evalúa si el JEFE DE SUPERVISIÓN acredita al menos veinticuatro (24) meses de experiencia adicionales a los treinta y seis (36) meses exigidos en los requisitos de calificación, es decir, sesenta (60) meses o más en los cargos válidos. El tiempo traslapado se computa una sola vez",
+    "acreditacion": "Con los mismos documentos que acreditan la experiencia del personal clave (contratos con su conformidad, constancias o certificados de trabajo)",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor B",
+    "obligatorio": false,
+    "puntaje_maximo": 30.0,
+    "asignacion_puntaje": "Acredita 60 meses o más: 30 puntos. No acredita 60 meses: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "C. Metodología propuesta: Se evalúa la metodología que propone el postor para la supervisión. Debe desarrollar: (i) la metodología de supervisión de la obra; (ii) un plan de trabajo con cronograma de actividades; y (iii) un plan de control de calidad con los ensayos a realizar",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor C",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 20 puntos. Desarrolla la metodología (i) pero le falta (ii) o (iii): 10 puntos. No presenta metodología: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_1_agua_potable",
+  "corrida": 3,
+  "resultado": {
+   "esperados": 12,
+   "encontrados": 12,
+   "exhaustividad": 1.0,
+   "extraidos": 12,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "3/3",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor",
+    "acreditacion": "Anexo N.° 1",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal a)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal",
+    "acreditacion": "Anexo N.° 2",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal b)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley",
+    "acreditacion": "Anexo N.° 3",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal c)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante",
+    "acreditacion": "Anexo N.° 4",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal d)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 480 000,00, es decir, una (1) vez la cuantía de la contratación, por la contratación de servicios de supervisión de obras de saneamiento (sistemas de agua potable, alcantarillado o plantas de tratamiento de agua), correspondiente a la especialidad OBRAS DE SANEAMIENTO Y AFINES, durante los 15 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Presentar el Anexo N.° 10",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra A",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE SUPERVISIÓN. Profesión: Ingeniero Sanitario y/o Ingeniero Civil. Grado o título: Título profesional",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Los evaluadores verifican los títulos en el registro nacional de grados y títulos",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN SEGURIDAD Y SALUD EN EL TRABAJO. Profesión: Ingeniero Industrial y/o Ingeniero Civil. Grado o título: Título profesional",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Los evaluadores verifican los títulos en el registro nacional de grados y títulos",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE SUPERVISIÓN. Tiempo mínimo: 36 meses. Cargos desempeñados que se aceptan: jefe de supervisión y/o supervisor de obra y/o residente de obra, en obras de saneamiento",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y fechas de inicio y fin",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN SEGURIDAD Y SALUD EN EL TRABAJO. Tiempo mínimo: 24 meses. Cargos desempeñados que se aceptan: especialista y/o responsable y/o ingeniero de seguridad y salud en el trabajo, en obras",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y fechas de inicio y fin",
+    "referencia": "Sección Específica, Capítulo III, numeral 3.2, letra B, B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. Experiencia del postor en la especialidad: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 480 000,00)",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor A",
+    "obligatorio": false,
+    "puntaje_maximo": 50.0,
+    "asignacion_puntaje": "M mayor o igual a 3: 50 puntos. M mayor o igual a 2 y menor que 3: 35 puntos. M mayor o igual a 1 y menor que 2: 20 puntos. M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. Experiencia específica adicional del personal clave: Se evalúa si el JEFE DE SUPERVISIÓN acredita al menos veinticuatro (24) meses de experiencia adicionales a los treinta y seis (36) meses exigidos en los requisitos de calificación, es decir, sesenta (60) meses o más en los cargos válidos. El tiempo traslapado se computa una sola vez",
+    "acreditacion": "Con los mismos documentos que acreditan la experiencia del personal clave (contratos con su conformidad, constancias o certificados de trabajo)",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor B",
+    "obligatorio": false,
+    "puntaje_maximo": 30.0,
+    "asignacion_puntaje": "Acredita 60 meses o más: 30 puntos. No acredita 60 meses: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "C. Metodología propuesta: Se evalúa la metodología que propone el postor para la supervisión. Debe desarrollar: (i) la metodología de supervisión de la obra; (ii) un plan de trabajo con cronograma de actividades; y (iii) un plan de control de calidad con los ensayos a realizar",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2, Factor C",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 20 puntos. Desarrolla la metodología (i) pero le falta (ii) o (iii): 10 puntos. No presenta metodología: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_2_centro_de_salud",
+  "corrida": 1,
+  "resultado": {
+   "esperados": 13,
+   "encontrados": 13,
+   "exhaustividad": 1.0,
+   "extraidos": 13,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "2/2",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo N.° 1 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal a) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal.",
+    "acreditacion": "Anexo N.° 2 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal b) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley.",
+    "acreditacion": "Anexo N.° 3 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal c) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante.",
+    "acreditacion": "Anexo N.° 4 con firmas legalizadas.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal d) / Página 4",
+    "obligatorio": false,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 360 000,00, es decir, una (1) vez la cuantía de la contratación, por la contratación de servicios de elaboración de expedientes técnicos o estudios definitivos de obras de edificación de salud o de educación, correspondiente a la especialidad EDIFICACIONES Y AFINES, durante los 15 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad.",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Llenar y presentar el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 A / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE PROYECTO. Profesión: Arquitecto y/o Ingeniero Civil. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN ESTRUCTURAS. Profesión: Ingeniero Civil. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN INSTALACIONES ELÉCTRICAS. Profesión: Ingeniero Electricista y/o Ingeniero Mecánico Electricista. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE PROYECTO. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: jefe de proyecto y/o coordinador de proyecto y/o proyectista, en la elaboración de expedientes técnicos de edificaciones.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN ESTRUCTURAS. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: especialista en estructuras y/o proyectista de estructuras, en la elaboración de expedientes técnicos de edificaciones.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN INSTALACIONES ELÉCTRICAS. Tiempo mínimo: 12 meses. Cargos desempeñados aceptados: especialista en instalaciones eléctricas y/o proyectista de instalaciones eléctricas.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. EXPERIENCIA DEL POSTOR EN LA ESPECIALIDAD: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 360 000,00).",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo IV, numeral 4.2 A / Página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 60.0,
+    "asignacion_puntaje": "M mayor o igual a 2: 60 puntos; M mayor o igual a 1,5 y menor que 2: 40 puntos; M mayor o igual a 1 y menor que 1,5: 20 puntos; M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. METODOLOGÍA PROPUESTA: Se evalúa la metodología que propone el postor para elaborar el expediente técnico. Debe desarrollar: (i) la metodología de elaboración de los estudios y del proyecto; (ii) un plan de trabajo con cronograma de entregables; y (iii) un plan de compatibilización entre especialidades.",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal.",
+    "referencia": "Sección Específica / Capítulo IV, numeral 4.2 B / Página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 40 puntos; Desarrolla dos de los tres elementos: 20 puntos; Desarrolla uno o ninguno: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_2_centro_de_salud",
+  "corrida": 2,
+  "resultado": {
+   "esperados": 13,
+   "encontrados": 13,
+   "exhaustividad": 1.0,
+   "extraidos": 13,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "2/2",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo N.° 1 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal a) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal.",
+    "acreditacion": "Anexo N.° 2 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal b) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley.",
+    "acreditacion": "Anexo N.° 3 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal c) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante.",
+    "acreditacion": "Anexo N.° 4 con firmas legalizadas.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal d) / Página 4",
+    "obligatorio": false,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 360 000,00, es decir, una (1) vez la cuantía de la contratación, por la contratación de servicios de elaboración de expedientes técnicos o estudios definitivos de obras de edificación de salud o de educación, correspondiente a la especialidad EDIFICACIONES Y AFINES, durante los 15 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad.",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Llenar y presentar el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 A / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE PROYECTO. Profesión: Arquitecto y/o Ingeniero Civil. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN ESTRUCTURAS. Profesión: Ingeniero Civil. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN INSTALACIONES ELÉCTRICAS. Profesión: Ingeniero Electricista y/o Ingeniero Mecánico Electricista. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE PROYECTO. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: jefe de proyecto y/o coordinador de proyecto y/o proyectista, en la elaboración de expedientes técnicos de edificaciones.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN ESTRUCTURAS. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: especialista en estructuras y/o proyectista de estructuras, en la elaboración de expedientes técnicos de edificaciones.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN INSTALACIONES ELÉCTRICAS. Tiempo mínimo: 12 meses. Cargos desempeñados aceptados: especialista en instalaciones eléctricas y/o proyectista de instalaciones eléctricas.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. EXPERIENCIA DEL POSTOR EN LA ESPECIALIDAD: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 360 000,00).",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo IV, numeral 4.2 A / Página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 60.0,
+    "asignacion_puntaje": "M mayor o igual a 2: 60 puntos; M mayor o igual a 1,5 y menor que 2: 40 puntos; M mayor o igual a 1 y menor que 1,5: 20 puntos; M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. METODOLOGÍA PROPUESTA: Se evalúa la metodología que propone el postor para elaborar el expediente técnico. Debe desarrollar: (i) la metodología de elaboración de los estudios y del proyecto; (ii) un plan de trabajo con cronograma de entregables; y (iii) un plan de compatibilización entre especialidades.",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal.",
+    "referencia": "Sección Específica / Capítulo IV, numeral 4.2 B / Página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 40 puntos; Desarrolla dos de los tres elementos: 20 puntos; Desarrolla uno o ninguno: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_2_centro_de_salud",
+  "corrida": 3,
+  "resultado": {
+   "esperados": 13,
+   "encontrados": 13,
+   "exhaustividad": 1.0,
+   "extraidos": 13,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "2/2",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo N.° 1 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal a) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal.",
+    "acreditacion": "Anexo N.° 2 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal b) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley.",
+    "acreditacion": "Anexo N.° 3 firmado por el postor o su representante legal.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal c) / Página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante.",
+    "acreditacion": "Anexo N.° 4 con firmas legalizadas.",
+    "referencia": "Sección Específica / Capítulo II, numeral 2.2.1.1 literal d) / Página 4",
+    "obligatorio": false,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 360 000,00, es decir, una (1) vez la cuantía de la contratación, por la contratación de servicios de elaboración de expedientes técnicos o estudios definitivos de obras de edificación de salud o de educación, correspondiente a la especialidad EDIFICACIONES Y AFINES, durante los 15 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad.",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Llenar y presentar el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 A / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE PROYECTO. Profesión: Arquitecto y/o Ingeniero Civil. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN ESTRUCTURAS. Profesión: Ingeniero Civil. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN INSTALACIONES ELÉCTRICAS. Profesión: Ingeniero Electricista y/o Ingeniero Mecánico Electricista. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los datos requeridos. Los evaluadores verifican los títulos en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.1 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE PROYECTO. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: jefe de proyecto y/o coordinador de proyecto y/o proyectista, en la elaboración de expedientes técnicos de edificaciones.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN ESTRUCTURAS. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: especialista en estructuras y/o proyectista de estructuras, en la elaboración de expedientes técnicos de edificaciones.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN INSTALACIONES ELÉCTRICAS. Tiempo mínimo: 12 meses. Cargos desempeñados aceptados: especialista en instalaciones eléctricas y/o proyectista de instalaciones eléctricas.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III, numeral 3.2 B.2 / Página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. EXPERIENCIA DEL POSTOR EN LA ESPECIALIDAD: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 360 000,00).",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo IV, numeral 4.2 A / Página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 60.0,
+    "asignacion_puntaje": "M mayor o igual a 2: 60 puntos; M mayor o igual a 1,5 y menor que 2: 40 puntos; M mayor o igual a 1 y menor que 1,5: 20 puntos; M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. METODOLOGÍA PROPUESTA: Se evalúa la metodología que propone el postor para elaborar el expediente técnico. Debe desarrollar: (i) la metodología de elaboración de los estudios y del proyecto; (ii) un plan de trabajo con cronograma de entregables; y (iii) un plan de compatibilización entre especialidades.",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal.",
+    "referencia": "Sección Específica / Capítulo IV, numeral 4.2 B / Página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 40 puntos; Desarrolla dos de los tres elementos: 20 puntos; Desarrolla uno o ninguno: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_3_plan_urbano",
+  "corrida": 1,
+  "resultado": {
+   "esperados": 12,
+   "encontrados": 12,
+   "exhaustividad": 1.0,
+   "extraidos": 12,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "3/3",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo N.° 1",
+    "referencia": "Sección Específica / Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal.",
+    "acreditacion": "Anexo N.° 2",
+    "referencia": "Sección Específica / Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley.",
+    "acreditacion": "Anexo N.° 3",
+    "referencia": "Sección Específica / Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas, en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante.",
+    "acreditacion": "Anexo N.° 4",
+    "referencia": "Sección Específica / Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": false,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 400 000,00 (una vez la cuantía de la contratación), por la contratación de servicios de consultoría en planificación urbana o territorial (planes de desarrollo urbano, planes de acondicionamiento territorial o esquemas de ordenamiento urbano), durante los 8 años anteriores a la fecha de presentación de ofertas.",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Llenar y presentar el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo III / numeral 3.2 (A) / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE EQUIPO. Profesión: Arquitecto. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Verificación en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III / numeral 3.2 (B.1) / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN SISTEMAS DE INFORMACIÓN GEOGRÁFICA. Profesión: Ingeniero Geógrafo y/o Geógrafo. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional. Verificación en el registro nacional de grados y títulos.",
+    "referencia": "Sección Específica / Capítulo III / numeral 3.2 (B.1) / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE EQUIPO. Tiempo mínimo: 36 meses. Cargos desempeñados aceptados: jefe de equipo y/o coordinador y/o planificador urbano, en la elaboración de planes de desarrollo urbano o de instrumentos de planificación territorial.",
+    "acreditacion": "Copia simple de (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III / numeral 3.2 (B.2) / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN SISTEMAS DE INFORMACIÓN GEOGRÁFICA. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: especialista SIG y/o analista SIG, en estudios de planificación urbana o territorial.",
+    "acreditacion": "Copia simple de (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Sección Específica / Capítulo III / numeral 3.2 (B.2) / página 7-8",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: monto facturado acumulado en la especialidad durante los 8 años anteriores. M = monto facturado acumulado / cuantía de la contratación (S/ 400 000,00).",
+    "acreditacion": "Mismos documentos que acreditan la experiencia del postor en los requisitos de calificación detallados en el Anexo N.° 10.",
+    "referencia": "Sección Específica / Capítulo IV / numeral 4.2 (A) / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "M mayor o igual a 3: 40 puntos; M mayor o igual a 2 y menor que 3: 25 puntos; M mayor o igual a 1 y menor que 2: 10 puntos; M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Metodología propuesta: desarrollar (i) la metodología del diagnóstico urbano; (ii) la estrategia de participación ciudadana con talleres; y (iii) un plan de trabajo con cronograma.",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal.",
+    "referencia": "Sección Específica / Capítulo IV / numeral 4.2 (B) / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 40 puntos; Desarrolla dos de los tres elementos: 20 puntos; Desarrolla uno o ninguno: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia específica adicional del Jefe de Equipo: acredita al menos veinticuatro (24) meses adicionales a los treinta y seis (36) meses exigidos en los requisitos de calificación, es decir, sesenta (60) meses o más.",
+    "acreditacion": "Mismos documentos que acreditan la experiencia del personal clave.",
+    "referencia": "Sección Específica / Capítulo IV / numeral 4.2 (C) / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita 60 meses o más: 20 puntos; No acredita 60 meses: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_3_plan_urbano",
+  "corrida": 2,
+  "resultado": {
+   "esperados": 12,
+   "encontrados": 12,
+   "exhaustividad": 1.0,
+   "extraidos": 12,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "3/3",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor",
+    "acreditacion": "Anexo N.° 1",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal",
+    "acreditacion": "Anexo N.° 2",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley",
+    "acreditacion": "Anexo N.° 3",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante",
+    "acreditacion": "Anexo N.° 4",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 400 000,00 (una vez la cuantía de la contratación), por la contratación de servicios de consultoría en planificación urbana o territorial (planes de desarrollo urbano, planes de acondicionamiento territorial o esquemas de ordenamiento urbano), durante los 8 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad.",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Llenar y presentar el Anexo N.° 10.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE EQUIPO. Profesión: Arquitecto. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional obtenido. Verificación en el registro nacional de grados y títulos.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN SISTEMAS DE INFORMACIÓN GEOGRÁFICA. Profesión: Ingeniero Geógrafo y/o Geógrafo. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional obtenido. Verificación en el registro nacional de grados y títulos.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE EQUIPO. Tiempo mínimo: 36 meses. Cargos desempeñados aceptados: jefe de equipo y/o coordinador y/o planificador urbano, en la elaboración de planes de desarrollo urbano o de instrumentos de planificación territorial.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN SISTEMAS DE INFORMACIÓN GEOGRÁFICA. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: especialista SIG y/o analista SIG, en estudios de planificación urbana o territorial.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 400 000,00).",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10.",
+    "referencia": "Capítulo IV / numeral 4.2 / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "M mayor o igual a 3: 40 puntos; M mayor o igual a 2 y menor que 3: 25 puntos; M mayor o igual a 1 y menor que 2: 10 puntos; M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Metodología propuesta: Se evalúa la metodología que propone el postor desarrollando: (i) la metodología del diagnóstico urbano; (ii) la estrategia de participación ciudadana con talleres; y (iii) un plan de trabajo con cronograma.",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal.",
+    "referencia": "Capítulo IV / numeral 4.2 / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 40 puntos; Desarrolla dos de los tres elementos: 20 puntos; Desarrolla uno o ninguno: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia específica adicional del Jefe de Equipo: Se evalúa si el JEFE DE EQUIPO acredita al menos veinticuatro (24) meses adicionales a los treinta y seis (36) meses exigidos en los requisitos de calificación, es decir, sesenta (60) meses o más.",
+    "acreditacion": "Con los mismos documentos que acreditan la experiencia del personal clave.",
+    "referencia": "Capítulo IV / numeral 4.2 / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita 60 meses o más: 20 puntos; No acredita 60 meses: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "demo_3_plan_urbano",
+  "corrida": 3,
+  "resultado": {
+   "esperados": 12,
+   "encontrados": 12,
+   "exhaustividad": 1.0,
+   "extraidos": 12,
+   "precision": 1.0,
+   "condicionales_marcados": "1/1",
+   "puntajes_correctos": "3/3",
+   "exclusiones_respetadas": "6/6",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor",
+    "acreditacion": "Anexo N.° 1",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad, firmado por el postor o su representante legal",
+    "acreditacion": "Anexo N.° 2",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor: (i) es responsable de la veracidad de los documentos e información de su oferta; y (ii) no se encuentra impedido para contratar con el Estado, de acuerdo con el artículo 33 de la Ley",
+    "acreditacion": "Anexo N.° 3",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas legalizadas en la que se consigne a los integrantes, el representante común, el domicilio común y las obligaciones y el porcentaje de participación de cada integrante",
+    "acreditacion": "Anexo N.° 4",
+    "referencia": "Capítulo II / numeral 2.2.1.1 / página 4",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: acreditar un monto facturado acumulado equivalente a S/ 400 000,00 (una vez la cuantía de la contratación), por la contratación de servicios de consultoría en planificación urbana o territorial (planes de desarrollo urbano, planes de acondicionamiento territorial o esquemas de ordenamiento urbano), durante los 8 años anteriores a la fecha de presentación de ofertas, computados desde la fecha de la conformidad.",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicio y su respectiva conformidad o constancia de prestación; o (ii) comprobantes de pago cuya cancelación se acredite documentalmente. Llenar y presentar el Anexo N.° 10.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: JEFE DE EQUIPO. Profesión: Arquitecto. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional obtenido. Verificación en el registro nacional de grados y títulos.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificaciones del personal clave - Cargo: ESPECIALISTA EN SISTEMAS DE INFORMACIÓN GEOGRÁFICA. Profesión: Ingeniero Geógrafo y/o Geógrafo. Grado o título: Título profesional.",
+    "acreditacion": "Consignar en el Anexo N.° 15 los nombres y apellidos, documento de identidad, universidad que expidió el título y título profesional obtenido. Verificación en el registro nacional de grados y títulos.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: JEFE DE EQUIPO. Tiempo mínimo: 36 meses. Cargos desempeñados aceptados: jefe de equipo y/o coordinador y/o planificador urbano, en la elaboración de planes de desarrollo urbano o de instrumentos de planificación territorial.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo: ESPECIALISTA EN SISTEMAS DE INFORMACIÓN GEOGRÁFICA. Tiempo mínimo: 24 meses. Cargos desempeñados aceptados: especialista SIG y/o analista SIG, en estudios de planificación urbana o territorial.",
+    "acreditacion": "Copia simple de cualquiera de los siguientes documentos: (i) contratos y su respectiva conformidad; (ii) constancias; (iii) certificados de trabajo; o (iv) cualquier otro documento que demuestre fehacientemente la experiencia, con indicación del cargo y de las fechas de inicio y fin.",
+    "referencia": "Capítulo III / numeral 3.2 / página 7",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Se evalúa considerando el monto facturado acumulado por el postor en la especialidad, durante el periodo indicado en los requisitos de calificación. M = monto facturado acumulado / cuantía de la contratación (S/ 400 000,00).",
+    "acreditacion": "Mediante los mismos documentos que acreditan la experiencia del postor en los requisitos de calificación (contratos u órdenes de servicio con su conformidad o constancia de prestación), detallados en el Anexo N.° 10.",
+    "referencia": "Capítulo IV / numeral 4.2 / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "M mayor o igual a 3: 40 puntos; M mayor o igual a 2 y menor que 3: 25 puntos; M mayor o igual a 1 y menor que 2: 10 puntos; M menor que 1: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Metodología propuesta: Se evalúa la metodología que propone el postor desarrollando: (i) la metodología del diagnóstico urbano; (ii) la estrategia de participación ciudadana con talleres; y (iii) un plan de trabajo con cronograma.",
+    "acreditacion": "Documento «Metodología y plan de trabajo» firmado por el representante legal.",
+    "referencia": "Capítulo IV / numeral 4.2 / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Desarrolla los tres elementos (i), (ii) y (iii): 40 puntos; Desarrolla dos de los tres elementos: 20 puntos; Desarrolla uno o ninguno: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia específica adicional del Jefe de Equipo: Se evalúa si el JEFE DE EQUIPO acredita al menos veinticuatro (24) meses adicionales a los treinta y seis (36) meses exigidos en los requisitos de calificación, es decir, sesenta (60) meses o más.",
+    "acreditacion": "Con los mismos documentos que acreditan la experiencia del personal clave.",
+    "referencia": "Capítulo IV / numeral 4.2 / página 8",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita 60 meses o más: 20 puntos; No acredita 60 meses: 0 puntos."
+   }
+  ]
+ }
+]

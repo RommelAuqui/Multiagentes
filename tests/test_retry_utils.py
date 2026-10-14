@@ -1,3 +1,4 @@
+import httpx
 import pytest
 from google.genai import errors
 
@@ -60,6 +61,13 @@ def test_no_reintenta_si_se_agoto_la_cuota_diaria(sin_esperas):
     with pytest.raises(CuotaDiariaAgotada, match="cuota diaria"):
         con_reintentos(funcion)
     assert len(funcion.llamadas) == 1 and sin_esperas == []
+
+
+def test_reintenta_los_cortes_de_red(sin_esperas):
+    funcion = _falla_y_luego_responde(httpx.RemoteProtocolError("peer closed connection"), 1)
+
+    assert con_reintentos(funcion) == "respuesta"
+    assert len(funcion.llamadas) == 2 and sin_esperas == [15.0]
 
 
 def test_no_reintenta_errores_que_no_son_temporales(sin_esperas):

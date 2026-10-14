@@ -1,6 +1,7 @@
 import re
 import time
 
+import httpx
 from google.genai import errors
 
 CODIGOS_REINTENTABLES = (429, 500, 503)
@@ -43,4 +44,10 @@ def con_reintentos(funcion, intentos: int = 6, espera_inicial: float = 15.0):
             # Si Gemini dice cuánto falta para renovar el límite por minuto, se espera eso (más un margen).
             indicada = espera_indicada(e)
             time.sleep(min(indicada + 1, ESPERA_MAXIMA) if indicada is not None else espera)
+            espera = min(espera * 2, 60.0)
+        except httpx.TransportError:
+            # Cortes de red (conexión cerrada, tiempo agotado): son pasajeros, se reintentan igual.
+            if intento == intentos - 1:
+                raise
+            time.sleep(espera)
             espera = min(espera * 2, 60.0)

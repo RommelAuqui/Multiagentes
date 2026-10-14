@@ -1,0 +1,1574 @@
+[
+ {
+  "bases": "meta_iv",
+  "corrida": 1,
+  "resultado": {
+   "esperados": 23,
+   "encontrados": 23,
+   "exhaustividad": 1.0,
+   "extraidos": 24,
+   "precision": 1.0,
+   "condicionales_marcados": "3/3",
+   "puntajes_correctos": "5/5",
+   "exclusiones_respetadas": "9/9",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor (Anexo Nº 1)",
+    "acreditacion": "Anexo Nº 1 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad (Anexo N° 2)",
+    "acreditacion": "Anexo N° 2 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Documento que acredite la representación de quien suscribe la oferta (Copia de certificado de vigencia de poder en persona jurídica; o copia de DNI/carné de extranjería y poder de apoderado en persona natural, según corresponda)",
+    "acreditacion": "Copia de certificado de vigencia de poder o documento de identidad / poder, según corresponda",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor es responsable de la veracidad de los documentos y no se encuentra impedido para contratar con el Estado (Anexo Nº 3)",
+    "acreditacion": "Anexo Nº 3 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas digitales o firmas legalizadas, consignando integrantes, representante común, domicilio, correo, obligaciones y porcentaje equivalente (Anexo Nº 4)",
+    "acreditacion": "Anexo Nº 4 con firmas digitales o legalizadas",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si al registrarse el proveedor presentó la Declaración Jurada de Desafectación del Impedimento (Anexo N° 5): Documentación que acredite la desafectación del impedimento",
+    "acreditacion": "Documentación sustentatoria de la desafectación del impedimento",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Acreditar un monto facturado acumulado equivalente a S/ 500,000.00 en supervisión de ejecución de obras en la especialidad de Consultoría en Obras Viales, Puertos y Afines y subespecialidad de Obras Viales y vías urbanas, durante los 25 años anteriores a la fecha de presentación de ofertas",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicios y su conformidad o constancia de prestación o liquidación; o (ii) comprobantes de pago cancelados con medio financiero o retención de IGV (obligatorio con privados)",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 54",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 1: Supervisor de Obra (Título profesional de Ingeniero Civil)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 2: Especialista en suelos (Título profesional de Ingeniero Civil y/o Ingeniero Geólogo y/o Ingeniero Geotécnico)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 3: Especialista Ambiental (Título profesional de Ingeniero Civil y/o Ingeniero Ambiental)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 4: Especialista en Seguridad y Salud (Título profesional de Ingeniero Civil y/o Ingeniero Industrial)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 5: Especialista en Topografía, Trazo y Diseño Vial (Título profesional de Ingeniero Civil)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 1: Supervisor de Obra (36 meses en la especialidad como jefe de supervisión y/o supervisor de obras y/o inspector de obras y/o residente y/o asistente de supervisión y/o asistente de residente, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 2: Especialista en suelos (24 meses en la especialidad como especialista de mecánica de suelos y/o Especialista de Suelos y Pavimentos y/o Especialista en mecánica de Suelos y Geotecnia, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 3: Especialista Ambiental (24 meses en la especialidad como responsable ambiental y/o Especialista en Gestión Ambiental y/o especialista valoración Ambiental y/o Especialista en Seguridad y Medio Ambiente, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 4: Especialista en Seguridad y Salud (24 meses en la especialidad como especialista y/o ingeniero en: seguridad y salud ocupacional y/o seguridad e higiene ocupacional y/o implementación de planes de seguridad e higiene ocupacional y/o en prevención de riesgos, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 5: Especialista en Topografía, Trazo y Diseño Vial (24 meses en la especialidad como Ingeniero topógrafo, especialista en topografía y/o responsable de topografía y/o supervisor de topografía y/o especialista en trazo y diseño vial y/o especialista en diseño vial, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si el postor se presenta en consorcio: Cumplir con máximo 2 consorciados, porcentaje mínimo de participación de cada integrante de 30% y porcentaje mínimo de participación en la ejecución del contrato del integrante que acredita mayor experiencia de 20%",
+    "acreditacion": "Promesa de consorcio",
+    "referencia": "Sección Específica / Numeral 3.4.2 / pág. 59",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia específica adicional del personal clave: Se evalúa en función al porcentaje de personal clave del listado (Supervisor de Obra, Especialista en suelos, Especialista Ambiental, Especialista en Seguridad y Salud, Especialista en Topografía, Trazo y Diseño Vial) que supera el tiempo de experiencia específica requiriendo al menos 02 años adicionales.",
+    "acreditacion": "Copia simple de contratos y su respectiva conformidad, constancias, certificados u otra documentación fehaciente que demuestre la experiencia.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 60",
+    "obligatorio": false,
+    "puntaje_maximo": 55.0,
+    "asignacion_puntaje": "Si el 50% o más del número de personas consideradas en el listado del personal clave supera el requisito de experiencia específica: 55 puntos. Si menos del 50%: 25 puntos. No acredita: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad ambiental - Prácticas a nivel empresarial: Certificados de sistemas de gestión o políticas ambientales a nivel empresarial (ISO 14001 o equivalentes) vigentes y aplicados a servicios de consultoría de obra.",
+    "acreditacion": "Certificados vigentes de sistemas de gestión o políticas ambientales (ej. ISO 14001 o equivalentes) correspondientes a la sede, filial u oficina a cargo de la prestación.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 61",
+    "obligatorio": false,
+    "puntaje_maximo": 2.0,
+    "asignacion_puntaje": "Acredita la certificación: 2 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad ambiental - Capacitación y certificaciones del personal clave (Supervisor de Obra, Especialista Ambiental, Especialista en Seguridad y Salud) en gestión ambiental, construcción sostenible o eficiencia energética.",
+    "acreditacion": "Certificaciones especializadas reconocidas (ej. LEED AP, EDGE Expert, BREEAM Assessor) o certificados/diplomas de cursos de especialización en gestión ambiental y sostenibilidad en la construcción.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 61",
+    "obligatorio": false,
+    "puntaje_maximo": 3.0,
+    "asignacion_puntaje": "Presenta certificaciones especializadas en sostenibilidad ambiental reconocidas: 1 punto. Presenta certificaciones de cursos especializados en gestión ambiental: 2 puntos. No presenta: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad social: Se evalúa que el postor cuente con prácticas de sostenibilidad social, tales como Reconocimiento del Ministerio de Trabajo y Promoción del Empleo en Buenas Prácticas Laborales u otras certificaciones vinculadas al salario justo, entornos de trabajo seguros y sin riesgos, equidad, o certificaciones para erradicar trabajo infantil y forzoso (SR 2030:2022 Salario justo y SR 2030:2025 Entornos de Trabajo Seguros).",
+    "acreditacion": "Reconocimiento del MTPE en Buenas Prácticas Laborales u otras certificaciones en buenas prácticas laborales.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 62",
+    "obligatorio": false,
+    "puntaje_maximo": 5.0,
+    "asignacion_puntaje": "Acredita el Reconocimiento del Ministerio de Trabajo y Promoción del Empleo: 2 puntos. Acredita otro tipo de certificaciones: 3 puntos. No presenta: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Integridad en la contratación pública: Se evalúa que el postor cuente con al menos una certificación del sistema de gestión antisoborno acorde con la norma ISO 37001:2025 o NTP-ISO 37001 emitida por organismo acreditado.",
+    "acreditacion": "Copia simple del certificado ISO 37001:2025 o NTP-ISO 37001 emitido por organismo de certificación acreditado.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 62",
+    "obligatorio": false,
+    "puntaje_maximo": 5.0,
+    "asignacion_puntaje": "Acredita Certificación: 5 puntos. No acredita la Certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Gestión de calidad - Sistema de Control de Calidad Aplicado a Proyectos: Sistema que permita integrar información de proyectos desde el campo y en tiempo real cubriendo todo el proceso constructivo.",
+    "acreditacion": "Factura de servicio de software o evidencias documentadas de procedimientos en control de calidad que abarquen comunicación integral, administración de archivos, control de listas de chequeo, gestión de guías e ingreso de materiales y gestión de recepción.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 63",
+    "obligatorio": false,
+    "puntaje_maximo": 30.0,
+    "asignacion_puntaje": "Implementa herramientas tecnológicas para el control de calidad (software de gestión, inspecciones automatizadas, registros digitales): 30 puntos. Cuenta con procedimientos documentados en control de calidad aplicado a proyectos sin herramientas tecnológicas avanzadas: 15 puntos. No presenta un sistema de control de calidad: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "meta_iv",
+  "corrida": 2,
+  "resultado": {
+   "esperados": 23,
+   "encontrados": 23,
+   "exhaustividad": 1.0,
+   "extraidos": 24,
+   "precision": 1.0,
+   "condicionales_marcados": "3/3",
+   "puntajes_correctos": "5/5",
+   "exclusiones_respetadas": "9/9",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor (Anexo Nº 1)",
+    "acreditacion": "Anexo Nº 1 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad (Anexo N° 2)",
+    "acreditacion": "Anexo N° 2 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Documento que acredite la representación de quien suscribe la oferta (Copia de certificado de vigencia de poder en persona jurídica; o copia de DNI/carné de extranjería y poder de apoderado en persona natural, según corresponda)",
+    "acreditacion": "Copia de certificado de vigencia de poder o documento de identidad / poder, según corresponda",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor es responsable de la veracidad de los documentos y no se encuentra impedido para contratar con el Estado (Anexo Nº 3)",
+    "acreditacion": "Anexo Nº 3 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas digitales o firmas legalizadas, consignando integrantes, representante común, domicilio, correo, obligaciones y porcentaje equivalente (Anexo Nº 4)",
+    "acreditacion": "Anexo Nº 4 con firmas digitales o legalizadas",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si al registrarse el proveedor presentó la Declaración Jurada de Desafectación del Impedimento (Anexo N° 5): Documentación que acredite la desafectación del impedimento",
+    "acreditacion": "Documentación sustentatoria de la desafectación del impedimento",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Acreditar un monto facturado acumulado equivalente a S/ 500,000.00 en supervisión de ejecución de obras en la especialidad de Consultoría en Obras Viales, Puertos y Afines y subespecialidad de Obras Viales y vías urbanas, durante los 25 años anteriores a la fecha de presentación de ofertas",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicios y su conformidad o constancia de prestación o liquidación; o (ii) comprobantes de pago cancelados con medio financiero o retención de IGV (obligatorio con privados)",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 54",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 1: Supervisor de Obra (Título profesional de Ingeniero Civil)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 2: Especialista en suelos (Título profesional de Ingeniero Civil y/o Ingeniero Geólogo y/o Ingeniero Geotécnico)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 3: Especialista Ambiental (Título profesional de Ingeniero Civil y/o Ingeniero Ambiental)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 4: Especialista en Seguridad y Salud (Título profesional de Ingeniero Civil y/o Ingeniero Industrial)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 5: Especialista en Topografía, Trazo y Diseño Vial (Título profesional de Ingeniero Civil)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 1: Supervisor de Obra (36 meses en la especialidad como jefe de supervisión y/o supervisor de obras y/o inspector de obras y/o residente y/o asistente de supervisión y/o asistente de residente, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 2: Especialista en suelos (24 meses en la especialidad como especialista de mecánica de suelos y/o Especialista de Suelos y Pavimentos y/o Especialista en mecánica de Suelos y Geotecnia, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 3: Especialista Ambiental (24 meses en la especialidad como responsable ambiental y/o Especialista en Gestión Ambiental y/o especialista valoración Ambiental y/o Especialista en Seguridad y Medio Ambiente, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 4: Especialista en Seguridad y Salud (24 meses en la especialidad como especialista y/o ingeniero en: seguridad y salud ocupacional y/o seguridad e higiene ocupacional y/o implementación de planes de seguridad e higiene ocupacional y/o en prevención de riesgos, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 5: Especialista en Topografía, Trazo y Diseño Vial (24 meses en la especialidad como Ingeniero topógrafo, especialista en topografía y/o responsable de topografía y/o supervisor de topografía y/o especialista en trazo y diseño vial y/o especialista en diseño vial, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si el postor se presenta en consorcio: Cumplir con máximo 2 consorciados, porcentaje mínimo de participación de cada integrante de 30% y porcentaje mínimo de participación en la ejecución del contrato del integrante que acredita mayor experiencia de 20%",
+    "acreditacion": "Promesa de consorcio",
+    "referencia": "Sección Específica / Numeral 3.4.2 / pág. 59",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia específica adicional del personal clave: Se evalúa en función al porcentaje de personal clave del listado (Supervisor de Obra, Especialista en suelos, Especialista Ambiental, Especialista en Seguridad y Salud, Especialista en Topografía, Trazo y Diseño Vial) que supera el tiempo de experiencia específica requiriendo al menos 02 años adicionales.",
+    "acreditacion": "Copia simple de contratos y su respectiva conformidad, constancias, certificados u otra documentación fehaciente que demuestre la experiencia.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 60",
+    "obligatorio": false,
+    "puntaje_maximo": 55.0,
+    "asignacion_puntaje": "Si el 50% o más del número de personas consideradas en el listado del personal clave supera el requisito de experiencia específica: 55 puntos. Si menos del 50%: 25 puntos. No acredita: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad ambiental - Prácticas a nivel empresarial: Certificados de sistemas de gestión o políticas ambientales a nivel empresarial (ISO 14001 o equivalentes) vigentes y aplicados a servicios de consultoría de obra.",
+    "acreditacion": "Certificados vigentes de sistemas de gestión o políticas ambientales (ej. ISO 14001 o equivalentes) correspondientes a la sede, filial u oficina a cargo de la prestación.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 61",
+    "obligatorio": false,
+    "puntaje_maximo": 2.0,
+    "asignacion_puntaje": "Acredita la certificación: 2 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad ambiental - Capacitación y certificaciones del personal clave (Supervisor de Obra, Especialista Ambiental, Especialista en Seguridad y Salud) en gestión ambiental, construcción sostenible o eficiencia energética.",
+    "acreditacion": "Certificaciones especializadas reconocidas (ej. LEED AP, EDGE Expert, BREEAM Assessor) o certificados/diplomas de cursos de especialización en gestión ambiental y sostenibilidad en la construcción.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 61",
+    "obligatorio": false,
+    "puntaje_maximo": 3.0,
+    "asignacion_puntaje": "Presenta certificaciones especializadas en sostenibilidad ambiental reconocidas: 1 punto. Presenta certificaciones de cursos especializados en gestión ambiental: 2 puntos. No presenta: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad social: Se evalúa que el postor cuente con prácticas de sostenibilidad social, tales como Reconocimiento del Ministerio de Trabajo y Promoción del Empleo en Buenas Prácticas Laborales u otras certificaciones vinculadas al salario justo, entornos de trabajo seguros y sin riesgos, equidad, o certificaciones para erradicar trabajo infantil y forzoso (SR 2030:2022 Salario justo y SR 2030:2025 Entornos de Trabajo Seguros).",
+    "acreditacion": "Reconocimiento del MTPE en Buenas Prácticas Laborales u otras certificaciones en buenas prácticas laborales.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 62",
+    "obligatorio": false,
+    "puntaje_maximo": 5.0,
+    "asignacion_puntaje": "Acredita el Reconocimiento del Ministerio de Trabajo y Promoción del Empleo: 2 puntos. Acredita otro tipo de certificaciones: 3 puntos. No presenta: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Integridad en la contratación pública: Se evalúa que el postor cuente con al menos una certificación del sistema de gestión antisoborno acorde con la norma ISO 37001:2025 o NTP-ISO 37001 emitida por organismo acreditado.",
+    "acreditacion": "Copia simple del certificado ISO 37001:2025 o NTP-ISO 37001 emitido por organismo de certificación acreditado.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 62",
+    "obligatorio": false,
+    "puntaje_maximo": 5.0,
+    "asignacion_puntaje": "Acredita Certificación: 5 puntos. No acredita la Certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Gestión de calidad - Sistema de Control de Calidad Aplicado a Proyectos: Sistema que permita integrar información de proyectos desde el campo y en tiempo real cubriendo todo el proceso constructivo.",
+    "acreditacion": "Factura de servicio de software o evidencias documentadas de procedimientos en control de calidad que abarquen comunicación integral, administración de archivos, control de listas de chequeo, gestión de guías e ingreso de materiales y gestión de recepción.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 63",
+    "obligatorio": false,
+    "puntaje_maximo": 30.0,
+    "asignacion_puntaje": "Implementa herramientas tecnológicas para el control de calidad (software de gestión, inspecciones automatizadas, registros digitales): 30 puntos. Cuenta con procedimientos documentados en control de calidad aplicado a proyectos sin herramientas tecnológicas avanzadas: 15 puntos. No presenta un sistema de control de calidad: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "meta_iv",
+  "corrida": 3,
+  "resultado": {
+   "esperados": 23,
+   "encontrados": 23,
+   "exhaustividad": 1.0,
+   "extraidos": 24,
+   "precision": 1.0,
+   "condicionales_marcados": "3/3",
+   "puntajes_correctos": "5/5",
+   "exclusiones_respetadas": "9/9",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor (Anexo Nº 1)",
+    "acreditacion": "Anexo Nº 1 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad (Anexo N° 2)",
+    "acreditacion": "Anexo N° 2 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Documento que acredite la representación de quien suscribe la oferta (Copia de certificado de vigencia de poder en persona jurídica; o copia de DNI/carné de extranjería y poder de apoderado en persona natural, según corresponda)",
+    "acreditacion": "Copia de certificado de vigencia de poder o documento de identidad / poder, según corresponda",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 21",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor es responsable de la veracidad de los documentos y no se encuentra impedido para contratar con el Estado (Anexo Nº 3)",
+    "acreditacion": "Anexo Nº 3 debidamente completado y firmado",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas digitales o firmas legalizadas, consignando integrantes, representante común, domicilio, correo, obligaciones y porcentaje equivalente (Anexo Nº 4)",
+    "acreditacion": "Anexo Nº 4 con firmas digitales o legalizadas",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si al registrarse el proveedor presentó la Declaración Jurada de Desafectación del Impedimento (Anexo N° 5): Documentación que acredite la desafectación del impedimento",
+    "acreditacion": "Documentación sustentatoria de la desafectación del impedimento",
+    "referencia": "Sección Específica / Numeral 2.2.1.1 / pág. 22",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Acreditar un monto facturado acumulado equivalente a S/ 500,000.00 en supervisión de ejecución de obras en la especialidad de Consultoría en Obras Viales, Puertos y Afines y subespecialidad de Obras Viales y vías urbanas, durante los 25 años anteriores a la fecha de presentación de ofertas",
+    "acreditacion": "Copia simple de (i) contratos u órdenes de servicios y su conformidad o constancia de prestación o liquidación; o (ii) comprobantes de pago cancelados con medio financiero o retención de IGV (obligatorio con privados)",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 54",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 1: Supervisor de Obra (Título profesional de Ingeniero Civil)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 2: Especialista en suelos (Título profesional de Ingeniero Civil y/o Ingeniero Geólogo y/o Ingeniero Geotécnico)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 3: Especialista Ambiental (Título profesional de Ingeniero Civil y/o Ingeniero Ambiental)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 4: Especialista en Seguridad y Salud (Título profesional de Ingeniero Civil y/o Ingeniero Industrial)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Cargo 5: Especialista en Topografía, Trazo y Diseño Vial (Título profesional de Ingeniero Civil)",
+    "acreditacion": "Anexo Nº 15 indicando datos del profesional y título profesional verificado en línea (SUNEDU/MINEDU) o copia de diploma y revalidación de ser el caso",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 1: Supervisor de Obra (36 meses en la especialidad como jefe de supervisión y/o supervisor de obras y/o inspector de obras y/o residente y/o asistente de supervisión y/o asistente de residente, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 2: Especialista en suelos (24 meses en la especialidad como especialista de mecánica de suelos y/o Especialista de Suelos y Pavimentos y/o Especialista en mecánica de Suelos y Geotecnia, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 3: Especialista Ambiental (24 meses en la especialidad como responsable ambiental y/o Especialista en Gestión Ambiental y/o especialista valoración Ambiental y/o Especialista en Seguridad y Medio Ambiente, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 4: Especialista en Seguridad y Salud (24 meses en la especialidad como especialista y/o ingeniero en: seguridad y salud ocupacional y/o seguridad e higiene ocupacional y/o implementación de planes de seguridad e higiene ocupacional y/o en prevención de riesgos, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Cargo 5: Especialista en Topografía, Trazo y Diseño Vial (24 meses en la especialidad como Ingeniero topógrafo, especialista en topografía y/o responsable de topografía y/o supervisor de topografía y/o especialista en trazo y diseño vial y/o especialista en diseño vial, computado desde la colegiatura)",
+    "acreditacion": "Anexo Nº 15 y documentación de la oferta (contratos y conformidad, constancias, certificados u otros) exigida para el factor de evaluación adicional",
+    "referencia": "Sección Específica / Numeral 3.4.1 / pág. 56",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si el postor se presenta en consorcio: Cumplir con máximo 2 consorciados, porcentaje mínimo de participación de cada integrante de 30% y porcentaje mínimo de participación en la ejecución del contrato del integrante que acredita mayor experiencia de 20%",
+    "acreditacion": "Promesa de consorcio",
+    "referencia": "Sección Específica / Numeral 3.4.2 / pág. 59",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia específica adicional del personal clave: Se evalúa en función al porcentaje de personal clave del listado (Supervisor de Obra, Especialista en suelos, Especialista Ambiental, Especialista en Seguridad y Salud, Especialista en Topografía, Trazo y Diseño Vial) que supera el tiempo de experiencia específica requiriendo al menos 02 años adicionales.",
+    "acreditacion": "Copia simple de contratos y su respectiva conformidad, constancias, certificados u otra documentación fehaciente que demuestre la experiencia.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 60",
+    "obligatorio": false,
+    "puntaje_maximo": 55.0,
+    "asignacion_puntaje": "Si el 50% o más del número de personas consideradas en el listado del personal clave supera el requisito de experiencia específica: 55 puntos. Si menos del 50%: 25 puntos. No acredita: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad ambiental - Prácticas a nivel empresarial: Certificados de sistemas de gestión o políticas ambientales a nivel empresarial (ISO 14001 o equivalentes) vigentes y aplicados a servicios de consultoría de obra.",
+    "acreditacion": "Certificados vigentes de sistemas de gestión o políticas ambientales (ej. ISO 14001 o equivalentes) correspondientes a la sede, filial u oficina a cargo de la prestación.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 61",
+    "obligatorio": false,
+    "puntaje_maximo": 2.0,
+    "asignacion_puntaje": "Acredita la certificación: 2 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad ambiental - Capacitación y certificaciones del personal clave (Supervisor de Obra, Especialista Ambiental, Especialista en Seguridad y Salud) en gestión ambiental, construcción sostenible o eficiencia energética.",
+    "acreditacion": "Certificaciones especializadas reconocidas (ej. LEED AP, EDGE Expert, BREEAM Assessor) o certificados/diplomas de cursos de especialización en gestión ambiental y sostenibilidad en la construcción.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 61",
+    "obligatorio": false,
+    "puntaje_maximo": 3.0,
+    "asignacion_puntaje": "Presenta certificaciones especializadas en sostenibilidad ambiental reconocidas: 1 punto. Presenta certificaciones de cursos especializados en gestión ambiental: 2 puntos. No presenta: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Sostenibilidad social: Se evalúa que el postor cuente con prácticas de sostenibilidad social, tales como Reconocimiento del Ministerio de Trabajo y Promoción del Empleo en Buenas Prácticas Laborales u otras certificaciones vinculadas al salario justo, entornos de trabajo seguros y sin riesgos, equidad, o certificaciones para erradicar trabajo infantil y forzoso (SR 2030:2022 Salario justo y SR 2030:2025 Entornos de Trabajo Seguros).",
+    "acreditacion": "Reconocimiento del MTPE en Buenas Prácticas Laborales u otras certificaciones en buenas prácticas laborales.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 62",
+    "obligatorio": false,
+    "puntaje_maximo": 5.0,
+    "asignacion_puntaje": "Acredita el Reconocimiento del Ministerio de Trabajo y Promoción del Empleo: 2 puntos. Acredita otro tipo de certificaciones: 3 puntos. No presenta: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Integridad en la contratación pública: Se evalúa que el postor cuente con al menos una certificación del sistema de gestión antisoborno acorde con la norma ISO 37001:2025 o NTP-ISO 37001 emitida por organismo acreditado.",
+    "acreditacion": "Copia simple del certificado ISO 37001:2025 o NTP-ISO 37001 emitido por organismo de certificación acreditado.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 62",
+    "obligatorio": false,
+    "puntaje_maximo": 5.0,
+    "asignacion_puntaje": "Acredita Certificación: 5 puntos. No acredita la Certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "Gestión de calidad - Sistema de Control de Calidad Aplicado a Proyectos: Sistema que permita integrar información de proyectos desde el campo y en tiempo real cubriendo todo el proceso constructivo.",
+    "acreditacion": "Factura de servicio de software o evidencias documentadas de procedimientos en control de calidad que abarquen comunicación integral, administración de archivos, control de listas de chequeo, gestión de guías e ingreso de materiales y gestión de recepción.",
+    "referencia": "Sección Específica / Numeral 4.2 / pág. 63",
+    "obligatorio": false,
+    "puntaje_maximo": 30.0,
+    "asignacion_puntaje": "Implementa herramientas tecnológicas para el control de calidad (software de gestión, inspecciones automatizadas, registros digitales): 30 puntos. Cuenta con procedimientos documentados en control de calidad aplicado a proyectos sin herramientas tecnológicas avanzadas: 15 puntos. No presenta un sistema de control de calidad: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "golf",
+  "corrida": 1,
+  "resultado": {
+   "esperados": 22,
+   "encontrados": 22,
+   "exhaustividad": 1.0,
+   "extraidos": 24,
+   "precision": 1.0,
+   "condicionales_marcados": "3/3",
+   "puntajes_correctos": "4/4",
+   "exclusiones_respetadas": "9/9",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo Nº 1",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal a)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad.",
+    "acreditacion": "Anexo Nº 2",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal b)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Documento que acredite la representación de quien suscribe la oferta: copia del certificado de vigencia de poder del representante legal, apoderado o mandatario (en caso de persona jurídica); copia del documento de identidad y poder de ser el caso (en caso de persona natural); o los documentos presentados por cada integrante (en caso de consorcio).",
+    "acreditacion": "Copia de certificado de vigencia de poder, documento de identidad o poderes según corresponda.",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal c)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor es responsable de la veracidad de los documentos e información de la oferta y no se encuentra impedido para contratar con el Estado.",
+    "acreditacion": "Anexo Nº 3",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal d)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas digitales o legalizadas, consignando integrantes, representante común, domicilio, correo, obligaciones y porcentaje.",
+    "acreditacion": "Anexo Nº 4",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal e)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el proveedor presentó la Declaración Jurada de Desafectación del Impedimento al registrarse como participante: Documentación que acredite la desafectación del impedimento.",
+    "acreditacion": "Anexo Nº 5 y documentación sustentatoria",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal f)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Acreditar un monto facturado acumulado equivalente a S/ 549,105.80 en la especialidad de Viales, puertos y afines, subespecialidad Vías Urbanas, durante los 25 años anteriores a la fecha de presentación de ofertas.",
+    "acreditacion": "Máximo 20 contrataciones mediante: (i) contratos u órdenes de servicios y conformidad o constancia o liquidación; o (ii) comprobantes de pago cancelados con constancia de depósito, nota de abono, reporte de estado de cuenta o retención de IGV (obligatorio con privados). Anexo Nº 10.",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - A",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Jefe de Supervisión: Título profesional de Ingeniero Civil.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista en Calidad: Título profesional de Ingeniero Civil.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista Ambiental: Título profesional de Ingeniero Civil o Ingeniero Ambiental o Ingeniero de Gestión Ambiental o Ingeniero Ambiental y de Recursos Ambientales o Ingeniero de Recursos Naturales y Energía Renovable o Ingeniero de Recursos Renovables o Ingeniero Ambiental y de Recursos Naturales.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista de Seguridad en Obra y Salud en el Trabajo: Título profesional como Ingeniero Civil o Ingeniero de Higiene y Seguridad Industrial o Ingeniero Industrial o Ingeniero de Seguridad y Salud en el Trabajo o Ingeniero de Minas o Ingeniero Metalurgista o Ingeniero de Seguridad Industrial y Minera.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista en Arqueología: Título profesional de Arqueólogo.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Jefe de Supervisión: Experiencia mínima de 36 meses como Residente y/o jefe y/o supervisor y/o inspector y/o jefe de supervisión y/o residente principal y/o director residente y/o jefe residente y/o jefe residente principal y/o ingeniero residente y/o supervisor principal de obra en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista en Calidad: Experiencia mínima de 12 meses como Especialista y/o ingeniero y/o residente y/o inspector y/o supervisor y/o jefe y/o asistente o responsable de control de calidad o calidad o aseguramiento de calidad o programa de calidad o protocolos de calidad en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista Ambiental: Experiencia mínima de 18 meses como Especialista y/o ingeniero y/o supervisor y/o jefe y/o responsable y/o residente ambiental y/o ambientalista en Mitigación ambiental o ambientalista o monitoreo y mitigación ambiental o impacto ambiental o medio ambiente en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista de Seguridad en Obra y Salud en el Trabajo: Experiencia mínima de 24 meses como Especialista y/o ingeniero y/o supervisor y/o jefe y/o responsable y/o residente de seguridad y salud ocupacional o seguridad e higiene ocupacional o seguridad de obra o seguridad en el trabajo o salud ocupacional o implementación de planes de seguridad e higiene ocupacional o seguridad en/de obra y salud en el trabajo o seguridad y salud en el trabajo o seguridad de obra o salud y seguridad ocupacional o seguridad y salud o seguridad en/de obra y salud ocupacional o seguridad en obra y salud en el trabajo o seguridad y medio ambiente o seguridad y salud en obra o seguridad de obra y salud o ingeniero especialista en seguridad en prevención de riesgos laborales en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista en Arqueología: Experiencia mínima de 24 meses como Especialista y/o supervisor Arqueólogo y/o Arqueólogo y/o Residente Arqueólogo en la ejecución de obras viales urbanas y/o arqueólogo monitor en planes de monitoreo arqueológico y/o elaboración de expedientes para CIRA, en obras de la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.1 El número máximo de consorciados es de dos (02) integrantes.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.2 El porcentaje mínimo de participación de cada consorciado es de 40%.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.3 El porcentaje mínimo de participación en la ejecución del contrato, para el integrante del consorcio que acredite mayor experiencia, es de 60%.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. Experiencia específica adicional del personal clave: Se evalúa en función al porcentaje de personal clave considerado en el listado (Jefe de Supervisión, Especialista en Calidad, Especialista Ambiental, Especialista de Seguridad en Obra y Salud en el Trabajo, Especialista en Arqueología) que supera en un año la experiencia específica requerida en los requisitos de calificación.",
+    "acreditacion": "Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente que demuestre la experiencia del personal propuesto.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Si el 50% o más del número de personas consideradas en el listado supera el requisito: 40 puntos. Si menos del 50% supera el requisito: 20 puntos. No acredita: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. Sostenibilidad ambiental: Se evalúa que el postor cuente con Certificados de sistemas de gestión o políticas ambientales a nivel empresarial (ISO 14001 o equivalentes) aplicadas específicamente a servicios de consultoría de obra.",
+    "acreditacion": "Copia simple de certificaciones vigentes que incluyan fecha de caducidad y la dirección exacta de la sede, filial u oficina a cargo de la prestación.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita la certificación: 20 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "F. Integridad en la contratación pública: Se evalúa que el postor cuente al menos con una certificación del sistema de gestión antisoborno acorde con la norma ISO 37001:2025 o con la NTP-ISO 37001.",
+    "acreditacion": "Copia simple del certificado emitido por un Organismo de Certificación acreditado (INACAL o IAF/IAAC/ILAC/EA/APAC), correspondiente a la sede, filial u oficina a cargo de la prestación y vigente a la fecha de presentación de ofertas. En consorcio, cada integrante debe acreditarlo.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita la certificación: 20 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "I. Gestión de calidad: Se evalúa la acreditación de una práctica de aseguramiento y control de calidad mediante Certificación en Sistemas de Gestión de Calidad.",
+    "acreditacion": "Copia simple de certificado vigente ISO 9001:2015 o equivalente.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Certificación vigente con alcance en consultoría de obra: 20 puntos. Certificación en otro sistema reconocido sin alcance específico en consultoría: 10 puntos. No presenta certificación o no es válida: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "golf",
+  "corrida": 2,
+  "resultado": {
+   "esperados": 22,
+   "encontrados": 22,
+   "exhaustividad": 1.0,
+   "extraidos": 24,
+   "precision": 1.0,
+   "condicionales_marcados": "3/3",
+   "puntajes_correctos": "4/4",
+   "exclusiones_respetadas": "9/9",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo Nº 1",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal a)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad.",
+    "acreditacion": "Anexo Nº 2",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal b)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Documento que acredite la representación de quien suscribe la oferta: copia del certificado de vigencia de poder del representante legal, apoderado o mandatario (en caso de persona jurídica); copia del documento de identidad y poder de ser el caso (en caso de persona natural); o los documentos presentados por cada integrante (en caso de consorcio).",
+    "acreditacion": "Copia de certificado de vigencia de poder, documento de identidad o poderes según corresponda.",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal c)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor es responsable de la veracidad de los documentos e información de la oferta y no se encuentra impedido para contratar con el Estado.",
+    "acreditacion": "Anexo Nº 3",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal d)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas digitales o legalizadas, consignando integrantes, representante común, domicilio, correo, obligaciones y porcentaje.",
+    "acreditacion": "Anexo Nº 4",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal e)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el proveedor presentó la Declaración Jurada de Desafectación del Impedimento al registrarse como participante: Documentación que acredite la desafectación del impedimento.",
+    "acreditacion": "Anexo Nº 5 y documentación sustentatoria",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal f)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Acreditar un monto facturado acumulado equivalente a S/ 549,105.80 en la especialidad de Viales, puertos y afines, subespecialidad Vías Urbanas, durante los 25 años anteriores a la fecha de presentación de ofertas.",
+    "acreditacion": "Máximo 20 contrataciones mediante: (i) contratos u órdenes de servicios y conformidad o constancia o liquidación; o (ii) comprobantes de pago cancelados con constancia de depósito, nota de abono, reporte de estado de cuenta o retención de IGV (obligatorio con privados). Anexo Nº 10.",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - A",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Jefe de Supervisión: Título profesional de Ingeniero Civil.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista en Calidad: Título profesional de Ingeniero Civil.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista Ambiental: Título profesional de Ingeniero Civil o Ingeniero Ambiental o Ingeniero de Gestión Ambiental o Ingeniero Ambiental y de Recursos Ambientales o Ingeniero de Recursos Naturales y Energía Renovable o Ingeniero de Recursos Renovables o Ingeniero Ambiental y de Recursos Naturales.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista de Seguridad en Obra y Salud en el Trabajo: Título profesional como Ingeniero Civil o Ingeniero de Higiene y Seguridad Industrial o Ingeniero Industrial o Ingeniero de Seguridad y Salud en el Trabajo o Ingeniero de Minas o Ingeniero Metalurgista o Ingeniero de Seguridad Industrial y Minera.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista en Arqueología: Título profesional de Arqueólogo.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Jefe de Supervisión: Experiencia mínima de 36 meses como Residente y/o jefe y/o supervisor y/o inspector y/o jefe de supervisión y/o residente principal y/o director residente y/o jefe residente y/o jefe residente principal y/o ingeniero residente y/o supervisor principal de obra en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista en Calidad: Experiencia mínima de 12 meses como Especialista y/o ingeniero y/o residente y/o inspector y/o supervisor y/o jefe y/o asistente o responsable de control de calidad o calidad o aseguramiento de calidad o programa de calidad o protocolos de calidad en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista Ambiental: Experiencia mínima de 18 meses como Especialista y/o ingeniero y/o supervisor y/o jefe y/o responsable y/o residente ambiental y/o ambientalista en Mitigación ambiental o ambientalista o monitoreo y mitigación ambiental o impacto ambiental o medio ambiente en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista de Seguridad en Obra y Salud en el Trabajo: Experiencia mínima de 24 meses como Especialista y/o ingeniero y/o supervisor y/o jefe y/o responsable y/o residente de seguridad y salud ocupacional o seguridad e higiene ocupacional o seguridad de obra o seguridad en el trabajo o salud ocupacional o implementación de planes de seguridad e higiene ocupacional o seguridad en/de obra y salud en el trabajo o seguridad y salud en el trabajo o seguridad de obra o salud y seguridad ocupacional o seguridad y salud o seguridad en/de obra y salud ocupacional o seguridad en obra y salud en el trabajo o seguridad y medio ambiente o seguridad y salud en obra o seguridad de obra y salud o ingeniero especialista en seguridad en prevención de riesgos laborales en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista en Arqueología: Experiencia mínima de 24 meses como Especialista y/o supervisor Arqueólogo y/o Arqueólogo y/o Residente Arqueólogo en la ejecución de obras viales urbanas y/o arqueólogo monitor en planes de monitoreo arqueológico y/o elaboración de expedientes para CIRA, en obras de la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.1 El número máximo de consorciados es de dos (02) integrantes.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.2 El porcentaje mínimo de participación de cada consorciado es de 40%.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.3 El porcentaje mínimo de participación en la ejecución del contrato, para el integrante del consorcio que acredite mayor experiencia, es de 60%.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. Experiencia específica adicional del personal clave: Se evalúa en función al porcentaje de personal clave considerado en el listado (Jefe de Supervisión, Especialista en Calidad, Especialista Ambiental, Especialista de Seguridad en Obra y Salud en el Trabajo, Especialista en Arqueología) que supera en un año la experiencia específica requerida en los requisitos de calificación.",
+    "acreditacion": "Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente que demuestre la experiencia del personal propuesto.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Si el 50% o más del número de personas consideradas en el listado supera el requisito: 40 puntos. Si menos del 50% supera el requisito: 20 puntos. No acredita: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. Sostenibilidad ambiental: Se evalúa que el postor cuente con Certificados de sistemas de gestión o políticas ambientales a nivel empresarial (ISO 14001 o equivalentes) aplicadas específicamente a servicios de consultoría de obra.",
+    "acreditacion": "Copia simple de certificaciones vigentes que incluyan fecha de caducidad y la dirección exacta de la sede, filial u oficina a cargo de la prestación.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita la certificación: 20 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "F. Integridad en la contratación pública: Se evalúa que el postor cuente al menos con una certificación del sistema de gestión antisoborno acorde con la norma ISO 37001:2025 o con la NTP-ISO 37001.",
+    "acreditacion": "Copia simple del certificado emitido por un Organismo de Certificación acreditado (INACAL o IAF/IAAC/ILAC/EA/APAC), correspondiente a la sede, filial u oficina a cargo de la prestación y vigente a la fecha de presentación de ofertas. En consorcio, cada integrante debe acreditarlo.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita la certificación: 20 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "I. Gestión de calidad: Se evalúa la acreditación de una práctica de aseguramiento y control de calidad mediante Certificación en Sistemas de Gestión de Calidad.",
+    "acreditacion": "Copia simple de certificado vigente ISO 9001:2015 o equivalente.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Certificación vigente con alcance en consultoría de obra: 20 puntos. Certificación en otro sistema reconocido sin alcance específico en consultoría: 10 puntos. No presenta certificación o no es válida: 0 puntos."
+   }
+  ]
+ },
+ {
+  "bases": "golf",
+  "corrida": 3,
+  "resultado": {
+   "esperados": 22,
+   "encontrados": 22,
+   "exhaustividad": 1.0,
+   "extraidos": 24,
+   "precision": 1.0,
+   "condicionales_marcados": "3/3",
+   "puntajes_correctos": "4/4",
+   "exclusiones_respetadas": "9/9",
+   "puntaje_minimo_correcto": true,
+   "suma_factores": 100.0,
+   "suma_correcta": true,
+   "no_encontrados": [],
+   "sobrantes": [],
+   "violaciones": []
+  },
+  "criterios": [
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada de datos del postor.",
+    "acreditacion": "Anexo Nº 1",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal a)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Pacto de integridad.",
+    "acreditacion": "Anexo Nº 2",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal b)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Documento que acredite la representación de quien suscribe la oferta: copia del certificado de vigencia de poder del representante legal, apoderado o mandatario (en caso de persona jurídica); copia del documento de identidad y poder de ser el caso (en caso de persona natural); o los documentos presentados por cada integrante (en caso de consorcio).",
+    "acreditacion": "Copia de certificado de vigencia de poder, documento de identidad o poderes según corresponda.",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal c)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Declaración jurada manifestando que el postor es responsable de la veracidad de los documentos e información de la oferta y no se encuentra impedido para contratar con el Estado.",
+    "acreditacion": "Anexo Nº 3",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal d)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el postor se presenta en consorcio: Promesa de consorcio con firmas digitales o legalizadas, consignando integrantes, representante común, domicilio, correo, obligaciones y porcentaje.",
+    "acreditacion": "Anexo Nº 4",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal e)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "admision",
+    "tipo": "legal",
+    "descripcion": "Solo si el proveedor presentó la Declaración Jurada de Desafectación del Impedimento al registrarse como participante: Documentación que acredite la desafectación del impedimento.",
+    "acreditacion": "Anexo Nº 5 y documentación sustentatoria",
+    "referencia": "Sección Específica, Capítulo II, numeral 2.2.1.1, literal f)",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del postor en la especialidad: Acreditar un monto facturado acumulado equivalente a S/ 549,105.80 en la especialidad de Viales, puertos y afines, subespecialidad Vías Urbanas, durante los 25 años anteriores a la fecha de presentación de ofertas.",
+    "acreditacion": "Máximo 20 contrataciones mediante: (i) contratos u órdenes de servicios y conformidad o constancia o liquidación; o (ii) comprobantes de pago cancelados con constancia de depósito, nota de abono, reporte de estado de cuenta o retención de IGV (obligatorio con privados). Anexo Nº 10.",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - A",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Jefe de Supervisión: Título profesional de Ingeniero Civil.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista en Calidad: Título profesional de Ingeniero Civil.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista Ambiental: Título profesional de Ingeniero Civil o Ingeniero Ambiental o Ingeniero de Gestión Ambiental o Ingeniero Ambiental y de Recursos Ambientales o Ingeniero de Recursos Naturales y Energía Renovable o Ingeniero de Recursos Renovables o Ingeniero Ambiental y de Recursos Naturales.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista de Seguridad en Obra y Salud en el Trabajo: Título profesional como Ingeniero Civil o Ingeniero de Higiene y Seguridad Industrial o Ingeniero Industrial o Ingeniero de Seguridad y Salud en el Trabajo o Ingeniero de Minas o Ingeniero Metalurgista o Ingeniero de Seguridad Industrial y Minera.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Calificación del personal clave - Especialista en Arqueología: Título profesional de Arqueólogo.",
+    "acreditacion": "Anexo Nº 15 y verificación en línea en el registro de la SUNEDU o MINEDU (o diploma de ser necesario).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.1",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Jefe de Supervisión: Experiencia mínima de 36 meses como Residente y/o jefe y/o supervisor y/o inspector y/o jefe de supervisión y/o residente principal y/o director residente y/o jefe residente y/o jefe residente principal y/o ingeniero residente y/o supervisor principal de obra en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista en Calidad: Experiencia mínima de 12 meses como Especialista y/o ingeniero y/o residente y/o inspector y/o supervisor y/o jefe y/o asistente o responsable de control de calidad o calidad o aseguramiento de calidad o programa de calidad o protocolos de calidad en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista Ambiental: Experiencia mínima de 18 meses como Especialista y/o ingeniero y/o supervisor y/o jefe y/o responsable y/o residente ambiental y/o ambientalista en Mitigación ambiental o ambientalista o monitoreo y mitigación ambiental o impacto ambiental o medio ambiente en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista de Seguridad en Obra y Salud en el Trabajo: Experiencia mínima de 24 meses como Especialista y/o ingeniero y/o supervisor y/o jefe y/o responsable y/o residente de seguridad y salud ocupacional o seguridad e higiene ocupacional o seguridad de obra o seguridad en el trabajo o salud ocupacional o implementación de planes de seguridad e higiene ocupacional o seguridad en/de obra y salud en el trabajo o seguridad y salud en el trabajo o seguridad de obra o salud y seguridad ocupacional o seguridad y salud o seguridad en/de obra y salud ocupacional o seguridad en obra y salud en el trabajo o seguridad y medio ambiente o seguridad y salud en obra o seguridad de obra y salud o ingeniero especialista en seguridad en prevención de riesgos laborales en obras en la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Experiencia del personal clave - Especialista en Arqueología: Experiencia mínima de 24 meses como Especialista y/o supervisor Arqueólogo y/o Arqueólogo y/o Residente Arqueólogo en la ejecución de obras viales urbanas y/o arqueólogo monitor en planes de monitoreo arqueológico y/o elaboración de expedientes para CIRA, en obras de la especialidad y subespecialidad (Viales, puertos y afines / Vías Urbanas), computado desde la colegiatura.",
+    "acreditacion": "Anexo Nº 15. Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente (se presenta en la oferta porque hay factores para el personal clave).",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - B.2",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.1 El número máximo de consorciados es de dos (02) integrantes.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.2 El porcentaje mínimo de participación de cada consorciado es de 40%.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "calificacion",
+    "tipo": "tecnico",
+    "descripcion": "Solo si se presenta en consorcio: C.3 El porcentaje mínimo de participación en la ejecución del contrato, para el integrante del consorcio que acredite mayor experiencia, es de 60%.",
+    "acreditacion": "Promesa de consorcio (Anexo Nº 4)",
+    "referencia": "Sección Específica, Capítulo III, Requisitos de calificación - D",
+    "obligatorio": true,
+    "puntaje_maximo": null,
+    "asignacion_puntaje": null
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "A. Experiencia específica adicional del personal clave: Se evalúa en función al porcentaje de personal clave considerado en el listado (Jefe de Supervisión, Especialista en Calidad, Especialista Ambiental, Especialista de Seguridad en Obra y Salud en el Trabajo, Especialista en Arqueología) que supera en un año la experiencia específica requerida en los requisitos de calificación.",
+    "acreditacion": "Copia simple de contratos y conformidad, constancias, certificados u otro documento fehaciente que demuestre la experiencia del personal propuesto.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 40.0,
+    "asignacion_puntaje": "Si el 50% o más del número de personas consideradas en el listado supera el requisito: 40 puntos. Si menos del 50% supera el requisito: 20 puntos. No acredita: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "B. Sostenibilidad ambiental: Se evalúa que el postor cuente con Certificados de sistemas de gestión o políticas ambientales a nivel empresarial (ISO 14001 o equivalentes) aplicadas específicamente a servicios de consultoría de obra.",
+    "acreditacion": "Copia simple de certificaciones vigentes que incluyan fecha de caducidad y la dirección exacta de la sede, filial u oficina a cargo de la prestación.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita la certificación: 20 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "F. Integridad en la contratación pública: Se evalúa que el postor cuente al menos con una certificación del sistema de gestión antisoborno acorde con la norma ISO 37001:2025 o con la NTP-ISO 37001.",
+    "acreditacion": "Copia simple del certificado emitido por un Organismo de Certificación acreditado (INACAL o IAF/IAAC/ILAC/EA/APAC), correspondiente a la sede, filial u oficina a cargo de la prestación y vigente a la fecha de presentación de ofertas. En consorcio, cada integrante debe acreditarlo.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Acredita la certificación: 20 puntos. No acredita la certificación: 0 puntos."
+   },
+   {
+    "etapa": "evaluacion",
+    "tipo": "tecnico",
+    "descripcion": "I. Gestión de calidad: Se evalúa la acreditación de una práctica de aseguramiento y control de calidad mediante Certificación en Sistemas de Gestión de Calidad.",
+    "acreditacion": "Copia simple de certificado vigente ISO 9001:2015 o equivalente.",
+    "referencia": "Sección Específica, Capítulo IV, numeral 4.2",
+    "obligatorio": false,
+    "puntaje_maximo": 20.0,
+    "asignacion_puntaje": "Certificación vigente con alcance en consultoría de obra: 20 puntos. Certificación en otro sistema reconocido sin alcance específico en consultoría: 10 puntos. No presenta certificación o no es válida: 0 puntos."
+   }
+  ]
+ }
+]
