@@ -237,3 +237,7 @@ create table if not exists hallazgos (
 alter table documentos_expediente enable row level security;
 alter table revisiones_bases enable row level security;
 alter table hallazgos enable row level security;
+
+-- Revisión de Bases con el agente revisor: pasos de cada verificación y si la revisión lo incluyó.
+alter table hallazgos add column if not exists pasos jsonb not null default '[]';
+alter table revisiones_bases add column if not exists con_agente boolean not null default false;

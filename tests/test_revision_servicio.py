@@ -40,6 +40,8 @@ def fichas(monkeypatch):
         return next(dict(f) for clave, f in por_contenido.items() if clave.decode() in texto)
 
     monkeypatch.setattr(servicio, "extraer_paginas", leer)
+    # El agente revisor tiene sus propias pruebas; aquí no encuentra nada.
+    monkeypatch.setattr(servicio.agente_revisor, "revisar", lambda _ronda, _docs, _contexto: [])
     monkeypatch.setattr(servicio, "extraer_ficha", extraer)
     return consultas
 

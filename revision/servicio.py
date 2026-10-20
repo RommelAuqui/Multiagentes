@@ -14,6 +14,7 @@ from db.client import get_client
 from db.storage import subir_archivo
 from rag.pdf_extract import ResultadoExtraccion, extraer_paginas, texto_completo
 from revision.catalogo import BASES_DE_RONDA, OBLIGATORIOS, POR_CODIGO, RONDA_A, RONDA_B, TIPOS_DOCUMENTO
+from revision import agente_revisor
 from revision.extraccion import extraer_ficha
 from revision.reglas import CUMPLE, Documento, Resultado, verificar
 
@@ -58,6 +59,10 @@ def faltantes(concurso_id: str, ronda: str) -> list[str]:
     return [tipo for tipo in OBLIGATORIOS[ronda] if tipo not in vigentes]
 
 
+def documentos_revisables(concurso_id: str) -> dict[str, Documento]:
+    return _documentos(documentos_vigentes(concurso_id))
+
+
 def _documentos(vigentes: dict[str, dict]) -> dict[str, Documento]:
     return {tipo: Documento(tipo, f["nombre"], f.get("paginas") or [], f.get("datos") or {})
             for tipo, f in vigentes.items()}
@@ -77,10 +82,11 @@ def conciliar(anteriores: list[dict], resultados: list[Resultado], revision_id: 
         if resultado.estado == CUMPLE:
             if existente and existente["estado"] != CORREGIDO:
                 cambios.append((existente["id"], {"estado": CORREGIDO, "resultado": CUMPLE, "resuelto_en": revision_id,
-                                                  "ultima_revision": revision_id, "descripcion": resultado.descripcion}))
+                                                  "ultima_revision": revision_id, "descripcion": resultado.descripcion,
+                                                  "pasos": resultado.pasos}))
             continue
         datos = {"resultado": resultado.estado, "descripcion": resultado.descripcion, "citas": resultado.citas,
-                 "ultima_revision": revision_id}
+                 "pasos": resultado.pasos, "ultima_revision": revision_id}
         if existente is None:
             nuevos.append({**datos, "codigo": resultado.codigo, "clave": resultado.clave,
                            "gravedad": POR_CODIGO[resultado.codigo].gravedad, "estado": PENDIENTE,
@@ -113,14 +119,23 @@ def heredar_decisiones(nuevos: list[dict], de_la_ronda_a: list[dict]) -> list[di
     return heredados
 
 
-def revisar(concurso_id: str, ronda: str) -> dict:
-    """Aplica el catálogo a los documentos vigentes y actualiza los hallazgos de la ronda."""
+def revisar(concurso_id: str, ronda: str, con_agente: bool = True) -> dict:
+    """Aplica el catálogo a los documentos vigentes y actualiza los hallazgos de la ronda.
+
+    Sin el agente solo corren las reglas fijas (rápido y sin gastar Gemini); para cerrar la ronda hace falta
+    una revisión completa.
+    """
     client = get_client()
     vigentes = documentos_vigentes(concurso_id)
-    resultados = verificar(ronda, _documentos(vigentes))
+    docs = _documentos(vigentes)
+    resultados = verificar(ronda, docs)
+    if con_agente:
+        resultados += agente_revisor.revisar(ronda, docs, ContextoIA("revisor", concurso_id))
+    orden = list(POR_CODIGO)
+    resultados.sort(key=lambda r: (orden.index(r.codigo), r.clave))
     revision = client.table("revisiones_bases").insert({
         "concurso_id": concurso_id, "ronda": ronda, "documentos": {t: f["id"] for t, f in vigentes.items()},
-        "resultados": [asdict(r) for r in resultados],
+        "resultados": [asdict(r) for r in resultados], "con_agente": con_agente,
     }).execute().data[0]
     anteriores = client.table("hallazgos").select("*").eq("concurso_id", concurso_id).eq("ronda", ronda).execute().data
     nuevos, cambios = conciliar(anteriores, resultados, revision["id"])
@@ -169,6 +184,8 @@ def puede_continuar(concurso_id: str, ronda: str) -> tuple[bool, str]:
     vigentes = {t: f["id"] for t, f in documentos_vigentes(concurso_id).items()}
     if revision is None or revision["documentos"] != vigentes:
         return False, "Hay documentos nuevos sin analizar: pulsa «Analizar»."
+    if not revision.get("con_agente"):
+        return False, "La última revisión fue solo con reglas fijas: falta la revisión con el agente."
     pendientes = [h for h in hallazgos(concurso_id, ronda) if h["estado"] == PENDIENTE]
     if pendientes:
         return False, f"Quedan {len(pendientes)} hallazgo(s) sin responder."

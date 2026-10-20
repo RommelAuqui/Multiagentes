@@ -6,8 +6,10 @@ responde cada hallazgo; al cerrar la ronda B, las Bases Integradas revisadas pas
 """
 import streamlit as st
 
+from config import LIMITE_DIARIO_CONSULTAS
+from consumo import consultas_de_hoy
 from db.client import get_client
-from revision import servicio
+from revision import agente_revisor, servicio
 from revision.catalogo import (
     CRITICO,
     DOCUMENTOS_DE_RONDA,
@@ -73,10 +75,21 @@ def _analizar(concurso: dict, ronda: str) -> None:
     if faltan := servicio.faltantes(concurso["id"], ronda):
         st.info("Para analizar faltan: " + ", ".join(TIPOS_DOCUMENTO[t] for t in faltan) + ".")
         return
-    if st.button("🔎 Analizar", key=f"analizar_{ronda}", type="primary"):
+    estimadas = agente_revisor.consultas_estimadas(ronda, servicio.documentos_revisables(concurso["id"]))
+    sin_cupo = consultas_de_hoy() + estimadas > LIMITE_DIARIO_CONSULTAS
+    if sin_cupo:
+        st.warning(f"La revisión con el agente necesita unas {estimadas} consultas a Gemini y superaría el límite "
+                   f"diario de {LIMITE_DIARIO_CONSULTAS}. Puedes hacer la revisión rápida con reglas fijas.")
+    columnas = st.columns(2)
+    completa = columnas[0].button("🔎 Analizar", key=f"analizar_{ronda}", type="primary", disabled=sin_cupo,
+                                  help=f"Reglas fijas y agente revisor (unas {estimadas} consultas a Gemini).")
+    rapida = columnas[1].button("⚡ Solo reglas fijas", key=f"rapida_{ronda}",
+                                help="Sin IA ni gasto: útil mientras se corrigen documentos. Para cerrar la ronda "
+                                     "hace falta el análisis completo.")
+    if completa or rapida:
         with st.spinner("Revisando las Bases contra el expediente y el catálogo..."):
-            servicio.revisar(concurso["id"], ronda)
-        _avisar("success", "Revisión terminada.")
+            servicio.revisar(concurso["id"], ronda, con_agente=completa)
+        _avisar("success", "Revisión terminada." if completa else "Revisión rápida terminada (solo reglas fijas).")
         st.rerun()
 
 
@@ -98,6 +111,10 @@ def _tarjeta(hallazgo: dict) -> None:
             st.caption("Dónde: " + "; ".join(
                 c["documento"] + (f", p. {c['pagina']}" if c.get("pagina") else "") for c in citas))
         st.caption(f"Respaldo: {verificacion.respaldo}")
+        if pasos := hallazgo.get("pasos"):
+            with st.expander(f"Pasos del agente revisor ({len(pasos)})"):
+                for paso in pasos:
+                    st.markdown(f"- {paso['resumen']}")
 
         if hallazgo["estado"] == "corregido":
             return

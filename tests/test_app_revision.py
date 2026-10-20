@@ -35,6 +35,7 @@ def con_revision(monkeypatch):
     monkeypatch.setattr(servicio, "extraer_paginas",
                         lambda _contenido, _contexto: ResultadoExtraccion(total_paginas=1, paginas=PAGINAS))
     monkeypatch.setattr(servicio, "extraer_ficha", lambda tipo, _texto, _contexto: dict(FICHAS[tipo]))
+    monkeypatch.setattr(servicio.agente_revisor, "revisar", lambda _ronda, _docs, _contexto: [])
 
 
 def _subir(concurso_id, *tipos):
@@ -109,3 +110,21 @@ def test_eliminar_el_concurso_borra_los_documentos_del_expediente(db_falsa):
 
     assert not db_falsa.filas("concursos") and not db_falsa.filas("documentos_expediente")
     assert not db_falsa.archivos
+
+
+def test_la_revision_rapida_no_basta_para_cerrar_la_ronda(db_falsa, monkeypatch):
+    concurso = db_falsa.table("concursos").insert({"nombre": "Supervisión", "estado": "revision_bases",
+                                                   "ronda_revision": "A"}).execute().data[0]
+    FICHAS_OK = {**FICHAS, "certificacion": {"monto": 480000.0, "fuente_financiamiento": "Recursos determinados"}}
+    monkeypatch.setattr(servicio, "extraer_ficha", lambda tipo, _texto, _contexto: dict(FICHAS_OK[tipo]))
+    _subir(concurso["id"], "requerimiento", "certificacion", "aprobacion_expediente", "estrategia",
+           "interaccion_mercado", "designacion_evaluadores", "bases")
+
+    at = _portal_comite()
+    _boton(at, "⚡ Solo reglas fijas").click().run()
+    assert any("solo reglas fijas" in m for m in _mensajes(at.success))
+    assert _boton(at, "Cerrar la ronda A").disabled
+    assert any("falta la revisión con el agente" in m for m in _mensajes(at.caption))
+
+    _boton(at, "🔎 Analizar").click().run()
+    assert not _boton(at, "Cerrar la ronda A").disabled

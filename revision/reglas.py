@@ -58,6 +58,7 @@ class Resultado:
     descripcion: str
     citas: list[dict] = field(default_factory=list)  # [{"documento": nombre, "pagina": n}]
     clave: str = ""
+    pasos: list[dict] = field(default_factory=list)  # lo que hizo el agente revisor, si intervino
 
 
 def _clave(texto: str) -> str:
