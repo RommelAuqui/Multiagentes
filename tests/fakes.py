@@ -5,10 +5,12 @@ from types import SimpleNamespace
 # Borrado en cascada equivalente a las llaves foráneas de db/schema.sql.
 CASCADAS = {
     "concursos": [("criterios", "concurso_id"), ("postores", "concurso_id"),
-                  ("documentos_chunks", "concurso_id"), ("dictamenes", "concurso_id")],
+                  ("documentos_chunks", "concurso_id"), ("dictamenes", "concurso_id"),
+                  ("documentos_expediente", "concurso_id"), ("revisiones_bases", "concurso_id"),
+                  ("hallazgos", "concurso_id")],
     "postores": [("documentos_chunks", "postor_id"), ("dictamenes", "postor_id")],
 }
-UNICOS = {"postores": ("concurso_id", "ruc")}
+UNICOS = {"postores": ("concurso_id", "ruc"), "hallazgos": ("concurso_id", "ronda", "codigo", "clave")}
 
 
 class ErrorDeUnicidad(Exception):

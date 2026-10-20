@@ -21,19 +21,22 @@ from agents.reglas import (
     veredicto_efectivo,
 )
 from automatizacion import evaluar_registrando
-from config import LIMITE_DIARIO_CONSULTAS
+from config import LIMITE_DIARIO_CONSULTAS, REVISION_BASES
 from consumo import ZONA_HORARIA, consultas_de_hoy, consumo_por_postor, hay_cupo
 from db.client import get_client
 from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.pdf_extract import extraer_paginas, texto_completo
 from reports.acta import generar_acta, nombre_legible
 from reports.matriz import generar_matriz_comparativa
+from revision.catalogo import RONDA_A
+from rag.pdf_extract import ResultadoExtraccion
 from theme import badge_html
+from views import revision_bases
 from views.componentes import badge_resultado, mostrar_avisos_extraccion, ordenar_criterios, tabla_criterios
 
 MIME_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-ESTADOS = {"borrador": " (en revisión)", "abierto": "", "cerrado": " (cerrada)"}
+ESTADOS = {"revision_bases": " (revisión de Bases)", "borrador": " (en revisión)", "abierto": "", "cerrado": " (cerrada)"}
 COLUMNAS_EDITOR = [
     "etapa", "tipo", "descripcion", "acreditacion", "obligatorio", "puntaje_maximo", "asignacion_puntaje", "referencia",
 ]
@@ -56,7 +59,29 @@ def _numero(valor) -> str:
 
 # ---------- Nueva convocatoria ----------
 
+def _crear_concurso_con_revision():
+    st.subheader("Nueva Convocatoria")
+    st.caption("Primero se revisan las Bases: en «Concursos en Curso» subirás el expediente, las Bases y luego las "
+               "Bases Integradas. La matriz de evaluación se arma con la versión revisada.")
+    with st.form("nuevo_concurso"):
+        nombre = st.text_input("Nombre del concurso")
+        descripcion = st.text_area("Descripción")
+        enviado = st.form_submit_button("Crear convocatoria")
+    if not enviado:
+        return
+    if not nombre:
+        st.error("El nombre es obligatorio.")
+        return
+    get_client().table("concursos").insert({
+        "nombre": nombre, "descripcion": descripcion, "estado": "revision_bases", "ronda_revision": RONDA_A,
+    }).execute()
+    st.success(f"Convocatoria '{nombre}' creada. Continúa en «Concursos en Curso» con la revisión de las Bases.")
+
+
 def _crear_concurso():
+    if REVISION_BASES:
+        _crear_concurso_con_revision()
+        return
     st.subheader("Nueva Convocatoria")
 
     with st.form("nuevo_concurso"):
@@ -110,11 +135,12 @@ def _registrar_concurso(nombre: str, descripcion: str, contenido: bytes) -> dict
     return {**concurso, "bases_pdf_path": path}
 
 
-def _extraer_matriz(concurso: dict, contenido: bytes) -> list[dict]:
+def _extraer_matriz(concurso: dict, contenido: bytes, extraccion: ResultadoExtraccion | None = None) -> list[dict]:
+    """Lee las Bases (salvo que ya se hayan leído) y arma la matriz con el Agente Extractor."""
     aviso_manual = "En «Concursos en Curso» puedes volver a intentarlo o ingresar los criterios a mano."
     try:
         with st.spinner("Leyendo las Bases y armando la matriz de evaluación..."):
-            extraccion = extraer_paginas(contenido, ContextoIA("lector", concurso["id"]))
+            extraccion = extraccion or extraer_paginas(contenido, ContextoIA("lector", concurso["id"]))
             texto_bases = texto_completo(extraccion.paginas)
             matriz = extraer_criterios(texto_bases, ContextoIA("extractor", concurso["id"])) if extraccion.paginas else None
     except Exception:
@@ -149,6 +175,18 @@ def _extraer_matriz(concurso: dict, contenido: bytes) -> list[dict]:
     criterios = [{**c, "orden": orden} for orden, c in enumerate(matriz.criterios)]
     _guardar_matriz(concurso["id"], criterios, matriz.puntaje_minimo)
     return criterios
+
+
+def _terminar_revision(concurso: dict, documento: dict) -> None:
+    """Cierra la revisión de Bases: las Bases Integradas revisadas pasan a ser las del concurso y, con el texto
+    ya leído (sin volver a gastar en el Lector), el Agente Extractor arma la matriz."""
+    get_client().table("concursos").update({"bases_pdf_path": documento["path"], "estado": "borrador"}).eq(
+        "id", concurso["id"]).execute()
+    paginas = documento.get("paginas") or []
+    criterios = _extraer_matriz(concurso, b"", ResultadoExtraccion(total_paginas=len(paginas), paginas=paginas))
+    if criterios:
+        st.success(f"Revisión de Bases cerrada. La matriz tiene {len(criterios)} criterios: revísala y publícala.")
+    st.button("Ver la matriz", key=f"ver_matriz_{concurso['id']}")
 
 
 def _guardar_matriz(concurso_id: str, criterios: list[dict], puntaje_minimo: float | None) -> None:
@@ -248,9 +286,16 @@ def _cambiar_estado(concurso: dict, estado: str) -> None:
 
 
 def _eliminar_concurso(concurso: dict, postores: list[dict]) -> None:
-    archivos = [concurso.get("bases_pdf_path")] + [a["path"] for p in postores for a in _archivos_oferta(p)]
-    # Al borrar el concurso se eliminan en cascada criterios, postores, fragmentos, dictámenes y consultas.
-    get_client().table("concursos").delete().eq("id", concurso["id"]).execute()
+    client = get_client()
+    expediente = []
+    # La tabla existe desde el módulo de revisión de Bases: si aún no se creó en Supabase, no hay nada que borrar.
+    with suppress(Exception):
+        expediente = client.table("documentos_expediente").select("path").eq("concurso_id", concurso["id"]).execute().data
+    archivos = ([concurso.get("bases_pdf_path")] + [a["path"] for p in postores for a in _archivos_oferta(p)]
+                + [d["path"] for d in expediente])
+    # Al borrar el concurso se eliminan en cascada criterios, postores, fragmentos, dictámenes, consultas y la
+    # revisión de Bases (documentos, revisiones y hallazgos).
+    client.table("concursos").delete().eq("id", concurso["id"]).execute()
     try:
         eliminar_archivos(archivos)
         _avisar("success", f"Convocatoria '{concurso['nombre']}' eliminada.")
@@ -579,6 +624,10 @@ def _gestionar_concursos():
             mime="application/pdf",
             on_click="ignore",
         )
+
+    if concurso["estado"] == "revision_bases":
+        revision_bases.render(concurso, lambda documento: _terminar_revision(concurso, documento))
+        return
 
     if concurso["estado"] == "borrador":
         _revisar_matriz(concurso, criterios)

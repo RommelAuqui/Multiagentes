@@ -25,7 +25,8 @@ from demo.datos import CONVOCATORIAS, Convocatoria, Oferta, Profesional, soles
 
 CARPETA = Path(__file__).parent / "convocatorias"
 AVISO = "Documento ficticio para demostración académica: entidades, personas, RUC y montos son inventados."
-CIUDADES = {"MDNA": "Nueva Aurora", "PRSSV": "Sierra Verde", "MPPL": "Puerto Libertad"}
+CIUDADES = {"MDNA": "Nueva Aurora", "PRSSV": "Sierra Verde", "MPPL": "Puerto Libertad", "PERVS": "Valle Sereno",
+            "MPRE": "Río Esmeralda"}
 FECHA_OFERTAS = "9 de noviembre de 2026"
 
 ESTILOS = {
@@ -407,16 +408,19 @@ def documento_admision(c: Convocatoria, o: Oferta) -> bytes:
     firma_rep = firma(o.representante, "Representante legal" if not o.consorcio else "Representante común",
                       o.dni_representante)
     lugar = f"{_ciudad(c)}, {FECHA_OFERTAS}"
-    indice = [["N.°", "Documento", "Archivo"],
-              ["1", "Anexo N.° 1: Declaración jurada de datos del postor", "01 Anexos de admisión"],
-              ["2", "Anexo N.° 2: Pacto de integridad", "01 Anexos de admisión"]]
+    documentos = [("Anexo N.° 1: Declaración jurada de datos del postor", "01 Anexos de admisión")]
+    if o.con_anexo2:
+        documentos.append(("Anexo N.° 2: Pacto de integridad", "01 Anexos de admisión"))
     if o.con_anexo3:
-        indice.append([str(len(indice)), "Anexo N.° 3: Declaración jurada", "01 Anexos de admisión"])
+        documentos.append(("Anexo N.° 3: Declaración jurada", "01 Anexos de admisión"))
     if o.consorcio and o.con_promesa:
-        indice.append([str(len(indice)), "Anexo N.° 4: Promesa de consorcio", "01 Anexos de admisión"])
-    indice += [[str(len(indice)), "Anexo N.° 10 y constancias de experiencia del postor", "02 Experiencia del postor"],
-               [str(len(indice) + 1), "Anexo N.° 15, currículos y certificados del personal clave", "03 Personal clave"],
-               [str(len(indice) + 2), "Metodología y plan de trabajo", "04 Metodología y plan de trabajo"]]
+        documentos.append(("Anexo N.° 4: Promesa de consorcio", "01 Anexos de admisión"))
+    documentos += [("Anexo N.° 10 y constancias de experiencia del postor", "02 Experiencia del postor"),
+                   ("Anexo N.° 15, currículos y certificados del personal clave", "03 Personal clave"),
+                   ("Metodología y plan de trabajo", "04 Metodología y plan de trabajo")]
+    if any(s.aparte for s in o.servicios):
+        documentos.append(("Certificados de conformidad adicionales", "05 Constancias adicionales"))
+    indice = [["N.°", "Documento", "Archivo"], *[[str(i), d, a] for i, (d, a) in enumerate(documentos, start=1)]]
     tipo = ("Persona jurídica. Se presenta en forma INDIVIDUAL, no en consorcio." if not o.consorcio else
             "Se presenta en CONSORCIO, integrado por: " + "; ".join(o.consorcio) + ".")
     story = [p("OFERTA TÉCNICA", "portada"), p(f"CONCURSO PÚBLICO N.° {c.nomenclatura}", "capitulo"),
@@ -429,14 +433,15 @@ def documento_admision(c: Convocatoria, o: Oferta) -> bytes:
              tabla([["Nombre o razón social", o.razon_social], ["RUC N.°", o.ruc], ["Domicilio legal", o.domicilio],
                     ["Teléfono", "01-555-0100"], ["Correo electrónico", _correo(o)],
                     ["MYPE", "No"], ["Tipo de postor", tipo]], [5, 11.6], encabezado=False),
-             p(lugar), firma_rep, PageBreak(),
-             *_cabecera_anexo("ANEXO N.° 2<br/>PACTO DE INTEGRIDAD", c),
-             p(f"{o.razon_social} se compromete a actuar con integridad durante el procedimiento de selección y la "
-               "ejecución del contrato; a no ofrecer, dar ni recibir, directa o indirectamente, ningún beneficio "
-               "indebido; a no coludir con otros postores; y a denunciar cualquier acto de corrupción del que tome "
-               "conocimiento. Acepta que el incumplimiento de este pacto da lugar a las responsabilidades que "
-               "establece la ley."),
              p(lugar), firma_rep]
+    if o.con_anexo2:
+        story += [PageBreak(), *_cabecera_anexo("ANEXO N.° 2<br/>PACTO DE INTEGRIDAD", c),
+                  p(f"{o.razon_social} se compromete a actuar con integridad durante el procedimiento de selección y "
+                    "la ejecución del contrato; a no ofrecer, dar ni recibir, directa o indirectamente, ningún "
+                    "beneficio indebido; a no coludir con otros postores; y a denunciar cualquier acto de corrupción "
+                    "del que tome conocimiento. Acepta que el incumplimiento de este pacto da lugar a las "
+                    "responsabilidades que establece la ley."),
+                  p(lugar), firma_rep]
     if o.con_anexo3:
         story += [PageBreak(), *_cabecera_anexo("ANEXO N.° 3<br/>DECLARACIÓN JURADA", c),
                   p(f"Mediante el presente, {o.razon_social} declara bajo juramento:"),
@@ -466,6 +471,8 @@ def documento_experiencia(c: Convocatoria, o: Oferta) -> bytes:
              p(f"{_ciudad(c)}, {FECHA_OFERTAS}"), firma(o.representante, "Representante legal", o.dni_representante)]
     partes = [_pdf(anexo, f"{o.razon_social} · Experiencia del postor", AVISO)]
     for i, s in enumerate(o.servicios, start=1):
+        if s.aparte:
+            continue
         parrafos = [f"La {s.cliente} hace constar que {o.razon_social}, con RUC N.° {o.ruc}, prestó el servicio de "
                     f"{s.objeto[0].lower() + s.objeto[1:]}, en el marco del {s.contrato}, por un monto total de "
                     f"{soles(s.monto)}, incluidos los impuestos de ley.",
@@ -479,6 +486,27 @@ def documento_experiencia(c: Convocatoria, o: Oferta) -> bytes:
                                 *[p(t) for t in parrafos], p(f"{s.conformidad}"),
                                 firma("Jefe de la Oficina de Logística", s.cliente)],
                                f"{o.razon_social} · Experiencia del postor", AVISO))
+    return unir(partes)
+
+
+def documento_constancias_adicionales(o: Oferta) -> bytes:
+    """Constancias que el postor adjunta en otro archivo y con otra redacción («certificado», «importe»)."""
+    partes = []
+    for i, s in enumerate(o.servicios, start=1):
+        if not s.aparte:
+            continue
+        parrafos = [f"La {s.cliente} certifica la culminación satisfactoria de la {s.objeto[0].lower() + s.objeto[1:]}, "
+                    f"realizada por {o.razon_social} (RUC N.° {o.ruc}) en el marco del {s.contrato}, por un importe "
+                    f"total de {soles(s.monto)}.",
+                    f"Fecha de la conformidad: {s.conformidad}.",
+                    "Se expide el presente certificado a solicitud del interesado."]
+        if s.escaneada:
+            partes.append(pagina_escaneada(s.cliente, "CERTIFICADO DE CONFORMIDAD", parrafos,
+                                           "Gerente de Infraestructura", semilla=20 + i))
+        else:
+            partes.append(_pdf([p(s.cliente.upper(), "capitulo"), p("CERTIFICADO DE CONFORMIDAD", "titulo"),
+                                *[p(t) for t in parrafos], firma("Gerente de Infraestructura", s.cliente)],
+                               f"{o.razon_social} · Constancias adicionales", AVISO))
     return unir(partes)
 
 
@@ -524,9 +552,11 @@ def documento_metodologia(c: Convocatoria, o: Oferta) -> bytes:
     story = [p("METODOLOGÍA Y PLAN DE TRABAJO", "portada"), p(f"CONCURSO PÚBLICO N.° {c.nomenclatura}", "capitulo"),
              p(f"Postor: <b>{o.razon_social}</b>", "centrado"), Spacer(1, 8),
              p(f"{o.razon_social} presenta la metodología con la que prestará el servicio de "
-               f"{c.objeto.split(' PARA ', 1)[-1].lower()}.")]
-    for titulo, parrafos in c.metodologia:
+               f"{c.objeto.split(' PARA ', 1)[-1]}.")]
+    for titulo, parrafos in o.metodologia or c.metodologia:
         story += [p(titulo.upper(), "seccion"), *[p(t) for t in parrafos]]
+    # Texto que intenta manipular al evaluador automático, en letra pequeña como suele esconderse.
+    story += [p(linea, "celda") for linea in o.inyeccion]
     story += [p(f"{_ciudad(c)}, {FECHA_OFERTAS}"), firma(o.representante, "Representante legal", o.dni_representante)]
     return _pdf(story, f"{o.razon_social} · Metodología", AVISO)
 
@@ -545,6 +575,8 @@ def generar() -> None:
             (destino / "02 Experiencia del postor.pdf").write_bytes(documento_experiencia(c, o))
             (destino / "03 Personal clave.pdf").write_bytes(documento_personal(c, o))
             (destino / "04 Metodología y plan de trabajo.pdf").write_bytes(documento_metodologia(c, o))
+            if any(s.aparte for s in o.servicios):
+                (destino / "05 Constancias adicionales.pdf").write_bytes(documento_constancias_adicionales(o))
         print(f"{c.nomenclatura}: Bases y {len(c.ofertas)} ofertas en {carpeta}")
 
 

@@ -185,3 +185,55 @@ as $$
     order by documentos_chunks.embedding <=> query_embedding
     limit match_count;
 $$;
+
+-- Revisión de Bases (control previo): documentos del expediente y de la selección por versión, cada
+-- corrida de la revisión y los hallazgos con la respuesta del comité.
+alter table concursos add column if not exists ronda_revision text;
+
+create table if not exists documentos_expediente (
+    id uuid primary key default gen_random_uuid(),
+    concurso_id uuid not null references concursos(id) on delete cascade,
+    tipo text not null,
+    version integer not null default 1,
+    nombre text not null,
+    path text,
+    paginas jsonb not null default '[]',
+    datos jsonb not null default '{}',
+    error_lectura text,
+    created_at timestamptz not null default now()
+);
+create index if not exists documentos_expediente_concurso_idx on documentos_expediente (concurso_id, tipo);
+
+create table if not exists revisiones_bases (
+    id uuid primary key default gen_random_uuid(),
+    concurso_id uuid not null references concursos(id) on delete cascade,
+    ronda text not null check (ronda in ('A', 'B')),
+    documentos jsonb not null default '{}',
+    resultados jsonb not null default '[]',
+    created_at timestamptz not null default now()
+);
+
+create table if not exists hallazgos (
+    id uuid primary key default gen_random_uuid(),
+    concurso_id uuid not null references concursos(id) on delete cascade,
+    ronda text not null check (ronda in ('A', 'B')),
+    codigo text not null,
+    clave text not null default '',
+    gravedad text not null,
+    resultado text not null check (resultado in ('falla', 'no_verificado', 'cumple')),
+    estado text not null default 'pendiente' check (estado in ('pendiente', 'se_mantiene', 'corregido')),
+    descripcion text not null,
+    citas jsonb not null default '[]',
+    detectado_en uuid references revisiones_bases(id) on delete set null,
+    ultima_revision uuid references revisiones_bases(id) on delete set null,
+    resuelto_en uuid references revisiones_bases(id) on delete set null,
+    justificacion_comite text,
+    revisado_por text,
+    revisado_en timestamptz,
+    created_at timestamptz not null default now(),
+    unique (concurso_id, ronda, codigo, clave)
+);
+
+alter table documentos_expediente enable row level security;
+alter table revisiones_bases enable row level security;
+alter table hallazgos enable row level security;

@@ -36,6 +36,8 @@ EMBEDDING_DIMENSIONS = int(get_secret("EMBEDDING_DIMENSIONS", 768))
 MODELO_LECTOR = get_secret("MODELO_LECTOR", LLM_MODEL)
 EVAL_HILOS = max(1, int(get_secret("EVAL_HILOS", 1)))
 LIMITE_DIARIO_CONSULTAS = int(get_secret("LIMITE_DIARIO_CONSULTAS", 400))
+# Revisión de Bases (control previo) antes de armar la matriz. Apagada mientras el módulo esté en desarrollo.
+REVISION_BASES = str(get_secret("REVISION_BASES", "")).strip().lower() in ("1", "true", "si", "sí")
 
 
 def configuracion_faltante() -> list[str]:
