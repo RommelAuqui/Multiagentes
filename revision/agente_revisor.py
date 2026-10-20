@@ -26,10 +26,14 @@ GUIAS = {
     "COH-06": "Compara el Capítulo III de las Bases con el requerimiento usando comparar_textos (ubica primero las "
               "páginas del Cap. III). Falla si cambia el contenido: alcance, actividades, entregables, plazos, "
               "personal clave, profesiones, meses de experiencia o requisitos. El formato, la numeración y los "
-              "encabezados de página no cuentan.",
+              "encabezados de página no cuentan."
+              " En la ronda B, un cambio que proviene de una absolución del pliego con conformidad del área usuaria es "
+              "válido: revisa el pliego antes de concluir.",
     "COH-07": "Compara los requisitos de calificación de las Bases (experiencia del postor, calificaciones y "
               "experiencia del personal clave) con los que propone el requerimiento. Falla si las Bases agregan, "
-              "quitan o endurecen un requisito.",
+              "quitan o endurecen un requisito."
+              " En la ronda B, un cambio que proviene de una absolución del pliego con conformidad del área usuaria es "
+              "válido: revisa el pliego antes de concluir.",
     "COH-09": "Compara la modalidad de pago, las garantías y los adelantos de las Bases con lo que decidió la "
               "estrategia de contratación.",
     "FOR-01": "La Sección general de las Bases estándar no se puede modificar. Revisa si su texto muestra señales de "

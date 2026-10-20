@@ -45,3 +45,28 @@ El detalle por criterio (veredicto o puntaje esperado de cada uno) está en `dat
 pip install -r requirements-dev.txt
 python -m demo.generar
 ```
+
+## Revisión de Bases (control previo)
+
+Cada convocatoria trae una carpeta `revision_de_bases/` con los documentos que recibe el comité y los de la
+selección, para probar el módulo de revisión de Bases (`REVISION_BASES=true`):
+
+| Ronda | Archivo | Tipo de documento en el sistema |
+|---|---|---|
+| A | A1 Requerimiento | Requerimiento del área usuaria |
+| A | A2 Certificación presupuestal | Certificación de crédito presupuestario |
+| A | A3 Estrategia de contratación | Formato de estrategia de contratación |
+| A | A4 Interacción con el mercado | Formato de interacción con el mercado |
+| A | A5 Designación del comité | Designación de los evaluadores |
+| A | A6 Aprobación del expediente | Aprobación del expediente de contratación |
+| A | A7 Bases para convocar | Bases (versión para convocar) |
+| B | B1 Pliego de absolución | Pliego de absolución de consultas y observaciones |
+| B | `Bases Integradas … .pdf` (en la carpeta de la convocatoria) | Bases Integradas |
+
+| Convocatoria | Hallazgos esperados en la ronda A | En la ronda B | Fallas sembradas |
+|---|---|---|---|
+| 1, 2 y 3 | Ninguno | Ninguno | Expedientes coherentes. En la 1, una absolución acogida (con conformidad del área usuaria) cambia un entregable y sí se incorporó. |
+| 4. Canal de riego | COH-02, COH-04, COH-06, COH-07 | Las mismas, más ABS-01, ABS-02 y ABS-04 | Certificación de S/ 500 000 para una cuantía de S/ 520 000; el área usuaria pidió 12 meses para el especialista en hidráulica y las Bases exigen 24; la aprobación es del 30/09 y las Bases dicen 28/09; una consulta sin respuesta y una absolución acogida, sin conformidad del área usuaria, que no se incorporó. |
+| 5. Puente vehicular | COH-08, COH-09, COH-10, PRO-06 | COH-09, COH-10, ABS-03 | Bases convocadas con 120 días y requerimiento con 150; la estrategia decidió precios unitarios y las Bases dicen suma alzada; la interacción con el mercado dice que hubo difusión y las Bases que no; contratación de alto riesgo con solo indagación; las Bases Integradas pasan a 150 días sin absolución que lo explique. |
+
+Los hallazgos esperados también están en `demo/expediente.py` (`esperado_a` y `esperado_b`).

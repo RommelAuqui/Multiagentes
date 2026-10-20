@@ -164,8 +164,8 @@ def unir(partes: list[bytes]) -> bytes:
 
 # ---------- Bases Integradas ----------
 
-def _encabezado_bases(c: Convocatoria) -> str:
-    return f"BASES INTEGRADAS · CONCURSO PÚBLICO N.° {c.nomenclatura} · {c.entidad}"
+def _encabezado_bases(c: Convocatoria, titulo: str = "BASES INTEGRADAS") -> str:
+    return f"{titulo} · CONCURSO PÚBLICO N.° {c.nomenclatura} · {c.entidad}"
 
 
 def _seccion_general() -> list:
@@ -213,13 +213,18 @@ def _capitulo_generalidades(c: Convocatoria) -> list:
         p("1.3. CUANTÍA DE LA CONTRATACIÓN", "seccion"),
         p(f"La cuantía de la contratación asciende a {soles(c.cuantia)} ({c.cuantia_letras}), incluidos los "
           "impuestos de ley y cualquier otro concepto que incida en el costo total del servicio."),
-        p("1.4. EXPEDIENTE DE CONTRATACIÓN", "seccion"),
+        p("1.4. DIFUSIÓN DEL REQUERIMIENTO", "seccion"),
+        p("Previamente a la convocatoria del presente procedimiento de selección NO SE HA REALIZADO LA DIFUSIÓN "
+          "DEL REQUERIMIENTO. Asimismo, en el presente procedimiento de selección APLICA la elevación del pliego de "
+          "absolución de consultas y observaciones y de las Bases Integradas ante el OECE, de acuerdo con el "
+          "artículo 67 del Reglamento."),
+        p("1.5. EXPEDIENTE DE CONTRATACIÓN", "seccion"),
         p("El expediente de contratación fue aprobado el 28 de septiembre de 2026."),
-        p("1.5. FUENTE DE FINANCIAMIENTO", "seccion"), p("Recursos determinados."),
-        p("1.6. SISTEMA DE CONTRATACIÓN", "seccion"), p("Suma alzada."),
-        p("1.7. PLAZO DE PRESTACIÓN DEL SERVICIO", "seccion"),
+        p("1.6. FUENTE DE FINANCIAMIENTO", "seccion"), p("Recursos determinados."),
+        p("1.7. SISTEMA DE CONTRATACIÓN", "seccion"), p("Suma alzada."),
+        p("1.8. PLAZO DE PRESTACIÓN DEL SERVICIO", "seccion"),
         p(f"El servicio se presta en el plazo de {c.plazo}, conforme a los términos de referencia."),
-        p("1.8. BASE LEGAL", "seccion"),
+        p("1.9. BASE LEGAL", "seccion"),
         vinetas(["Ley N.° 32069, Ley General de Contrataciones Públicas.",
                  "Decreto Supremo N.° 009-2025-EF, Reglamento de la Ley General de Contrataciones Públicas.",
                  "Ley de Presupuesto del Sector Público para el año fiscal 2026.",
@@ -377,17 +382,18 @@ def _capitulo_contrato_y_anexos(c: Convocatoria) -> list:
     return s
 
 
-def generar_bases(c: Convocatoria) -> bytes:
+def generar_bases(c: Convocatoria, titulo: str = "BASES INTEGRADAS", fecha: str = "23 de octubre de 2026") -> bytes:
+    """Bases Integradas, o las Bases de la convocatoria (titulo «BASES») para la revisión de Bases."""
     portada = [
-        Spacer(1, 4 * cm), p(c.entidad, "portada"), Spacer(1, 1 * cm), p("BASES INTEGRADAS", "portada"),
+        Spacer(1, 4 * cm), p(c.entidad, "portada"), Spacer(1, 1 * cm), p(titulo, "portada"),
         p(f"CONCURSO PÚBLICO PARA {c.tipo}", "capitulo"), p(f"N.° {c.nomenclatura}", "capitulo"),
         Spacer(1, 1 * cm), p(c.objeto, "centrado"), Spacer(1, 2 * cm),
-        p(f"{_ciudad(c)}, 23 de octubre de 2026", "centrado"),
+        p(f"{_ciudad(c)}, {fecha}", "centrado"),
         Spacer(1, 3 * cm), p(AVISO, "advertencia"), PageBreak(),
     ]
     story = (portada + _seccion_general() + [PageBreak()] + _capitulo_generalidades(c) + _capitulo_procedimiento(c)
              + _capitulo_requerimiento(c) + _capitulo_evaluacion(c) + _capitulo_contrato_y_anexos(c))
-    return _pdf(story, _encabezado_bases(c), AVISO)
+    return _pdf(story, _encabezado_bases(c, titulo), AVISO)
 
 
 # ---------- Ofertas ----------
@@ -578,6 +584,9 @@ def generar() -> None:
             if any(s.aparte for s in o.servicios):
                 (destino / "05 Constancias adicionales.pdf").write_bytes(documento_constancias_adicionales(o))
         print(f"{c.nomenclatura}: Bases y {len(c.ofertas)} ofertas en {carpeta}")
+    # Documentos del expediente y de la selección, para el módulo de revisión de Bases.
+    from demo.expediente import generar_expedientes
+    generar_expedientes(CARPETA)
 
 
 if __name__ == "__main__":
