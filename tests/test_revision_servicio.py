@@ -115,3 +115,31 @@ def test_una_consulta_respondida_desaparece_y_su_hallazgo_queda_corregido():
 
     # ABS-01 se revisó y la consulta 2 ya no falla; COH-02 no se revisó en esta corrida y no se toca.
     assert nuevos == [] and [(i, d["estado"]) for i, d in cambios] == [("h1", "corregido")]
+
+
+def test_el_informe_y_el_acta_dejan_constancia_de_lo_mantenido(concurso, fichas):
+    from docx import Document
+
+    from reports.acta import generar_acta
+
+    cid = concurso["id"]
+    _subir_ronda_a(cid)
+    servicio.revisar(cid, "A")
+    for hallazgo in servicio.hallazgos(cid, "A"):
+        servicio.mantener(hallazgo["id"], "Se gestiona la ampliación presupuestal.", "Ana Pérez")
+
+    texto = "\n".join(p.text for p in Document(servicio.informe(concurso)).paragraphs)
+    tablas = "\n".join(c.text for t in Document(servicio.informe(concurso)).tables for f in t.rows for c in f.cells)
+    assert "4 hallazgo(s): 0 corregido(s) y 4 mantenido(s)" in texto
+    assert "mantener 1 hallazgo(s) crítico(s)" in texto
+    assert "COH-02 · La certificación presupuestal cubre la cuantía" in tablas and "Firma: Ana Pérez" in tablas
+
+    lineas = servicio.resumen_para_el_acta(cid)
+    assert any("Hallazgo crítico mantenido COH-02" in linea for linea in lineas)
+    acta = Document(generar_acta(concurso, {"razon_social": "Consultora", "ruc": "20100000001"}, [],
+                                 {"veredicto": "Califica", "justificacion": ""}, lineas))
+    assert "Control previo de las Bases" in [p.text for p in acta.paragraphs]
+
+
+def test_un_concurso_sin_revision_de_bases_no_agrega_nada_al_acta(concurso):
+    assert servicio.resumen_para_el_acta(concurso["id"]) is None

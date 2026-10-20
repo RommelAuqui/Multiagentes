@@ -28,6 +28,7 @@ from db.storage import descargar_archivo, eliminar_archivos, subir_archivo
 from rag.pdf_extract import extraer_paginas, texto_completo
 from reports.acta import generar_acta, nombre_legible
 from reports.matriz import generar_matriz_comparativa
+from revision import servicio as revision_servicio
 from revision.catalogo import RONDA_A
 from rag.pdf_extract import ResultadoExtraccion
 from theme import badge_html
@@ -628,6 +629,11 @@ def _gestionar_concursos():
     if concurso["estado"] == "revision_bases":
         revision_bases.render(concurso, lambda documento: _terminar_revision(concurso, documento))
         return
+    if concurso.get("ronda_revision"):
+        st.download_button(
+            "📄 Informe de revisión de Bases (.docx)", data=partial(revision_servicio.informe, concurso),
+            file_name=f"revision_bases_{concurso['nombre']}.docx", mime=MIME_DOCX, on_click="ignore",
+        )
 
     if concurso["estado"] == "borrador":
         _revisar_matriz(concurso, criterios)
@@ -677,7 +683,7 @@ def _acta_docx(concurso: dict, postor: dict, dictamen: dict) -> BytesIO:
         .execute()
         .data
     )
-    return generar_acta(concurso, postor, filas, dictamen)
+    return generar_acta(concurso, postor, filas, dictamen, revision_servicio.resumen_para_el_acta(concurso["id"]))
 
 
 def render():

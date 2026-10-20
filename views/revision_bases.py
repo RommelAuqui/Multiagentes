@@ -4,6 +4,8 @@ Ronda A, antes de convocar: el expediente y las Bases. Ronda B, antes de recibir
 absolución y las Bases Integradas. En cada ronda el comité sube los documentos, pulsa «Analizar» y
 responde cada hallazgo; al cerrar la ronda B, las Bases Integradas revisadas pasan a la matriz.
 """
+from functools import partial
+
 import streamlit as st
 
 from config import LIMITE_DIARIO_CONSULTAS
@@ -161,6 +163,15 @@ def _continuar(concurso: dict, ronda: str, hallazgos: list[dict], al_terminar) -
         al_terminar(servicio.bases_de_la_ronda(concurso["id"], ronda))
 
 
+def _descargar_informe(concurso: dict) -> None:
+    st.download_button(
+        "📄 Informe de revisión de Bases (.docx)", data=partial(servicio.informe, concurso),
+        file_name=f"revision_bases_{concurso['nombre']}.docx",
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", on_click="ignore",
+        key=f"informe_{concurso['id']}",
+    )
+
+
 def render(concurso: dict, al_terminar) -> None:
     """`al_terminar(documento_bases_integradas)` arma la matriz y deja el concurso en revisión de matriz."""
     ronda = concurso.get("ronda_revision") or RONDA_A
@@ -172,6 +183,7 @@ def render(concurso: dict, al_terminar) -> None:
 
     hallazgos = servicio.hallazgos(concurso["id"], ronda)
     if servicio.ultima_revision(concurso["id"], ronda):
+        _descargar_informe(concurso)
         if hallazgos:
             _resumen(hallazgos)
             for hallazgo in hallazgos:

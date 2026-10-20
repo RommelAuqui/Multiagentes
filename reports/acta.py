@@ -53,11 +53,18 @@ def _sustento(fila: dict) -> str:
     return "\n".join(p for p in partes if p)
 
 
-def generar_acta(concurso: dict, postor: dict, filas: list[dict], dictamen: dict) -> BytesIO:
+def generar_acta(concurso: dict, postor: dict, filas: list[dict], dictamen: dict,
+                 revision_bases: list[str] | None = None) -> BytesIO:
     doc = Document()
     doc.add_heading("Acta de Dictamen Técnico", level=1)
     doc.add_paragraph(f"Concurso: {concurso['nombre']}")
     doc.add_paragraph(f"Postor: {postor['razon_social']} (RUC {postor['ruc']})")
+
+    if revision_bases:
+        # Constancia del control previo: qué hallazgos tuvieron las Bases y cuáles mantuvo el comité.
+        doc.add_heading("Control previo de las Bases", level=2)
+        for linea in revision_bases:
+            doc.add_paragraph(linea)
 
     doc.add_heading("Resultado", level=2)
     doc.add_paragraph(f"Resultado final: {veredicto_efectivo(dictamen)}")

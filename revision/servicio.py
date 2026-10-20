@@ -8,11 +8,13 @@
 """
 from dataclasses import asdict
 from datetime import datetime, timezone
+from io import BytesIO
 
 from agents.gemini_client import ContextoIA
 from db.client import get_client
 from db.storage import subir_archivo
 from rag.pdf_extract import ResultadoExtraccion, extraer_paginas, texto_completo
+from reports.revision_bases import generar_informe, resumen_para_acta
 from revision.catalogo import BASES_DE_RONDA, OBLIGATORIOS, POR_CODIGO, RONDA_A, RONDA_B, TIPOS_DOCUMENTO
 from revision import agente_revisor
 from revision.extraccion import extraer_ficha
@@ -154,6 +156,28 @@ def hallazgos(concurso_id: str, ronda: str | None = None) -> list[dict]:
         consulta = consulta.eq("ronda", ronda)
     orden = list(POR_CODIGO)
     return sorted(consulta.execute().data, key=lambda h: (h["ronda"], orden.index(h["codigo"]), h["clave"]))
+
+
+def historial(concurso_id: str) -> tuple[list[dict], list[dict]]:
+    """Todas las versiones de los documentos y todas las revisiones, para el informe."""
+    client = get_client()
+    documentos = client.table("documentos_expediente").select("*").eq("concurso_id", concurso_id).execute().data
+    revisiones = client.table("revisiones_bases").select("*").eq("concurso_id", concurso_id).execute().data
+    return documentos, revisiones
+
+
+def informe(concurso: dict) -> BytesIO:
+    documentos, revisiones = historial(concurso["id"])
+    return generar_informe(concurso, hallazgos(concurso["id"]), revisiones, documentos)
+
+
+def resumen_para_el_acta(concurso_id: str) -> list[str] | None:
+    """None si el concurso no pasó por la revisión de Bases."""
+    try:
+        _, revisiones = historial(concurso_id)
+    except Exception:
+        return None  # la tabla aún no existe en Supabase
+    return resumen_para_acta(hallazgos(concurso_id)) if revisiones else None
 
 
 def ultima_revision(concurso_id: str, ronda: str) -> dict | None:
