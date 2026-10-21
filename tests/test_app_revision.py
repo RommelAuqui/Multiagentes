@@ -128,3 +128,21 @@ def test_la_revision_rapida_no_basta_para_cerrar_la_ronda(db_falsa, monkeypatch)
 
     _boton(at, "🔎 Analizar").click().run()
     assert not _boton(at, "Cerrar la ronda A").disabled
+
+
+def test_en_la_ronda_b_se_puede_ver_lo_que_paso_en_la_ronda_a(db_falsa):
+    concurso = db_falsa.table("concursos").insert({"nombre": "Supervisión", "estado": "revision_bases",
+                                                   "ronda_revision": "A"}).execute().data[0]
+    _subir(concurso["id"], "requerimiento", "certificacion", "aprobacion_expediente", "estrategia",
+           "interaccion_mercado", "designacion_evaluadores", "bases")
+    servicio.revisar(concurso["id"], "A")
+    db_falsa.table("concursos").update({"ronda_revision": "B"}).eq("id", concurso["id"]).execute()
+
+    at = _portal_comite()
+    interruptor = next(t for t in at.toggle if t.label.startswith("Ver la ronda A"))
+    assert "1 hallazgo(s)" in interruptor.label
+    interruptor.set_value(True).run()
+
+    assert any("COH-02" in m for m in _mensajes(at.markdown))
+    assert any("sin respuesta del comité" in m for m in _mensajes(at.caption))
+    assert not [b for b in at.button if b.label == "Mantener con esta justificación"]  # solo lectura

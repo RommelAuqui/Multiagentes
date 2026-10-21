@@ -110,7 +110,7 @@ def _resumen(hallazgos: list[dict]) -> None:
     st.markdown(f"**Hallazgos:** {por_gravedad} · respondidos {respondidos} de {len(hallazgos)}")
 
 
-def _tarjeta(hallazgo: dict) -> None:
+def _tarjeta(hallazgo: dict, solo_lectura: bool = False) -> None:
     verificacion = POR_CODIGO[hallazgo["codigo"]]
     with st.container(border=True):
         st.markdown(f"{ICONOS[hallazgo['gravedad']]} **{hallazgo['codigo']} · {verificacion.nombre}** "
@@ -130,6 +130,9 @@ def _tarjeta(hallazgo: dict) -> None:
         if hallazgo["estado"] == "se_mantiene":
             st.caption(f"Justificación del comité: {hallazgo['justificacion_comite']} — "
                        f"{hallazgo['revisado_por']}, {hallazgo['revisado_en'][:10]}")
+            return
+        if solo_lectura:
+            st.caption("La ronda se cerró sin respuesta del comité para este hallazgo.")
             return
         st.caption("Corrige el documento y súbelo de nuevo (luego pulsa «Analizar»), o mantenlo con una justificación."
                    if hallazgo["resultado"] == "falla" else
@@ -179,12 +182,37 @@ def _descargar_informe(concurso: dict) -> None:
     )
 
 
+def _ronda_a_cerrada(concurso: dict) -> None:
+    """En la ronda B, lo que pasó en la ronda A queda a la vista (solo lectura) como evidencia."""
+    if not servicio.ultima_revision(concurso["id"], RONDA_A):
+        return
+    hallazgos = servicio.hallazgos(concurso["id"], RONDA_A)
+    if not st.toggle(f"Ver la ronda A (cerrada): {len(hallazgos)} hallazgo(s) y sus documentos",
+                     key=f"ver_ronda_a_{concurso['id']}"):
+        return
+    vigentes = servicio.documentos_vigentes(concurso["id"])
+    for tipo in DOCUMENTOS_DE_RONDA[RONDA_A]:
+        if (fila := vigentes.get(tipo)) and fila.get("path"):
+            st.download_button(f"📄 {TIPOS_DOCUMENTO[tipo]}: {fila['nombre']} (versión {fila['version']})",
+                               data=partial(descargar_archivo, fila["path"]), file_name=fila["nombre"],
+                               mime="application/pdf", on_click="ignore", key=f"descargar_a_{fila['id']}")
+    if hallazgos:
+        _resumen(hallazgos)
+        for hallazgo in hallazgos:
+            _tarjeta(hallazgo, solo_lectura=True)
+    else:
+        st.success("La ronda A no tuvo hallazgos.")
+    st.divider()
+
+
 def render(concurso: dict, al_terminar) -> None:
     """`al_terminar(documento_bases_integradas)` arma la matriz y deja el concurso en revisión de matriz."""
     ronda = concurso.get("ronda_revision") or RONDA_A
     _mostrar_avisos()
     st.markdown(f"### Revisión de Bases · {TITULOS[ronda]}")
     st.caption(EXPLICACIONES[ronda])
+    if ronda == RONDA_B:
+        _ronda_a_cerrada(concurso)
     _documentos(concurso, ronda)
     _analizar(concurso, ronda)
 
