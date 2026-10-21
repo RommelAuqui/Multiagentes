@@ -82,7 +82,7 @@ def test_sin_los_documentos_necesarios_no_se_consulta_a_gemini(gemini, db_falsa)
 def test_si_se_agota_la_cuota_el_resto_queda_no_verificado(monkeypatch):
     llamadas = []
 
-    def sin_cuota(verificacion, docs, contexto):
+    def sin_cuota(verificacion, docs, contexto, ronda):
         llamadas.append(verificacion.codigo)
         raise CuotaDiariaAgotada()
 
@@ -92,3 +92,36 @@ def test_si_se_agota_la_cuota_el_resto_queda_no_verificado(monkeypatch):
     assert len(llamadas) == 1  # después de la primera ya no se intenta
     assert resultados and all(r.estado == NO_VERIFICADO and "cuota diaria" in r.descripcion for r in resultados)
     assert {r.codigo for r in resultados} == {v.codigo for v in VERIFICACIONES if v.metodo == AGENTE and "A" in v.rondas}
+
+
+def test_las_pistas_ubican_los_capitulos_y_las_diferencias_de_personal():
+    requerimiento = Documento("requerimiento", "Req.pdf", REQUERIMIENTO.paginas, {
+        "personal_clave": [{"cargo": "JEFE DE SUPERVISIÓN", "profesion": "Ingeniero Civil", "meses": 36.0}],
+        "monto_experiencia_postor": 480000.0})
+    bases = Documento("bases_integradas", "BI.pdf", [
+        {"pagina": 5, "texto": "CAPÍTULO III REQUERIMIENTO"}, {"pagina": 6, "texto": "B.2 Experiencia"},
+        {"pagina": 8, "texto": "CAPÍTULO IV EVALUACIÓN DE OFERTAS"}, {"pagina": 9, "texto": "Factores"},
+    ], {"personal_clave": [{"cargo": "Jefe de supervisión", "profesion": "Ingeniero Civil", "meses": 60.0}],
+        "monto_experiencia_postor": 480000.0})
+
+    texto = agente_revisor.pistas("COH-07", {"requerimiento": requerimiento, "bases_integradas": bases},
+                                  "bases_integradas")
+
+    assert "Cap. III, requerimiento: páginas 5 a 8" in texto and "Cap. IV, evaluación de ofertas: páginas 8 a 9" in texto
+    assert "Jefe de supervisión, meses: requerimiento «36.0», Bases «60.0»" in texto
+    assert "Experiencia del postor" not in texto  # el monto coincide
+
+
+def test_en_la_ronda_b_se_revisan_las_bases_integradas(gemini, db_falsa):
+    falso = gemini([])
+    # COH-06 pide «bases»: en la ronda B son las Integradas, que no se subieron.
+    resultado = agente_revisor.revisar_verificacion(POR_CODIGO["COH-06"], DOCS, CONTEXTO, "B")
+    assert resultado.estado == NO_VERIFICADO and "Bases Integradas" in resultado.descripcion
+    assert falso.llamadas == []
+
+
+def test_sin_pronunciamiento_no_hubo_elevacion(gemini, db_falsa):
+    falso = gemini([])
+    resultado = agente_revisor.revisar_verificacion(POR_CODIGO["ABS-05"], DOCS, CONTEXTO, "B")
+    assert resultado.estado == "cumple" and "no hubo elevación" in resultado.descripcion
+    assert falso.llamadas == []

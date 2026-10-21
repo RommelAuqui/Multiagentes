@@ -6,13 +6,14 @@ se cumple, si falla o si no se pudo verificar, citando documento y página.
 """
 import difflib
 import json
+import re
 
 from agents.agente import Herramienta, ejecutar_agente
 from agents.gemini_client import ContextoIA
 from config import LLM_MODEL
-from revision.catalogo import AGENTE, TIPOS_DOCUMENTO, Verificacion, de_ronda
+from revision.catalogo import AGENTE, BASES_DE_RONDA, RONDA_B, TIPOS_DOCUMENTO, Verificacion, de_ronda
 from retry_utils import CuotaDiariaAgotada
-from revision.reglas import CUMPLE, FALLA, NO_VERIFICADO, Documento, Resultado, _clave
+from revision.reglas import CAPITULOS, CUMPLE, FALLA, NO_VERIFICADO, Documento, Resultado, _clave
 
 MAX_CARACTERES_PAGINA = 6000
 MAX_PALABRAS_COMPARACION = 12000
@@ -27,13 +28,15 @@ GUIAS = {
               "páginas del Cap. III). Falla si cambia el contenido: alcance, actividades, entregables, plazos, "
               "personal clave, profesiones, meses de experiencia o requisitos. El formato, la numeración y los "
               "encabezados de página no cuentan."
-              " En la ronda B, un cambio que proviene de una absolución del pliego con conformidad del área usuaria es "
-              "válido: revisa el pliego antes de concluir.",
+              " En la ronda B, una diferencia con el requerimiento solo se justifica si una absolución del pliego "
+              "ordena expresamente ese mismo cambio y consta la conformidad del área usuaria; una absolución "
+              "sobre otro aspecto (aunque sea del mismo cargo) no lo justifica.",
     "COH-07": "Compara los requisitos de calificación de las Bases (experiencia del postor, calificaciones y "
               "experiencia del personal clave) con los que propone el requerimiento. Falla si las Bases agregan, "
               "quitan o endurecen un requisito."
-              " En la ronda B, un cambio que proviene de una absolución del pliego con conformidad del área usuaria es "
-              "válido: revisa el pliego antes de concluir.",
+              " En la ronda B, una diferencia con el requerimiento solo se justifica si una absolución del pliego "
+              "ordena expresamente ese mismo cambio y consta la conformidad del área usuaria; una absolución "
+              "sobre otro aspecto (aunque sea del mismo cargo) no lo justifica.",
     "COH-09": "Compara la modalidad de pago, las garantías y los adelantos de las Bases con lo que decidió la "
               "estrategia de contratación.",
     "FOR-01": "La Sección general de las Bases estándar no se puede modificar. Revisa si su texto muestra señales de "
@@ -81,7 +84,11 @@ Verificación {codigo}: {nombre}
 Respaldo: {respaldo}
 Qué revisar: {guia}
 
+Ronda {ronda}. Las Bases que se revisan en esta ronda son el documento «{bases}»{nota_bases}.
 Documentos disponibles: {documentos}
+
+Datos de referencia, extraídos automáticamente (verifícalos en los documentos antes de concluir):
+{pistas}
 
 Investiga con las herramientas y, cuando tengas evidencia suficiente, concluye con emitir_resultado:
 - "cumple" si la verificación se cumple;
@@ -180,6 +187,77 @@ def herramientas(docs: dict[str, Documento]) -> list[Herramienta]:
     ]
 
 
+def capitulos(documento: Documento) -> dict[str, tuple[int, int]]:
+    """Páginas de inicio y fin de cada capítulo de la Sección específica."""
+    inicios = {}
+    for nombre, patron in CAPITULOS.items():
+        for pagina in documento.paginas:
+            if re.search(patron, pagina.get("texto") or "", re.IGNORECASE):
+                inicios[nombre] = pagina["pagina"]
+                break
+    ultima = max((p["pagina"] for p in documento.paginas), default=0)
+    ordenados = sorted(inicios.items(), key=lambda par: par[1])
+    return {nombre: (inicio, ordenados[i + 1][1] if i + 1 < len(ordenados) else ultima)
+            for i, (nombre, inicio) in enumerate(ordenados)}
+
+
+def _diferencias_de_personal(requerimiento: Documento, bases: Documento) -> list[str]:
+    en_requerimiento = {_clave(p.get("cargo")): p for p in requerimiento.datos.get("personal_clave") or []}
+    lineas = []
+    for cargo in bases.datos.get("personal_clave") or []:
+        propuesto = en_requerimiento.get(_clave(cargo.get("cargo")))
+        if propuesto is None:
+            lineas.append(f"- «{cargo.get('cargo')}» está en las Bases y no en el requerimiento.")
+            continue
+        for campo in ("meses", "profesion"):
+            if _clave(str(cargo.get(campo))) != _clave(str(propuesto.get(campo))):
+                lineas.append(f"- {cargo.get('cargo')}, {campo}: requerimiento «{propuesto.get(campo)}», "
+                              f"Bases «{cargo.get(campo)}».")
+    monto_r, monto_b = requerimiento.datos.get("monto_experiencia_postor"), bases.datos.get("monto_experiencia_postor")
+    if monto_r is not None and monto_b is not None and abs(monto_r - monto_b) > 0.01:
+        lineas.append(f"- Experiencia del postor: requerimiento {monto_r:,.2f}, Bases {monto_b:,.2f}.")
+    return lineas
+
+
+def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
+    """Datos ya extraídos que orientan al agente; él debe confirmarlos en los documentos."""
+    lineas = []
+    for tipo in ((tipo_bases, "bases") if codigo == "ABS-03" else (tipo_bases,)):
+        if tipo in docs and (rangos := capitulos(docs[tipo])):
+            lineas.append(f"Capítulos de «{tipo}»: "
+                          + "; ".join(f"{n}: páginas {a} a {b}" for n, (a, b) in rangos.items()))
+    bases = docs.get(tipo_bases)
+    if codigo in ("COH-06", "COH-07", "PRO-02") and bases and "requerimiento" in docs:
+        diferencias = _diferencias_de_personal(docs["requerimiento"], bases)
+        lineas.append("Diferencias en personal clave y experiencia entre el requerimiento y las Bases:\n"
+                      + ("\n".join(diferencias) or "- No se encontraron diferencias en los datos extraídos."))
+    if codigo == "COH-05" and bases and "requerimiento" in docs:
+        lineas.append(f"Objeto en las Bases: {bases.datos.get('objeto')}\n"
+                      f"Objeto en el requerimiento: {docs['requerimiento'].datos.get('objeto')}")
+    if codigo == "COH-09" and bases and "estrategia" in docs:
+        estrategia = docs["estrategia"].datos
+        lineas.append(f"Modalidad de pago en las Bases: {bases.datos.get('modalidad_pago')}. En la estrategia: "
+                      f"{estrategia.get('modalidad_pago')}; garantías: {estrategia.get('garantias')}; "
+                      f"adelantos: {estrategia.get('adelantos')}.")
+    if codigo.startswith("ABS-") and "pliego" in docs:
+        lineas.append("Consultas del pliego: "
+                      + json.dumps(docs["pliego"].datos.get("consultas") or [], ensure_ascii=False))
+    if codigo == "PRO-06" and "estrategia" in docs:
+        estrategia = docs["estrategia"].datos
+        interaccion = docs["interaccion_mercado"].datos if "interaccion_mercado" in docs else {}
+        lineas.append(f"Estrategia: riesgo {estrategia.get('riesgo')}, categoría {estrategia.get('categoria')}, "
+                      f"interacción {estrategia.get('interaccion_mercado')}. "
+                      f"Formato de interacción: {interaccion.get('tipo')}.")
+    return "\n".join(lineas) or "(sin datos de referencia)"
+
+
+def _necesarios(verificacion: Verificacion, ronda: str) -> list[str]:
+    """En la ronda B, «las Bases» de una verificación son las Integradas (salvo que compare ambas versiones)."""
+    if ronda != RONDA_B or "bases_integradas" in verificacion.documentos:
+        return list(verificacion.documentos)
+    return [BASES_DE_RONDA[ronda] if t == "bases" else t for t in verificacion.documentos]
+
+
 FINAL = Herramienta(
     "emitir_resultado", "Entrega la conclusión de la verificación.",
     {"type": "object", "properties": {
@@ -203,14 +281,19 @@ def _resultado(verificacion: Verificacion, conclusion: dict | None, docs: dict[s
                      citas, pasos=pasos)
 
 
-def revisar_verificacion(verificacion: Verificacion, docs: dict[str, Documento], contexto: ContextoIA) -> Resultado:
-    if faltan := [t for t in verificacion.documentos if t not in docs]:
+def revisar_verificacion(verificacion: Verificacion, docs: dict[str, Documento], contexto: ContextoIA,
+                         ronda: str = "A") -> Resultado:
+    if verificacion.codigo == "ABS-05" and "pronunciamiento" not in docs:
+        return Resultado("ABS-05", CUMPLE, "No se subió un pronunciamiento del OECE: no hubo elevación de las Bases.")
+    if faltan := [t for t in _necesarios(verificacion, ronda) if t not in docs]:
         return Resultado(verificacion.codigo, NO_VERIFICADO,
                          "No se pudo verificar: falta " + ", ".join(TIPOS_DOCUMENTO[t] for t in faltan) + ".")
     instrucciones = INSTRUCCIONES.format(
         codigo=verificacion.codigo, nombre=verificacion.nombre, respaldo=verificacion.respaldo,
-        guia=GUIAS[verificacion.codigo],
+        guia=GUIAS[verificacion.codigo], ronda=ronda, bases=BASES_DE_RONDA[ronda],
+        nota_bases=" («bases» es la versión que se convocó)" if ronda == RONDA_B else "",
         documentos=json.dumps({t: TIPOS_DOCUMENTO[t] for t in docs}, ensure_ascii=False),
+        pistas=pistas(verificacion.codigo, docs, BASES_DE_RONDA[ronda]),
     )
     resultado = ejecutar_agente(LLM_MODEL, instrucciones, herramientas(docs), FINAL, contexto)
     return _resultado(verificacion, resultado.conclusion, docs, resultado.pasos)
@@ -224,7 +307,7 @@ def revisar(ronda: str, docs: dict[str, Documento], contexto: ContextoIA) -> lis
                                         "diaria de Gemini. Vuelve a pulsar «Analizar» cuando se renueve."))
             continue
         try:
-            resultados.append(revisar_verificacion(verificacion, docs, contexto))
+            resultados.append(revisar_verificacion(verificacion, docs, contexto, ronda))
         except CuotaDiariaAgotada:
             sin_cuota = True
             resultados.append(Resultado(verificacion.codigo, NO_VERIFICADO, "No se pudo revisar: se agotó la cuota "
