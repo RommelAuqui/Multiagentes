@@ -72,10 +72,11 @@ def test_flujo_completo_de_la_ronda_a(concurso, fichas, db_falsa):
     primera = servicio.revisar(cid, "A")
     hallazgos = _por_codigo(cid)
     # La certificación no alcanza y faltan los documentos opcionales del expediente.
-    assert set(hallazgos) == {"COH-02", "EXP-04", "EXP-05", "EXP-06"}
+    # COH-09 no se puede verificar sin la estrategia, que no se subió.
+    assert set(hallazgos) == {"COH-02", "COH-09", "EXP-04", "EXP-05", "EXP-06"}
     assert hallazgos["COH-02"]["gravedad"] == "Crítico" and hallazgos["COH-02"]["estado"] == "pendiente"
     assert hallazgos["COH-02"]["detectado_en"] == primera["id"]
-    assert "Quedan 4 hallazgo(s) sin responder" in servicio.puede_continuar(cid, "A")[1]
+    assert "Quedan 5 hallazgo(s) sin responder" in servicio.puede_continuar(cid, "A")[1]
 
     with pytest.raises(servicio.RespuestaInvalida):
         servicio.mantener(hallazgos["EXP-06"]["id"], "  ", "Ana Pérez")
@@ -89,7 +90,7 @@ def test_flujo_completo_de_la_ronda_a(concurso, fichas, db_falsa):
     assert hallazgos["COH-02"]["estado"] == "corregido" and hallazgos["COH-02"]["resuelto_en"] == segunda["id"]
     assert hallazgos["EXP-06"]["estado"] == "se_mantiene" and hallazgos["EXP-06"]["revisado_por"] == "Ana Pérez"
 
-    for codigo in ("EXP-04", "EXP-05"):
+    for codigo in ("EXP-04", "EXP-05", "COH-09"):
         servicio.mantener(hallazgos[codigo]["id"], "Contratación rutinaria: no se elaboró ese formato.", "Ana Pérez")
     assert servicio.puede_continuar(cid, "A") == (True, "")
     # El historial queda: dos revisiones y las dos versiones de la certificación.
@@ -130,7 +131,7 @@ def test_el_informe_y_el_acta_dejan_constancia_de_lo_mantenido(concurso, fichas)
 
     texto = "\n".join(p.text for p in Document(servicio.informe(concurso)).paragraphs)
     tablas = "\n".join(c.text for t in Document(servicio.informe(concurso)).tables for f in t.rows for c in f.cells)
-    assert "4 hallazgo(s): 0 corregido(s) y 4 mantenido(s)" in texto
+    assert "5 hallazgo(s): 0 corregido(s) y 5 mantenido(s)" in texto
     assert "mantener 1 hallazgo(s) crítico(s)" in texto
     assert "COH-02 · La certificación presupuestal cubre la cuantía" in tablas and "Firma: Ana Pérez" in tablas
 

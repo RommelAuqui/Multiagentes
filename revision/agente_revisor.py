@@ -37,8 +37,6 @@ GUIAS = {
               " En la ronda B, una diferencia con el requerimiento solo se justifica si una absolución del pliego "
               "ordena expresamente ese mismo cambio y consta la conformidad del área usuaria; una absolución "
               "sobre otro aspecto (aunque sea del mismo cargo) no lo justifica.",
-    "COH-09": "Compara la modalidad de pago, las garantías y los adelantos de las Bases con lo que decidió la "
-              "estrategia de contratación.",
     "FOR-01": "La Sección general de las Bases estándar no se puede modificar. Revisa si su texto muestra señales de "
               "haber sido alterado: numerales faltantes, plazos distintos de los de la Ley (7 días hábiles para "
               "consultas, 3 días hábiles para pedir la elevación, 8 días hábiles para apelar) o reglas agregadas. "
@@ -56,7 +54,8 @@ GUIAS = {
               "cuál.",
     "ABS-03": "Compara las Bases de la convocatoria con las Bases Integradas usando comparar_textos. Cada cambio "
               "de contenido debe provenir de una absolución del pliego (o del pronunciamiento). Falla si hay un "
-              "cambio de contenido que ninguna absolución explica; indica cuál.",
+              "cambio de contenido que ninguna absolución explica; indica cuál. Una absolución acogida que NO se "
+              "incorporó no es un cambio en las Bases: eso lo revisa ABS-02 y no se reporta aquí.",
     "ABS-04": "Si alguna absolución modificó el requerimiento (términos de referencia, entregables, plazos, "
               "personal, requisitos), revisa si consta la conformidad o no objeción del área usuaria. Si ninguna "
               "absolución tocó el requerimiento, cumple.",
@@ -234,11 +233,6 @@ def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
     if codigo == "COH-05" and bases and "requerimiento" in docs:
         lineas.append(f"Objeto en las Bases: {bases.datos.get('objeto')}\n"
                       f"Objeto en el requerimiento: {docs['requerimiento'].datos.get('objeto')}")
-    if codigo == "COH-09" and bases and "estrategia" in docs:
-        estrategia = docs["estrategia"].datos
-        lineas.append(f"Modalidad de pago en las Bases: {bases.datos.get('modalidad_pago')}. En la estrategia: "
-                      f"{estrategia.get('modalidad_pago')}; garantías: {estrategia.get('garantias')}; "
-                      f"adelantos: {estrategia.get('adelantos')}.")
     if codigo.startswith("ABS-") and "pliego" in docs:
         lineas.append("Consultas del pliego: "
                       + json.dumps(docs["pliego"].datos.get("consultas") or [], ensure_ascii=False))

@@ -11,14 +11,14 @@ def _fila(convocatoria, ronda, esperadas, fallas, no_verificadas=()):
 def test_metricas_de_deteccion():
     filas = [
         _fila("conv4", "A", ["COH-02", "COH-06"], ["COH-02", "PRO-05"]),  # detecta 1 de 2 y un hallazgo de más
-        _fila("conv1", "A", [], [], ["FOR-01"]),
+        _fila("conv1", "A", [], ["FOR-01"], ["PRO-07"]),  # FOR-01 queda fuera de las métricas
     ]
     m = metricas(filas, con_agente=True)
 
     assert (m["verdaderos_positivos"], m["falsos_negativos"], m["falsos_positivos"]) == (1, 1, 1)
     assert m["exhaustividad"] == 0.5 and m["precision"] == 0.5
     assert m["por_codigo"]["COH-06"] == {"esperada": 1} and m["por_codigo"]["PRO-05"] == {"falso_positivo": 1}
-    assert m["no_verificadas"] == {"FOR-01": 1} and m["consultas"] == 10
+    assert m["no_verificadas"] == {"PRO-07": 1} and m["consultas"] == 10
 
     texto = reporte(filas, m, con_agente=True)
     assert "| conv4 | A | COH-02, COH-06 | COH-02, PRO-05 | COH-06 | PRO-05 |" in texto

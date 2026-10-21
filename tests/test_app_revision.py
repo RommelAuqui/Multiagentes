@@ -9,7 +9,7 @@ from tests.test_app import CRITERIO_ADMISION, CRITERIO_FACTOR, _boton, _mensajes
 BASES = {
     "cuantia": 480000.0, "fuente_financiamiento": "Recursos determinados", "fecha_aprobacion_expediente": "2026-09-28",
     "difusion_requerimiento": False, "elevacion_oece": True, "plazo_dias": 210.0, "monto_experiencia_postor": 480000.0,
-    "puntaje_minimo": 70.0, "puntaje_total": 100.0,
+    "puntaje_minimo": 70.0, "puntaje_total": 100.0, "modalidad_pago": "Suma alzada",
     "factores": [{"nombre": "Experiencia", "puntaje": 60.0}, {"nombre": "Metodología", "puntaje": 40.0}],
     "cronograma": {"convocatoria": "2026-10-05", "consultas_fin": "2026-10-16", "integracion": "2026-10-23",
                    "presentacion_ofertas": "2026-11-09"},
@@ -18,7 +18,7 @@ FICHAS = {
     "requerimiento": {"plazo_dias": 210.0},
     "certificacion": {"monto": 400000.0, "fuente_financiamiento": "Recursos determinados"},
     "aprobacion_expediente": {"fecha_aprobacion": "2026-09-28", "cuantia": 480000.0},
-    "estrategia": {"cuantia": 480000.0},
+    "estrategia": {"cuantia": 480000.0, "modalidad_pago": "Suma alzada"},
     "interaccion_mercado": {"difusion_requerimiento": False},
     "designacion_evaluadores": {},
     "bases": BASES,

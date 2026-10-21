@@ -202,6 +202,25 @@ def coh08(docs, bases: Documento) -> Resultado:
     return Resultado("COH-08", CUMPLE, f"El plazo de {en_bases:g} días coincide con el requerimiento.")
 
 
+def _sin_puntuacion(texto: str) -> str:
+    return re.sub(r"[^\w ]", "", _clave(texto))
+
+
+def coh09(docs, bases: Documento) -> Resultado:
+    if "estrategia" not in docs:
+        return _faltan("COH-09", ["estrategia"])
+    en_bases, en_estrategia = bases.datos.get("modalidad_pago"), docs["estrategia"].datos.get("modalidad_pago")
+    if not en_bases or not en_estrategia:
+        return Resultado("COH-09", NO_VERIFICADO, "No se pudo verificar: falta la modalidad de pago en las Bases o en "
+                                                  "la estrategia de contratación.")
+    a, b = _sin_puntuacion(en_bases), _sin_puntuacion(en_estrategia)
+    if a not in b and b not in a:
+        return Resultado("COH-09", FALLA, f"Las Bases fijan la modalidad de pago «{en_bases}», pero la estrategia de "
+                                          f"contratación decidió «{en_estrategia}».",
+                         [_cita(bases), _cita(docs["estrategia"])])
+    return Resultado("COH-09", CUMPLE, f"La modalidad de pago coincide con la estrategia: {en_estrategia}.")
+
+
 def coh10(docs, bases: Documento) -> Resultado:
     difusion, elevacion = bases.datos.get("difusion_requerimiento"), bases.datos.get("elevacion_oece")
     if difusion is None:
@@ -349,6 +368,7 @@ def verificar(ronda: str, docs: dict[str, Documento]) -> list[Resultado]:
         "EXP-07": lambda: exp07(docs, bases), "COH-01": lambda: coh01(docs, bases),
         "COH-02": lambda: coh02(docs, bases), "COH-03": lambda: coh03(docs, bases),
         "COH-04": lambda: coh04(docs, bases), "COH-08": lambda: coh08(docs, bases),
+        "COH-09": lambda: coh09(docs, bases),
         "COH-10": lambda: coh10(docs, bases), "FOR-02": lambda: for02(bases), "FOR-03": lambda: for03(bases),
         "FOR-04": lambda: for04(bases), "FOR-05": lambda: for05(bases), "FOR-06": lambda: for06(bases),
         "FOR-07": lambda: for07(bases), "FOR-08": lambda: for08(bases), "PRO-01": lambda: pro01(bases),

@@ -102,9 +102,8 @@ VERIFICACIONES = [
                  f"{GUIA}, Cap. III, variable f)", AGENTE, ("bases", "requerimiento"), CRITICO),
     Verificacion("COH-08", COHERENCIA, "El plazo de prestación de las Bases es el del requerimiento",
                  f"{GUIA}, Cap. II", REGLA, ("bases", "requerimiento"), ADVERTENCIA),
-    Verificacion("COH-09", COHERENCIA, "La modalidad de pago, las garantías y los adelantos coinciden con la "
-                 "estrategia de contratación", f"{GUIA}, Cap. III, variables h) y l)", AGENTE,
-                 ("bases", "estrategia"), ADVERTENCIA),
+    Verificacion("COH-09", COHERENCIA, "La modalidad de pago de las Bases es la que decidió la estrategia de "
+                 "contratación", f"{GUIA}, Cap. III, variable h)", REGLA, ("bases", "estrategia"), ADVERTENCIA),
     Verificacion("COH-10", COHERENCIA, "Lo que declaran las Bases sobre la difusión del requerimiento coincide con "
                  "la interacción con el mercado, y si no hubo difusión se prevé la elevación al OECE",
                  f"{BASES}, Cap. I, numeral 1.5 y {GENERAL}, numeral 2.1 c) (artículo 67 del Reglamento)", REGLA,

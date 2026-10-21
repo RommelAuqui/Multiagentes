@@ -32,6 +32,8 @@ from revision.catalogo import AGENTE, POR_CODIGO, REGLA, TIPOS_DOCUMENTO
 
 CARPETA_DEMO = Path(__file__).parent.parent / "demo" / "convocatorias"
 CARPETA_RESULTADOS = Path(__file__).parent / "resultados"
+# Verificaciones que aún no se pueden evaluar y quedan fuera de las métricas.
+PENDIENTES = {"FOR-01": "falta la plantilla oficial de las Bases estándar para comparar la Sección general"}
 ARCHIVOS = {
     "A": {"requerimiento": "A1 Requerimiento.pdf", "certificacion": "A2 Certificación presupuestal.pdf",
           "estrategia": "A3 Estrategia de contratación.pdf", "interaccion_mercado": "A4 Interacción con el mercado.pdf",
@@ -98,15 +100,16 @@ def revisar_convocatoria(carpeta: str, con_agente: bool, en_memoria: bool = Fals
 
 
 def metricas(filas: list[dict], con_agente: bool) -> dict:
-    evaluables = {codigo for codigo, v in POR_CODIGO.items() if con_agente or v.metodo == REGLA}
+    evaluables = {codigo for codigo, v in POR_CODIGO.items()
+                  if (con_agente or v.metodo == REGLA) and codigo not in PENDIENTES}
     vp = fn = fp = 0
     por_codigo = {c: Counter() for c in evaluables}
     no_verificadas = Counter()
     for fila in filas:
-        detectadas = {r["codigo"] for r in fila["resultados"] if r["estado"] == "falla"}
+        detectadas = {r["codigo"] for r in fila["resultados"] if r["estado"] == "falla"} & evaluables
         esperadas = set(fila["esperadas"]) & evaluables
         for r in fila["resultados"]:
-            if r["estado"] == "no_verificado":
+            if r["estado"] == "no_verificado" and r["codigo"] in evaluables:
                 no_verificadas[r["codigo"]] += 1
         for codigo in esperadas:
             por_codigo[codigo]["esperada"] += 1
@@ -149,6 +152,7 @@ def reporte(filas: list[dict], m: dict, con_agente: bool) -> str:
         f"| Consultas a Gemini | {m['consultas']} |",
         f"| Tokens | {m['tokens']:,} |".replace(",", " "),
         f"| Tiempo total | {m['segundos']:.0f} s |", "",
+        "Fuera de las métricas: " + "; ".join(f"{c} ({motivo})" for c, motivo in PENDIENTES.items()) + ".", "",
         "## Por convocatoria y ronda", "",
         "| Convocatoria | Ronda | Esperadas | Detectadas | No detectadas | De más |", "|---|---|---|---|---|---|",
     ]
@@ -160,7 +164,7 @@ def reporte(filas: list[dict], m: dict, con_agente: bool) -> str:
                       f"{', '.join(sorted(set(detectadas) - esperadas)) or '—'} |")
     lineas += ["", "## Hallazgos de más (posibles falsos positivos)", ""]
     de_mas = [(f, r) for f in filas for r in f["resultados"]
-              if r["estado"] == "falla" and r["codigo"] not in f["esperadas"]]
+              if r["estado"] == "falla" and r["codigo"] not in f["esperadas"] and r["codigo"] not in PENDIENTES]
     if not de_mas:
         lineas.append("Ninguno.")
     for f, r in de_mas:
@@ -209,6 +213,7 @@ def informe_word(filas: list[dict], m: dict, con_agente: bool, ruta: Path) -> No
         ["Consultas a Gemini", m["consultas"]], ["Tokens", f"{m['tokens']:,}".replace(",", " ")],
         ["Tiempo total", f"{m['segundos']:.0f} s"],
     ])
+    doc.add_paragraph("Fuera de las métricas: " + "; ".join(f"{c} ({motivo})" for c, motivo in PENDIENTES.items()) + ".")
 
     for carpeta in dict.fromkeys(f["convocatoria"] for f in filas):
         de_la_convocatoria = [f for f in filas if f["convocatoria"] == carpeta]

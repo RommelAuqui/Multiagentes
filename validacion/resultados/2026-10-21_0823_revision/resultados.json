@@ -1,0 +1,3392 @@
+{
+ "filas": [
+  {
+   "convocatoria": "convocatoria_4_supervision_canal_de_riego",
+   "concurso": "VALIDACIÓN · CP-04-2026-PERVS/CS · supervision canal de riego",
+   "concurso_id": "e4dabb5d-4698-406a-943b-68c2a30a0a49",
+   "ronda": "A",
+   "segundos": 1012.1,
+   "documentos": [
+    {
+     "tipo": "requerimiento",
+     "archivo": "A1 Requerimiento.pdf",
+     "version": 1,
+     "paginas": 2,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A1 Requerimiento.pdf"
+    },
+    {
+     "tipo": "certificacion",
+     "archivo": "A2 Certificación presupuestal.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A2 Certificación presupuestal.pdf"
+    },
+    {
+     "tipo": "estrategia",
+     "archivo": "A3 Estrategia de contratación.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A3 Estrategia de contratación.pdf"
+    },
+    {
+     "tipo": "interaccion_mercado",
+     "archivo": "A4 Interacción con el mercado.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A4 Interacción con el mercado.pdf"
+    },
+    {
+     "tipo": "designacion_evaluadores",
+     "archivo": "A5 Designación del comité.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A5 Designación del comité.pdf"
+    },
+    {
+     "tipo": "aprobacion_expediente",
+     "archivo": "A6 Aprobación del expediente.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A6 Aprobación del expediente.pdf"
+    },
+    {
+     "tipo": "bases",
+     "archivo": "A7 Bases para convocar.pdf",
+     "version": 1,
+     "paginas": 10,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\A7 Bases para convocar.pdf"
+    }
+   ],
+   "esperadas": [
+    "COH-02",
+    "COH-04",
+    "COH-06",
+    "COH-07"
+   ],
+   "resultados": [
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-01",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A1 Requerimiento.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A2 Certificación presupuestal.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-02",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A2 Certificación presupuestal.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A6 Aprobación del expediente.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-03",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A6 Aprobación del expediente.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A3 Estrategia de contratación.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-04",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A3 Estrategia de contratación.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A4 Interacción con el mercado.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-05",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A4 Interacción con el mercado.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A5 Designación del comité.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-06",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A5 Designación del comité.pdf»."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-07",
+     "estado": "cumple",
+     "descripcion": "Las Bases no citan un proyecto de inversión."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-01",
+     "estado": "cumple",
+     "descripcion": "La cuantía de S/ 520 000.00 coincide en las Bases y el expediente."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A2 Certificación presupuestal.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-02",
+     "estado": "falla",
+     "descripcion": "La certificación cubre S/ 500 000.00, menos que la cuantía de S/ 520 000.00 (faltan S/ 20 000.00)."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-03",
+     "estado": "cumple",
+     "descripcion": "La fuente de financiamiento coincide: Recursos determinados.."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A6 Aprobación del expediente.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-04",
+     "estado": "falla",
+     "descripcion": "Las Bases dicen que el expediente se aprobó el 2026-09-28, pero el documento de aprobación tiene fecha 2026-09-30."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «HUAYRAPAMPA» en bases: 4 página(s)",
+       "argumentos": {
+        "palabras": "HUAYRAPAMPA",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «HUAYRAPAMPA» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "HUAYRAPAMPA",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-05",
+     "estado": "cumple",
+     "descripcion": "El objeto de la convocatoria en las Bases (Cap. I, p. 3) coincide exactamente con el objeto indicado en el requerimiento (p. 1)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      },
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «hidráulica» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "hidráulica",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-06",
+     "estado": "falla",
+     "descripcion": "El Capítulo III de las Bases modifica el requerimiento original: la experiencia mínima del Especialista en Hidráulica se incrementó de 12.0 meses en el requerimiento a 24.0 meses en las Bases, sin justificación válida por absolución de pliego."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «especialista en hidráulica» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "especialista en hidráulica",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «especialista en hidráulica» en bases: 1 página(s)",
+       "argumentos": {
+        "palabras": "especialista en hidráulica",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-07",
+     "estado": "falla",
+     "descripcion": "Las Bases endurecen el requisito del Especialista en Hidráulica al exigir 24 meses de experiencia, mientras que el requerimiento solicitaba 12 meses."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-08",
+     "estado": "cumple",
+     "descripcion": "El plazo de 180 días coincide con el requerimiento."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «pago» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «garantia» en bases: 2 página(s)",
+       "argumentos": {
+        "palabras": "garantia",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «adelanto» en bases: 0 página(s)",
+       "argumentos": {
+        "palabras": "adelanto",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 3",
+       "argumentos": {
+        "pagina": 3,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-09",
+     "estado": "cumple",
+     "descripcion": "La modalidad de pago (suma alzada), las garantías y la inexistencia de adelantos establecidas en las Bases coinciden con lo definido en la estrategia de contratación."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-10",
+     "estado": "cumple",
+     "descripcion": "Lo declarado sobre la difusión del requerimiento y la elevación es coherente."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 2,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Buscó «consultas» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "consultas",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 2",
+       "argumentos": {
+        "pagina": 2,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 3",
+       "argumentos": {
+        "pagina": 3,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-01",
+     "estado": "no_verificado",
+     "descripcion": "La Sección general no contiene la plantilla oficial completa ni los plazos normativos detallados para contrastar exhaustivamente, por lo que no es posible verificar si fue modificada."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-02",
+     "estado": "cumple",
+     "descripcion": "No quedan indicaciones de la plantilla sin completar."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-03",
+     "estado": "cumple",
+     "descripcion": "No quedan notas dirigidas a la entidad contratante."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-04",
+     "estado": "cumple",
+     "descripcion": "Están todos los capítulos de la Sección específica."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-05",
+     "estado": "cumple",
+     "descripcion": "Los 3 factores suman 100 puntos."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-06",
+     "estado": "cumple",
+     "descripcion": "El puntaje técnico mínimo es 70."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-07",
+     "estado": "cumple",
+     "descripcion": "Hay 9 días hábiles para consultas y observaciones (mínimo 7)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «2.2.1.1» en bases: 1 página(s)",
+       "argumentos": {
+        "palabras": "2.2.1.1",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-09",
+     "estado": "cumple",
+     "descripcion": "Las Bases no exigen para la admisión documentos distintos de los previstos en las Bases estándar (declaración jurada de datos del postor, pacto de integridad, declaración jurada de veracidad y no impedimento, y promesa de consorcio de ser el caso)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «perfeccionar el contrato» en bases: 1 página(s)",
+       "argumentos": {
+        "palabras": "perfeccionar el contrato",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-10",
+     "estado": "cumple",
+     "descripcion": "Las Bases establecen expresamente que los requisitos para perfeccionar el contrato no forman parte de la oferta ni se verifican en la admisión ni en la calificación."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-01",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida equivale a 1.00 veces la cuantía."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «personal clave» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "personal clave",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "leer_pagina: ValueError: El documento no tiene la página 5.",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 2",
+       "argumentos": {
+        "pagina": 2,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-02",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida de 24 meses para el Especialista en Hidráulica es razonable para un servicio de supervisión de obras de riego y no constituye una exigencia excesiva."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-03",
+     "estado": "cumple",
+     "descripcion": "Ningún factor supera los 60 puntos."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 8,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «factores de evaluacion» en bases: 2 página(s)",
+       "argumentos": {
+        "palabras": "factores de evaluacion",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-04",
+     "estado": "cumple",
+     "descripcion": "El factor de evaluación 'A. Experiencia del postor en la especialidad' otorga puntaje por montos mayores o iguales al mínimo requerido (M >= 1, M >= 2, M >= 3 veces la cuantía), aportando valor adicional conforme a la normativa, y no repite el requisito de calificación sin valor agregado."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó bases, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-05",
+     "estado": "cumple",
+     "descripcion": "Los requisitos de calificación y el requerimiento de las bases no contienen exigencias de marcas específicas, certificaciones poco comunes, experiencias en entidades o lugares determinados, ni combinaciones restrictivas que parezcan dirigidas a un postor en particular."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A3 Estrategia de contratación.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de estrategia",
+       "argumentos": {
+        "documento": "estrategia"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Leyó estrategia, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "estrategia"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-06",
+     "estado": "cumple",
+     "descripcion": "La estrategia de contratación clasificó el riesgo como bajo (categoría operacional), por lo que, según la regla, no requiere consulta al mercado y la indagación básica realizada cumple con lo establecido."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 5,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 6,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «pago» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «plazo» en bases: 4 página(s)",
+       "argumentos": {
+        "palabras": "plazo",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-07",
+     "estado": "cumple",
+     "descripcion": "El plazo total (180 días de servicio más 30 para liquidación) y los entregables definidos (informe inicial, informes mensuales y informe final con liquidación) guardan perfecta coherencia con la forma de pago por cada entregable aprobado tras la conformidad del área usuaria."
+    }
+   ],
+   "consultas": 57,
+   "tokens": 132759
+  },
+  {
+   "convocatoria": "convocatoria_4_supervision_canal_de_riego",
+   "concurso": "VALIDACIÓN · CP-04-2026-PERVS/CS · supervision canal de riego",
+   "concurso_id": "e4dabb5d-4698-406a-943b-68c2a30a0a49",
+   "ronda": "B",
+   "segundos": 308.8,
+   "documentos": [
+    {
+     "tipo": "pliego",
+     "archivo": "B1 Pliego de absolución.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\revision_de_bases\\B1 Pliego de absolución.pdf"
+    },
+    {
+     "tipo": "bases_integradas",
+     "archivo": "Bases Integradas CP-04-2026-PERVS-CS.pdf",
+     "version": 1,
+     "paginas": 10,
+     "ruta": "demo\\convocatorias\\convocatoria_4_supervision_canal_de_riego\\Bases Integradas CP-04-2026-PERVS-CS.pdf"
+    }
+   ],
+   "esperadas": [
+    "ABS-01",
+    "ABS-02",
+    "ABS-04",
+    "COH-02",
+    "COH-04",
+    "COH-06",
+    "COH-07"
+   ],
+   "resultados": [
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-01",
+     "estado": "cumple",
+     "descripcion": "La cuantía de S/ 520 000.00 coincide en las Bases y el expediente."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A2 Certificación presupuestal.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-02",
+     "estado": "falla",
+     "descripcion": "La certificación cubre S/ 500 000.00, menos que la cuantía de S/ 520 000.00 (faltan S/ 20 000.00)."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-03",
+     "estado": "cumple",
+     "descripcion": "La fuente de financiamiento coincide: Recursos determinados.."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A6 Aprobación del expediente.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-04",
+     "estado": "falla",
+     "descripcion": "Las Bases dicen que el expediente se aprobó el 2026-09-28, pero el documento de aprobación tiene fecha 2026-09-30."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (9)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 3",
+       "argumentos": {
+        "pagina": 3,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-05",
+     "estado": "cumple",
+     "descripcion": "El objeto de la convocatoria en las Bases Integradas (Capítulo I, numeral 1.2) coincide plenamente con el objeto del requerimiento del área usuaria."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «ESPECIALISTA EN HIDRÁULICA» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "ESPECIALISTA EN HIDRÁULICA",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «ESPECIALISTA EN HIDRÁULICA» en bases_integradas: 1 página(s)",
+       "argumentos": {
+        "palabras": "ESPECIALISTA EN HIDRÁULICA",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «meses» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "meses",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «HIDRÁULICA» en pliego: 1 página(s)",
+       "argumentos": {
+        "palabras": "HIDRÁULICA",
+        "documento": "pliego"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «meses» en pliego: 0 página(s)",
+       "argumentos": {
+        "palabras": "meses",
+        "documento": "pliego"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-06",
+     "estado": "falla",
+     "descripcion": "El Capítulo III de las Bases integradas modifica la experiencia del Especialista en Hidráulica de 12 a 24 meses sin que exista una absolución de consulta u observación que ordene expresamente dicho cambio en el pliego."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      },
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «HIDRÁULICA» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "HIDRÁULICA",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «Especialista» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "Especialista",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «ESPECIALISTA» en bases_integradas: 1 página(s)",
+       "argumentos": {
+        "palabras": "ESPECIALISTA",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «HIDRÁULICA» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "HIDRÁULICA",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-07",
+     "estado": "falla",
+     "descripcion": "Las Bases integradas exigen 24.0 meses para el Especialista en Hidráulica, mientras que el requerimiento solicitaba 12.0 meses, endureciendo el requisito de calificación sin justificación en el pliego."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-08",
+     "estado": "cumple",
+     "descripcion": "El plazo de 180 días coincide con el requerimiento."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 5,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A3 Estrategia de contratación.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de estrategia",
+       "argumentos": {
+        "documento": "estrategia"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Buscó «pago» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «adelanto» en bases_integradas: 0 página(s)",
+       "argumentos": {
+        "palabras": "adelanto",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «adelantos» en bases_integradas: 0 página(s)",
+       "argumentos": {
+        "palabras": "adelantos",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «garantia» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "garantia",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-09",
+     "estado": "cumple",
+     "descripcion": "La modalidad de pago, las garantías y los adelantos establecidos en las bases integradas coinciden plenamente con lo definido en la estrategia de contratación."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-10",
+     "estado": "cumple",
+     "descripcion": "Lo declarado sobre la difusión del requerimiento y la elevación es coherente."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «días hábiles» en bases_integradas: 0 página(s)",
+       "argumentos": {
+        "palabras": "días hábiles",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «dias» en bases_integradas: 4 página(s)",
+       "argumentos": {
+        "palabras": "dias",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 3",
+       "argumentos": {
+        "pagina": 3,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-01",
+     "estado": "no_verificado",
+     "descripcion": "Las Bases integradas presentadas inician directamente en la Sección Específica, sin incluir la Sección General de las Bases estándar, por lo que no es posible verificar si fue modificada."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-02",
+     "estado": "cumple",
+     "descripcion": "No quedan indicaciones de la plantilla sin completar."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-03",
+     "estado": "cumple",
+     "descripcion": "No quedan notas dirigidas a la entidad contratante."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-04",
+     "estado": "cumple",
+     "descripcion": "Están todos los capítulos de la Sección específica."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-05",
+     "estado": "cumple",
+     "descripcion": "Los 3 factores suman 100 puntos."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-06",
+     "estado": "cumple",
+     "descripcion": "El puntaje técnico mínimo es 70."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-08",
+     "estado": "cumple",
+     "descripcion": "Hay 11 días hábiles para preparar las ofertas (mínimo 7)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «admision» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "admision",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-09",
+     "estado": "cumple",
+     "descripcion": "Las Bases integradas en el numeral 2.2.1.1 exigen únicamente los documentos estándar para la admisión (declaración jurada de datos, pacto de integridad, declaración jurada de veracidad/no impedimento y promesa de consorcio de ser el caso), sin exigir documentos adicionales."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «perfeccionar» en bases_integradas: 1 página(s)",
+       "argumentos": {
+        "palabras": "perfeccionar",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-10",
+     "estado": "cumple",
+     "descripcion": "Las Bases Integradas establecen expresamente en el numeral 2.3 del Capítulo II que los requisitos para perfeccionar el contrato no forman parte de la oferta y no se verifican en la admisión ni en la calificación."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "3",
+     "pasos": [],
+     "codigo": "ABS-01",
+     "estado": "falla",
+     "descripcion": "La consulta N.° 3 (Cap. IV, factor B) no tiene respuesta en el pliego."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      },
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de pliego",
+       "argumentos": {
+        "documento": "pliego"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Buscó «recursos hidricos» en pliego: 1 página(s)",
+       "argumentos": {
+        "palabras": "recursos hidricos",
+        "documento": "pliego"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó pliego, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "pliego"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «hidraulica» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "hidraulica",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "ABS-02",
+     "estado": "falla",
+     "descripcion": "La modificación derivada de la observación N.° 2, que agregaba al especialista en recursos hídricos para el cargo de especialista en hidráulica, no fue incorporada en el numeral B.2 de las Bases Integradas."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Comparó bases con bases_integradas: similitud 100%, 8 cambio(s)",
+       "argumentos": {
+        "desde_a": 3,
+        "desde_b": 3,
+        "hasta_a": 10,
+        "hasta_b": 10,
+        "documento_a": "bases",
+        "documento_b": "bases_integradas"
+       },
+       "herramienta": "comparar_textos"
+      },
+      {
+       "resumen": "Buscó «especialista en recursos hídricos» en bases_integradas: 0 página(s)",
+       "argumentos": {
+        "palabras": "especialista en recursos hídricos",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «recursos hidricos» en bases: 0 página(s)",
+       "argumentos": {
+        "palabras": "recursos hidricos",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «recursos hidricos» en bases_integradas: 0 página(s)",
+       "argumentos": {
+        "palabras": "recursos hidricos",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "ABS-03",
+     "estado": "falla",
+     "descripcion": "Las Bases Integradas no incluyen la modificación anunciada en la observación N.° 2 del pliego respecto al especialista en recursos hídricos."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «recursos hidricos» en pliego: 1 página(s)",
+       "argumentos": {
+        "palabras": "recursos hidricos",
+        "documento": "pliego"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «recursos hidricos» en bases_integradas: 0 página(s)",
+       "argumentos": {
+        "palabras": "recursos hidricos",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «hidraulica» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "hidraulica",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Revisó la lista de documentos (9)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Buscó «area usuaria» en aprobacion_expediente: 0 página(s)",
+       "argumentos": {
+        "palabras": "area usuaria",
+        "documento": "aprobacion_expediente"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "ABS-04",
+     "estado": "falla",
+     "descripcion": "La observación N.° 2 modificó el requerimiento (añadiendo el cargo de especialista en recursos hídricos), pero no consta en el pliego ni en los documentos disponibles la conformidad u no objeción expresa del área usuaria respecto a dicho cambio."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "ABS-05",
+     "estado": "cumple",
+     "descripcion": "No se subió un pronunciamiento del OECE: no hubo elevación de las Bases."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-01",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida equivale a 1.00 veces la cuantía."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «personal clave» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "personal clave",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-02",
+     "estado": "cumple",
+     "descripcion": "La exigencia de 24 meses de experiencia para el Especialista en Hidráulica es razonable y adecuada para un servicio de supervisión de obra de riego con un plazo de 180 días calendario."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-03",
+     "estado": "cumple",
+     "descripcion": "Ningún factor supera los 60 puntos."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 8,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de bases_integradas",
+       "argumentos": {
+        "documento": "bases_integradas"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-04",
+     "estado": "cumple",
+     "descripcion": "Los factores de evaluación (experiencia del postor y experiencia adicional del personal clave) otorgan puntaje por montos y tiempos superiores a los mínimos exigidos como requisitos de calificación, sin repetir exactamente los mismos requisitos."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 8,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (9)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Buscó «experiencia» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "experiencia",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-05",
+     "estado": "cumple",
+     "descripcion": "Los requisitos de calificación y factores de evaluación establecidos en las Bases Integradas guardan razonabilidad y corresponden al objeto de la contratación (supervisión de obras de riego), sin incluir marcas, certificaciones inusuales ni exigencias restrictivas que direccionen a un postor."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      },
+      {
+       "pagina": 6,
+       "documento": "Bases Integradas CP-04-2026-PERVS-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «plazo» en bases_integradas: 4 página(s)",
+       "argumentos": {
+        "palabras": "plazo",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «pago» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-07",
+     "estado": "cumple",
+     "descripcion": "El plazo de 180 días más 30 para liquidación, los entregables (informe inicial, mensuales y final) y la forma de pago por cada entregable aprobado son totalmente coherentes entre sí."
+    }
+   ],
+   "consultas": 68,
+   "tokens": 157422
+  },
+  {
+   "convocatoria": "convocatoria_5_expediente_puente_vehicular",
+   "concurso": "VALIDACIÓN · CP-05-2026-MPRE/CS · expediente puente vehicular",
+   "concurso_id": "e77b3060-744a-4329-ad5c-7a49d805d5df",
+   "ronda": "A",
+   "segundos": 664.0,
+   "documentos": [
+    {
+     "tipo": "requerimiento",
+     "archivo": "A1 Requerimiento.pdf",
+     "version": 1,
+     "paginas": 2,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A1 Requerimiento.pdf"
+    },
+    {
+     "tipo": "certificacion",
+     "archivo": "A2 Certificación presupuestal.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A2 Certificación presupuestal.pdf"
+    },
+    {
+     "tipo": "estrategia",
+     "archivo": "A3 Estrategia de contratación.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A3 Estrategia de contratación.pdf"
+    },
+    {
+     "tipo": "interaccion_mercado",
+     "archivo": "A4 Interacción con el mercado.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A4 Interacción con el mercado.pdf"
+    },
+    {
+     "tipo": "designacion_evaluadores",
+     "archivo": "A5 Designación del comité.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A5 Designación del comité.pdf"
+    },
+    {
+     "tipo": "aprobacion_expediente",
+     "archivo": "A6 Aprobación del expediente.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A6 Aprobación del expediente.pdf"
+    },
+    {
+     "tipo": "bases",
+     "archivo": "A7 Bases para convocar.pdf",
+     "version": 1,
+     "paginas": 10,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\A7 Bases para convocar.pdf"
+    }
+   ],
+   "esperadas": [
+    "COH-08",
+    "COH-09",
+    "COH-10",
+    "PRO-06"
+   ],
+   "resultados": [
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-01",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A1 Requerimiento.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A2 Certificación presupuestal.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-02",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A2 Certificación presupuestal.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A6 Aprobación del expediente.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-03",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A6 Aprobación del expediente.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A3 Estrategia de contratación.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-04",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A3 Estrategia de contratación.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A4 Interacción con el mercado.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-05",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A4 Interacción con el mercado.pdf»."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A5 Designación del comité.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-06",
+     "estado": "cumple",
+     "descripcion": "Se adjuntó «A5 Designación del comité.pdf»."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "EXP-07",
+     "estado": "cumple",
+     "descripcion": "Las Bases no citan un proyecto de inversión."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-01",
+     "estado": "cumple",
+     "descripcion": "La cuantía de S/ 300 000.00 coincide en las Bases y el expediente."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-02",
+     "estado": "cumple",
+     "descripcion": "La certificación (S/ 300 000.00) cubre la cuantía (S/ 300 000.00)."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-03",
+     "estado": "cumple",
+     "descripcion": "La fuente de financiamiento coincide: Recursos determinados.."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-04",
+     "estado": "cumple",
+     "descripcion": "El expediente se aprobó el 2026-09-28, como dicen las Bases."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «CREACION DEL PUENTE VEHICULAR» en bases: 4 página(s)",
+       "argumentos": {
+        "palabras": "CREACION DEL PUENTE VEHICULAR",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «CREACION DEL PUENTE VEHICULAR» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "CREACION DEL PUENTE VEHICULAR",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-05",
+     "estado": "cumple",
+     "descripcion": "El objeto de la convocatoria en las Bases (Cap. I, p. 3) coincide exactamente con el objeto indicado en el requerimiento."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 6,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 8,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      },
+      {
+       "pagina": 2,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «requerimiento» en requerimiento: 2 página(s)",
+       "argumentos": {
+        "palabras": "requerimiento",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Comparó requerimiento con bases: similitud 48%, 25 cambio(s)",
+       "argumentos": {
+        "desde_a": 1,
+        "desde_b": 6,
+        "hasta_a": 2,
+        "hasta_b": 8,
+        "documento_a": "requerimiento",
+        "documento_b": "bases"
+       },
+       "herramienta": "comparar_textos"
+      }
+     ],
+     "codigo": "COH-06",
+     "estado": "falla",
+     "descripcion": "El Capítulo III de las Bases presenta diferencias sustanciales en su contenido respecto al requerimiento original (términos de referencia), tales como modificaciones en los plazos, actividades, forma de presentación y redacción de los requisitos de calificación del personal clave."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de requerimiento",
+       "argumentos": {
+        "documento": "requerimiento"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Buscó «calificacion» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "calificacion",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «calificacion» en bases: 4 página(s)",
+       "argumentos": {
+        "palabras": "calificacion",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-07",
+     "estado": "cumple",
+     "descripcion": "Los requisitos de calificación de las Bases (experiencia del postor, calificaciones y experiencia del personal clave) coinciden exactamente con los propuestos en el requerimiento del área usuaria, sin agregar, quitar ni endurecer exigencias."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-08",
+     "estado": "falla",
+     "descripcion": "Las Bases fijan un plazo de 120 días y el requerimiento, de 150 días."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A3 Estrategia de contratación.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de estrategia",
+       "argumentos": {
+        "documento": "estrategia"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Buscó «pago» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «garantia» en bases: 2 página(s)",
+       "argumentos": {
+        "palabras": "garantia",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «adelanto» en bases: 0 página(s)",
+       "argumentos": {
+        "palabras": "adelanto",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-09",
+     "estado": "cumple",
+     "descripcion": "La estrategia de contratación establece la modalidad de pago por 'Precios unitarios', pero en las Bases se indica que el pago se realiza por entregables según detalle de precios unitarios y se contradice con los datos de referencia donde se menciona suma alzada, aunque los precios unitarios sí constan en la sección específica (pág. 5). Sin embargo, las garantías y adelantos coinciden correctamente."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A4 Interacción con el mercado.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-10",
+     "estado": "falla",
+     "descripcion": "Las Bases dicen que no se hizo la difusión del requerimiento, pero el formato de interacción con el mercado dice que sí."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 2,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Buscó «consultas» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "consultas",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «días» en bases: 4 página(s)",
+       "argumentos": {
+        "palabras": "días",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "FOR-01",
+     "estado": "no_verificado",
+     "descripcion": "La Sección general de las Bases no incluye la plantilla oficial completa ni permite verificar plenamente la intangibilidad de todos los extremos exigidos por la normativa estándar (falta la plantilla oficial para comparar y comprobar plazos y textos exactos)."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-02",
+     "estado": "cumple",
+     "descripcion": "No quedan indicaciones de la plantilla sin completar."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-03",
+     "estado": "cumple",
+     "descripcion": "No quedan notas dirigidas a la entidad contratante."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-04",
+     "estado": "cumple",
+     "descripcion": "Están todos los capítulos de la Sección específica."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-05",
+     "estado": "cumple",
+     "descripcion": "Los 2 factores suman 100 puntos."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-06",
+     "estado": "cumple",
+     "descripcion": "El puntaje técnico mínimo es 70."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-07",
+     "estado": "cumple",
+     "descripcion": "Hay 9 días hábiles para consultas y observaciones (mínimo 7)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «2.2.1.1» en bases: 1 página(s)",
+       "argumentos": {
+        "palabras": "2.2.1.1",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-09",
+     "estado": "cumple",
+     "descripcion": "Los documentos exigidos para la admisión en el numeral 2.2.1.1 de las Bases se limitan a los previstos en la normativa y Bases estándar (declaración jurada de datos, pacto de integridad, declaración jurada de veracidad/no impedimento y promesa de consorcio de ser el caso), sin exigir documentos adicionales."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «perfeccionar el contrato» en bases: 1 página(s)",
+       "argumentos": {
+        "palabras": "perfeccionar el contrato",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-10",
+     "estado": "cumple",
+     "descripcion": "Las Bases establecen expresamente en el numeral 2.3 que los requisitos para perfeccionar el contrato no forman parte de la oferta y no se verifican en la admisión ni en la calificación, cumpliendo la verificación FOR-10."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-01",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida equivale a 1.00 veces la cuantía."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «personal clave» en bases: 2 página(s)",
+       "argumentos": {
+        "palabras": "personal clave",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "leer_pagina: ValueError: El documento no tiene la página 4.",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 2",
+       "argumentos": {
+        "pagina": 2,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-02",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida al personal clave (36 meses para Jefe de Proyecto, 24 meses para Especialista en Estructuras y 12 meses para Especialista en Hidrología) resulta razonable para el objeto y el plazo de la elaboración del expediente técnico de puentes, sin advertirse exigencias excesivas."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-03",
+     "estado": "cumple",
+     "descripcion": "Ningún factor supera los 60 puntos."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 8,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «factores de evaluacion» en bases: 2 página(s)",
+       "argumentos": {
+        "palabras": "factores de evaluacion",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-04",
+     "estado": "cumple",
+     "descripcion": "El factor de evaluación de Experiencia del Postor en la Especialidad asigna puntaje incremental según el monto facturado acumulado (M mayor o igual a 1 hasta mayor o igual a 2), aportando valor adicional sobre el requisito mínimo de calificación que exige M = 1 (S/ 300 000,00)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (7)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó bases, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-05",
+     "estado": "cumple",
+     "descripcion": "Los requisitos de calificación y el personal clave en las Bases (páginas 6-8) corresponden a exigencias estándar y razonables para la consultoría de obra convocada, sin restricciones indebidas, marcas ni experiencias en entidades específicas."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A3 Estrategia de contratación.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A4 Interacción con el mercado.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de estrategia",
+       "argumentos": {
+        "documento": "estrategia"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Leyó estrategia, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "estrategia"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó interaccion_mercado, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "interaccion_mercado"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-06",
+     "estado": "falla",
+     "descripcion": "La estrategia clasifica la contratación como de alto riesgo (crítica), por lo que debía realizarse una consulta al mercado; sin embargo, la interacción con el mercado registrada es solo una indagación básica."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 5,
+       "documento": "A7 Bases para convocar.pdf"
+      },
+      {
+       "pagina": 6,
+       "documento": "A7 Bases para convocar.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «pago» en bases: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «plazo» en bases: 4 página(s)",
+       "argumentos": {
+        "palabras": "plazo",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-07",
+     "estado": "cumple",
+     "descripcion": "El plazo total del servicio (120 días calendario) y los plazos de los tres entregables son coherentes con la forma de pago establecida, la cual se efectúa por cada entregable aprobado, previa conformidad."
+    }
+   ],
+   "consultas": 57,
+   "tokens": 127576
+  },
+  {
+   "convocatoria": "convocatoria_5_expediente_puente_vehicular",
+   "concurso": "VALIDACIÓN · CP-05-2026-MPRE/CS · expediente puente vehicular",
+   "concurso_id": "e77b3060-744a-4329-ad5c-7a49d805d5df",
+   "ronda": "B",
+   "segundos": 2158.9,
+   "documentos": [
+    {
+     "tipo": "pliego",
+     "archivo": "B1 Pliego de absolución.pdf",
+     "version": 1,
+     "paginas": 1,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\revision_de_bases\\B1 Pliego de absolución.pdf"
+    },
+    {
+     "tipo": "bases_integradas",
+     "archivo": "Bases Integradas CP-05-2026-MPRE-CS.pdf",
+     "version": 1,
+     "paginas": 10,
+     "ruta": "demo\\convocatorias\\convocatoria_5_expediente_puente_vehicular\\Bases Integradas CP-05-2026-MPRE-CS.pdf"
+    }
+   ],
+   "esperadas": [
+    "ABS-03",
+    "COH-09",
+    "COH-10"
+   ],
+   "resultados": [
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-01",
+     "estado": "cumple",
+     "descripcion": "La cuantía de S/ 300 000.00 coincide en las Bases y el expediente."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-02",
+     "estado": "cumple",
+     "descripcion": "La certificación (S/ 300 000.00) cubre la cuantía (S/ 300 000.00)."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-03",
+     "estado": "cumple",
+     "descripcion": "La fuente de financiamiento coincide: Recursos determinados."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-04",
+     "estado": "cumple",
+     "descripcion": "El expediente se aprobó el 2026-09-28, como dicen las Bases."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «ESMERALDA» en bases_integradas: 10 página(s)",
+       "argumentos": {
+        "palabras": "ESMERALDA",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 3",
+       "argumentos": {
+        "pagina": 3,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «ESMERALDA» en requerimiento: 2 página(s)",
+       "argumentos": {
+        "palabras": "ESMERALDA",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-05",
+     "estado": "cumple",
+     "descripcion": "El objeto de la convocatoria indicado en las Bases Integradas coincide exactamente con el objeto establecido en el requerimiento del área usuaria."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      },
+      {
+       "pagina": 6,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (9)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 2",
+       "argumentos": {
+        "pagina": 2,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó pliego, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "pliego"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-06",
+     "estado": "cumple",
+     "descripcion": "El Capítulo III de las Bases Integradas reproduce fielmente el requerimiento del área usuaria (Términos de Referencia y Requisitos de Calificación) sin modificaciones no autorizadas."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "A1 Requerimiento.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «experiencia» en requerimiento: 1 página(s)",
+       "argumentos": {
+        "palabras": "experiencia",
+        "documento": "requerimiento"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó requerimiento, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "requerimiento"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «Experiencia» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "Experiencia",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "COH-07",
+     "estado": "cumple",
+     "descripcion": "Los requisitos de calificación de las Bases Integradas coinciden plenamente con los propuestos en el requerimiento del área usuaria, sin agregar, quitar o endurecer exigencias."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-08",
+     "estado": "cumple",
+     "descripcion": "El plazo de 150 días coincide con el requerimiento."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "A3 Estrategia de contratación.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de estrategia",
+       "argumentos": {
+        "documento": "estrategia"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Buscó «pago» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Buscó «garantia» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "garantia",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      }
+     ],
+     "codigo": "COH-09",
+     "estado": "cumple",
+     "descripcion": "La modalidad de pago, las garantías y los adelantos previstos en las bases integradas coinciden plenamente con lo establecido en la estrategia de contratación."
+    },
+    {
+     "citas": [
+      {
+       "pagina": null,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": null,
+       "documento": "A4 Interacción con el mercado.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [],
+     "codigo": "COH-10",
+     "estado": "falla",
+     "descripcion": "Las Bases dicen que no se hizo la difusión del requerimiento, pero el formato de interacción con el mercado dice que sí."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 2,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (9)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Buscó «consultas» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "consultas",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 2",
+       "argumentos": {
+        "pagina": 2,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 3",
+       "argumentos": {
+        "pagina": 3,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-01",
+     "estado": "falla",
+     "descripcion": "La Sección general contenida en las Bases Integradas muestra una versión resumida y alterada que omite los plazos legales de consultas, elevación y apelación exigidos por la normativa de contrataciones públicas."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-02",
+     "estado": "cumple",
+     "descripcion": "No quedan indicaciones de la plantilla sin completar."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-03",
+     "estado": "cumple",
+     "descripcion": "No quedan notas dirigidas a la entidad contratante."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-04",
+     "estado": "cumple",
+     "descripcion": "Están todos los capítulos de la Sección específica."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-05",
+     "estado": "cumple",
+     "descripcion": "Los 2 factores suman 100 puntos."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-06",
+     "estado": "cumple",
+     "descripcion": "El puntaje técnico mínimo es 70."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "FOR-08",
+     "estado": "cumple",
+     "descripcion": "Hay 11 días hábiles para preparar las ofertas (mínimo 7)."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «admision» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "admision",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-09",
+     "estado": "cumple",
+     "descripcion": "Las Bases integradas en el numeral 2.2.1.1 exigen únicamente la declaración jurada de datos del postor, pacto de integridad, declaración jurada de veracidad y no impedimento, y promesa de consorcio (de ser el caso), conforme a la normativa estándar."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 4,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «perfeccionar» en bases_integradas: 1 página(s)",
+       "argumentos": {
+        "palabras": "perfeccionar",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 4",
+       "argumentos": {
+        "pagina": 4,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 5",
+       "argumentos": {
+        "pagina": 5,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "FOR-10",
+     "estado": "cumple",
+     "descripcion": "Las Bases Integradas establecen expresamente en el numeral 2.3 del Capítulo II que los requisitos para perfeccionar el contrato no forman parte de la oferta y no se verifican en la admisión ni en la calificación."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "ABS-01",
+     "estado": "cumple",
+     "descripcion": "Las 1 consultas y observaciones tienen respuesta."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de pliego",
+       "argumentos": {
+        "documento": "pliego"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Leyó pliego, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "pliego"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "ABS-02",
+     "estado": "cumple",
+     "descripcion": "El pliego contiene una única consulta que no modifica las bases (se indica 'No se acoge'), por lo que no existían modificaciones que incorporar en las Bases Integradas."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 3,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de pliego",
+       "argumentos": {
+        "documento": "pliego"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Comparó bases con bases_integradas: similitud 100%, 15 cambio(s)",
+       "argumentos": {
+        "desde_a": 1,
+        "desde_b": 1,
+        "hasta_a": 10,
+        "hasta_b": 10,
+        "documento_a": "bases",
+        "documento_b": "bases_integradas"
+       },
+       "herramienta": "comparar_textos"
+      },
+      {
+       "resumen": "Buscó «cincuenta» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "cincuenta",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «veinte» en bases: 2 página(s)",
+       "argumentos": {
+        "palabras": "veinte",
+        "documento": "bases"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó pliego, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "pliego"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "ABS-03",
+     "estado": "falla",
+     "descripcion": "Las Bases Integradas contienen cambios de contenido no originados en el pliego (por ejemplo, el plazo de prestación del servicio fue modificado de 120 a 150 días), a pesar de que el pliego indica que no se acoge la única consulta formulada."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 1,
+       "documento": "B1 Pliego de absolución.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de pliego",
+       "argumentos": {
+        "documento": "pliego"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Leyó pliego, página 1",
+       "argumentos": {
+        "pagina": 1,
+        "documento": "pliego"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "ABS-04",
+     "estado": "cumple",
+     "descripcion": "El pliego de absolución de consultas contiene una única consulta (N.° 1) que no modifica las bases ni el requerimiento. Cumple con la verificación ABS-04."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "ABS-05",
+     "estado": "cumple",
+     "descripcion": "No se subió un pronunciamiento del OECE: no hubo elevación de las Bases."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-01",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida equivale a 1.00 veces la cuantía."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «personal clave» en bases_integradas: 2 página(s)",
+       "argumentos": {
+        "palabras": "personal clave",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-02",
+     "estado": "cumple",
+     "descripcion": "La experiencia exigida al personal clave (36 meses para el Jefe de Proyecto, 24 meses para el Especialista en Estructuras y 12 meses para el Especialista en Hidrología e Hidráulica) es razonable para la elaboración de un expediente técnico de puente vehicular con un plazo de 150 días calendario."
+    },
+    {
+     "citas": [],
+     "clave": "",
+     "pasos": [],
+     "codigo": "PRO-03",
+     "estado": "cumple",
+     "descripcion": "Ningún factor supera los 60 puntos."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 8,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Consultó los datos extraídos de bases_integradas",
+       "argumentos": {
+        "documento": "bases_integradas"
+       },
+       "herramienta": "datos_extraidos"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-04",
+     "estado": "cumple",
+     "descripcion": "Los factores de evaluación (Experiencia del postor y Metodología propuesta) no repiten requisitos de calificación sin aportar valor adicional; el factor A otorga mayor puntaje por montos mayores al mínimo y el factor B evalúa elementos técnicos adicionales."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 7,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Revisó la lista de documentos (9)",
+       "argumentos": {},
+       "herramienta": "listar_documentos"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 8",
+       "argumentos": {
+        "pagina": 8,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-05",
+     "estado": "cumple",
+     "descripcion": "Los requisitos de calificación y del personal clave en las bases integradas (páginas 6-8) no contienen exigencias restrictivas, marcas, certificaciones poco comunes ni experiencias en entidades o proyectos determinados."
+    },
+    {
+     "citas": [
+      {
+       "pagina": 6,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      },
+      {
+       "pagina": 5,
+       "documento": "Bases Integradas CP-05-2026-MPRE-CS.pdf"
+      }
+     ],
+     "clave": "",
+     "pasos": [
+      {
+       "resumen": "Buscó «plazo» en bases_integradas: 4 página(s)",
+       "argumentos": {
+        "palabras": "plazo",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Buscó «pago» en bases_integradas: 3 página(s)",
+       "argumentos": {
+        "palabras": "pago",
+        "documento": "bases_integradas"
+       },
+       "herramienta": "buscar_texto"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 6",
+       "argumentos": {
+        "pagina": 6,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      },
+      {
+       "resumen": "Leyó bases_integradas, página 7",
+       "argumentos": {
+        "pagina": 7,
+        "documento": "bases_integradas"
+       },
+       "herramienta": "leer_pagina"
+      }
+     ],
+     "codigo": "PRO-07",
+     "estado": "cumple",
+     "descripcion": "El plazo total de ejecución es de 150 días calendario divididos en tres entregables coherentes (50, 110 y 150 días), y la forma de pago está establecida por cada entregable aprobado, previa conformidad, lo cual guarda absoluta coherencia."
+    }
+   ],
+   "consultas": 67,
+   "tokens": 178960
+  }
+ ],
+ "metricas": {
+  "verdaderos_positivos": 16,
+  "falsos_negativos": 2,
+  "falsos_positivos": 3,
+  "exhaustividad": 0.8889,
+  "precision": 0.8421,
+  "por_codigo": {
+   "FOR-01": {
+    "falso_positivo": 1
+   },
+   "COH-10": {
+    "esperada": 2,
+    "detectada": 2
+   },
+   "COH-06": {
+    "esperada": 2,
+    "detectada": 2,
+    "falso_positivo": 1
+   },
+   "ABS-01": {
+    "esperada": 1,
+    "detectada": 1
+   },
+   "COH-08": {
+    "esperada": 1,
+    "detectada": 1
+   },
+   "COH-07": {
+    "esperada": 2,
+    "detectada": 2
+   },
+   "COH-04": {
+    "esperada": 2,
+    "detectada": 2
+   },
+   "PRO-06": {
+    "esperada": 1,
+    "detectada": 1
+   },
+   "ABS-03": {
+    "falso_positivo": 1,
+    "esperada": 1,
+    "detectada": 1
+   },
+   "COH-09": {
+    "esperada": 2
+   },
+   "ABS-02": {
+    "esperada": 1,
+    "detectada": 1
+   },
+   "ABS-04": {
+    "esperada": 1,
+    "detectada": 1
+   },
+   "COH-02": {
+    "esperada": 2,
+    "detectada": 2
+   }
+  },
+  "no_verificadas": {
+   "FOR-01": 3
+  },
+  "consultas": 249,
+  "tokens": 596717,
+  "segundos": 4143.8
+ }
+}

@@ -16,6 +16,7 @@ def _bases(**datos) -> Documento:
     base = {"cuantia": 480000.0, "fuente_financiamiento": "Recursos determinados",
             "fecha_aprobacion_expediente": "2026-09-28", "difusion_requerimiento": False, "elevacion_oece": True,
             "plazo_dias": 210.0, "monto_experiencia_postor": 480000.0, "puntaje_minimo": 70.0, "puntaje_total": 100.0,
+            "modalidad_pago": "Suma alzada.",
             "factores": [{"nombre": "Experiencia", "puntaje": 50.0}, {"nombre": "Adicional", "puntaje": 30.0},
                          {"nombre": "Metodología", "puntaje": 20.0}],
             "cronograma": {"convocatoria": "2026-10-05", "consultas_fin": "2026-10-16", "integracion": "2026-10-23",
@@ -30,7 +31,7 @@ def _expediente(**cambios) -> dict[str, Documento]:
                                    datos={"monto": 480000.0, "fuente_financiamiento": "RECURSOS DETERMINADOS"}),
         "aprobacion_expediente": Documento("aprobacion_expediente", "Aprobación.pdf",
                                            datos={"fecha_aprobacion": "2026-09-28", "cuantia": 480000.0}),
-        "estrategia": Documento("estrategia", "Estrategia.pdf", datos={"cuantia": 480000.0}),
+        "estrategia": Documento("estrategia", "Estrategia.pdf", datos={"cuantia": 480000.0, "modalidad_pago": "Suma alzada"}),
         "interaccion_mercado": Documento("interaccion_mercado", "Mercado.pdf", datos={"difusion_requerimiento": False}),
         "designacion_evaluadores": Documento("designacion_evaluadores", "Designación.pdf"),
     }
@@ -70,6 +71,7 @@ def test_un_expediente_coherente_cumple_todas_las_reglas_de_la_ronda_a():
     ({"certificacion": {"fuente_financiamiento": "Donaciones y transferencias"}}, "COH-03", "Donaciones"),
     ({"aprobacion_expediente": {"fecha_aprobacion": "2026-09-30"}}, "COH-04", "2026-09-30"),
     ({"requerimiento": {"plazo_dias": 180.0}}, "COH-08", "180 días"),
+    ({"estrategia": {"modalidad_pago": "Precios unitarios"}}, "COH-09", "«Precios unitarios»"),
     ({"interaccion_mercado": {"difusion_requerimiento": True}}, "COH-10", "formato de interacción"),
 ])
 def test_detecta_las_incoherencias_con_el_expediente(cambio, codigo, texto):

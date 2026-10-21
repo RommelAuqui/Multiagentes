@@ -122,7 +122,8 @@ EXPEDIENTES = {
         antecedente="El CP-02-2025-MPRE/CS, para el mismo objeto, fue declarado desierto en 2025.",
         consultas=[Consulta(1, "Puentes y Caminos S.A.C.", "Consulta", "Cap. II, cronograma",
                             "¿Se ampliará el plazo para presentar las ofertas?", _NO_SE_ACOGE)],
-        esperado_a=["COH-08", "COH-09", "COH-10", "PRO-06"],
+        # El plazo de 120 días está en el Cap. III: las Bases también alteran el requerimiento (COH-06).
+        esperado_a=["COH-06", "COH-08", "COH-09", "COH-10", "PRO-06"],
         esperado_b=["COH-09", "COH-10", "ABS-03"],
         descripcion="Las Bases convocadas fijan 120 días y el requerimiento 150; la estrategia decidió precios "
                     "unitarios y las Bases dicen suma alzada; la interacción con el mercado dice que sí hubo difusión "
