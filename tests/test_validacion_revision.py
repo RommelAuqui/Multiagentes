@@ -25,6 +25,26 @@ def test_metricas_de_deteccion():
     assert "**conv4, ronda A, PRO-05** (agente): Falla PRO-05" in texto
 
 
+def test_el_informe_word_lista_los_documentos_y_los_resultados(tmp_path):
+    from docx import Document
+
+    from validacion.revision import informe_word
+
+    fila = _fila("convocatoria_4_supervision_canal_de_riego", "A", ["COH-02"], ["COH-02"])
+    fila.update({"concurso": "VALIDACIÓN · CP-04-2026-PERVS/CS · supervision canal de riego", "concurso_id": "c1",
+                 "documentos": [{"tipo": "certificacion", "archivo": "A2 Certificación presupuestal.pdf",
+                                 "version": 1, "paginas": 1}]})
+    ruta = tmp_path / "informe.docx"
+    informe_word([fila], metricas([fila], con_agente=True), True, ruta)
+
+    doc = Document(ruta)
+    textos = [p.text for p in doc.paragraphs]
+    celdas = [c.text for t in doc.tables for f in t.rows for c in f.cells]
+    assert "VALIDACIÓN · CP-04-2026-PERVS/CS · supervision canal de riego" in textos
+    assert "A2 Certificación presupuestal.pdf" in celdas and "100,0 % (1 de 1)" in celdas
+    assert any("Concursos en Curso" in t for t in textos)
+
+
 def test_sin_agente_solo_se_cuentan_las_reglas_fijas():
     # COH-06 la revisa el agente: sin él no se espera que se detecte.
     m = metricas([_fila("conv4", "A", ["COH-02", "COH-06"], ["COH-02"])], con_agente=False)

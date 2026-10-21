@@ -11,6 +11,7 @@ import streamlit as st
 from config import LIMITE_DIARIO_CONSULTAS
 from consumo import consultas_de_hoy
 from db.client import get_client
+from db.storage import descargar_archivo
 from revision import agente_revisor, servicio
 from revision.catalogo import (
     CRITICO,
@@ -53,6 +54,12 @@ def _documentos(concurso: dict, ronda: str) -> None:
             st.markdown(f"- ✅ {etiqueta}: «{fila['nombre']}», versión {fila['version']}")
         else:
             st.markdown(f"- ⬜ {etiqueta}: falta")
+    if subidos := [vigentes[t] for t in DOCUMENTOS_DE_RONDA[ronda] if t in vigentes and vigentes[t].get("path")]:
+        with st.expander("Descargar los documentos revisados"):
+            for fila in subidos:
+                st.download_button(f"📄 {fila['nombre']} (versión {fila['version']})",
+                                   data=partial(descargar_archivo, fila["path"]), file_name=fila["nombre"],
+                                   mime="application/pdf", on_click="ignore", key=f"descargar_{fila['id']}")
 
     with st.form(f"subir_documento_{ronda}", clear_on_submit=True):
         tipo = st.selectbox("Tipo de documento", DOCUMENTOS_DE_RONDA[ronda], format_func=TIPOS_DOCUMENTO.get)
