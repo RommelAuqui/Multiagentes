@@ -5,13 +5,15 @@ import pytest
 from revision import catalogo
 from revision.extraccion import normalizar_fecha, normalizar_ficha, normalizar_monto
 from revision.reglas import CUMPLE, FALLA, NO_VERIFICADO, Documento, dias_habiles, verificar
+from revision.seccion_general import texto_oficial
 
 
 def _bases(**datos) -> Documento:
     paginas = [
-        {"pagina": 1, "texto": "CAPÍTULO I GENERALIDADES\nCAPÍTULO II DEL PROCEDIMIENTO DE SELECCIÓN"},
-        {"pagina": 2, "texto": "CAPÍTULO III REQUERIMIENTO\nCAPÍTULO IV EVALUACIÓN DE OFERTAS"},
-        {"pagina": 3, "texto": "CAPÍTULO V PROFORMA DEL CONTRATO\nEL CONTRATISTA [NOMBRE DEL CONTRATISTA]"},
+        {"pagina": 1, "texto": texto_oficial("consultoria_obra")},
+        {"pagina": 2, "texto": "CAPÍTULO I GENERALIDADES\nCAPÍTULO II DEL PROCEDIMIENTO DE SELECCIÓN"},
+        {"pagina": 3, "texto": "CAPÍTULO III REQUERIMIENTO\nCAPÍTULO IV EVALUACIÓN DE OFERTAS"},
+        {"pagina": 4, "texto": "CAPÍTULO V PROFORMA DEL CONTRATO\nEL CONTRATISTA [NOMBRE DEL CONTRATISTA]"},
     ]
     base = {"cuantia": 480000.0, "fuente_financiamiento": "Recursos determinados",
             "fecha_aprobacion_expediente": "2026-09-28", "difusion_requerimiento": False, "elevacion_oece": True,

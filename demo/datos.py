@@ -110,6 +110,8 @@ class Convocatoria:
     puntaje_minimo: int
     metodologia: list[tuple[str, list[str]]]  # secciones de la metodología de las ofertas
     ofertas: list[Oferta]
+    # Cambios (texto oficial, texto cambiado) a la Sección general, que no se puede modificar (FOR-01).
+    cambios_seccion_general: list[tuple[str, str]] = field(default_factory=list)
 
 
 def soles(monto: float) -> str:

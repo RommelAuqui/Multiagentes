@@ -33,7 +33,7 @@ from revision.catalogo import AGENTE, POR_CODIGO, REGLA, TIPOS_DOCUMENTO
 CARPETA_DEMO = Path(__file__).parent.parent / "demo" / "convocatorias"
 CARPETA_RESULTADOS = Path(__file__).parent / "resultados"
 # Verificaciones que aún no se pueden evaluar y quedan fuera de las métricas.
-PENDIENTES = {"FOR-01": "falta la plantilla oficial de las Bases estándar para comparar la Sección general"}
+PENDIENTES: dict[str, str] = {}
 ARCHIVOS = {
     "A": {"requerimiento": "A1 Requerimiento.pdf", "certificacion": "A2 Certificación presupuestal.pdf",
           "estrategia": "A3 Estrategia de contratación.pdf", "interaccion_mercado": "A4 Interacción con el mercado.pdf",
@@ -99,6 +99,10 @@ def revisar_convocatoria(carpeta: str, con_agente: bool, en_memoria: bool = Fals
     return filas
 
 
+def _fuera_de_las_metricas() -> str:
+    return "Fuera de las métricas: " + "; ".join(f"{c} ({motivo})" for c, motivo in PENDIENTES.items()) + "."
+
+
 def metricas(filas: list[dict], con_agente: bool) -> dict:
     evaluables = {codigo for codigo, v in POR_CODIGO.items()
                   if (con_agente or v.metodo == REGLA) and codigo not in PENDIENTES}
@@ -152,7 +156,7 @@ def reporte(filas: list[dict], m: dict, con_agente: bool) -> str:
         f"| Consultas a Gemini | {m['consultas']} |",
         f"| Tokens | {m['tokens']:,} |".replace(",", " "),
         f"| Tiempo total | {m['segundos']:.0f} s |", "",
-        "Fuera de las métricas: " + "; ".join(f"{c} ({motivo})" for c, motivo in PENDIENTES.items()) + ".", "",
+        *([_fuera_de_las_metricas(), ""] if PENDIENTES else []),
         "## Por convocatoria y ronda", "",
         "| Convocatoria | Ronda | Esperadas | Detectadas | No detectadas | De más |", "|---|---|---|---|---|---|",
     ]
@@ -213,7 +217,8 @@ def informe_word(filas: list[dict], m: dict, con_agente: bool, ruta: Path) -> No
         ["Consultas a Gemini", m["consultas"]], ["Tokens", f"{m['tokens']:,}".replace(",", " ")],
         ["Tiempo total", f"{m['segundos']:.0f} s"],
     ])
-    doc.add_paragraph("Fuera de las métricas: " + "; ".join(f"{c} ({motivo})" for c, motivo in PENDIENTES.items()) + ".")
+    if PENDIENTES:
+        doc.add_paragraph(_fuera_de_las_metricas())
 
     for carpeta in dict.fromkeys(f["convocatoria"] for f in filas):
         de_la_convocatoria = [f for f in filas if f["convocatoria"] == carpeta]

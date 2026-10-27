@@ -111,8 +111,8 @@ VERIFICACIONES = [
 
     # --- Cumplimiento formal de las Bases estándar ---
     Verificacion("FOR-01", FORMAL, "La Sección general no fue modificada",
-                 f"{GENERAL}: «no debe ser modificada en ningún extremo, bajo sanción de nulidad»", AGENTE,
-                 ("bases",), CRITICO),
+                 f"{GENERAL}: «no debe ser modificada en ningún extremo, bajo sanción de nulidad». Se compara con "
+                 "el texto oficial de la Directiva N.° 0005-2025-EF/54.01", REGLA, ("bases",), CRITICO),
     Verificacion("FOR-02", FORMAL, "No quedan indicaciones de la plantilla sin completar ([ABC])",
                  "Bases estándar, simbología utilizada", REGLA, ("bases",), ADVERTENCIA),
     Verificacion("FOR-03", FORMAL, "Se eliminaron las notas «Importante para la entidad contratante»",

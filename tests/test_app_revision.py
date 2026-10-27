@@ -4,6 +4,7 @@ import views.comite as comite
 from agents.extractor import MatrizExtraida
 from rag.pdf_extract import ResultadoExtraccion
 from revision import servicio
+from revision.seccion_general import texto_oficial
 from tests.test_app import CRITERIO_ADMISION, CRITERIO_FACTOR, _boton, _mensajes, _portal_comite
 
 BASES = {
@@ -25,7 +26,8 @@ FICHAS = {
     "bases_integradas": BASES,
     "pliego": {"consultas": [{"numero": "1", "tipo": "consulta", "tema": "Plazo", "tiene_respuesta": True}]},
 }
-PAGINAS = [{"pagina": 1, "texto": "CAPÍTULO I GENERALIDADES CAPÍTULO II DEL PROCEDIMIENTO DE SELECCIÓN "
+PAGINAS = [{"pagina": 1, "texto": texto_oficial("consultoria_obra")},
+           {"pagina": 2, "texto": "CAPÍTULO I GENERALIDADES CAPÍTULO II DEL PROCEDIMIENTO DE SELECCIÓN "
                                   "CAPÍTULO III REQUERIMIENTO CAPÍTULO IV EVALUACIÓN CAPÍTULO V PROFORMA"}]
 
 
@@ -33,7 +35,7 @@ PAGINAS = [{"pagina": 1, "texto": "CAPÍTULO I GENERALIDADES CAPÍTULO II DEL PR
 def con_revision(monkeypatch):
     monkeypatch.setattr(comite, "REVISION_BASES", True)
     monkeypatch.setattr(servicio, "extraer_paginas",
-                        lambda _contenido, _contexto: ResultadoExtraccion(total_paginas=1, paginas=PAGINAS))
+                        lambda _contenido, _contexto: ResultadoExtraccion(total_paginas=2, paginas=PAGINAS))
     monkeypatch.setattr(servicio, "extraer_ficha", lambda tipo, _texto, _contexto: dict(FICHAS[tipo]))
     monkeypatch.setattr(servicio.agente_revisor, "revisar", lambda _ronda, _docs, _contexto: [])
 

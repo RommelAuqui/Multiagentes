@@ -58,8 +58,10 @@ def _cambiar_entregable(indice: int, plazo: str):
 
 def _plazo_de_120_dias(c: Convocatoria) -> Convocatoria:
     entregables = [*c.entregables[:-1], (c.entregables[-1][0], "a los ciento veinte (120) días calendario")]
+    # Además, la Sección general (que no se puede modificar) acorta el plazo para apelar (FOR-01).
     return replace(c, plazo="ciento veinte (120) días calendario, sin contar los plazos de revisión de la entidad",
-                   entregables=entregables)
+                   entregables=entregables, cambios_seccion_general=[
+                       ("como máximo, dentro de los ocho días hábiles", "como máximo, dentro de los cinco días hábiles")])
 
 
 _NO_SE_ACOGE = "No se acoge. Se mantiene lo establecido en las Bases."
@@ -123,9 +125,10 @@ EXPEDIENTES = {
         consultas=[Consulta(1, "Puentes y Caminos S.A.C.", "Consulta", "Cap. II, cronograma",
                             "¿Se ampliará el plazo para presentar las ofertas?", _NO_SE_ACOGE)],
         # El plazo de 120 días está en el Cap. III: las Bases también alteran el requerimiento (COH-06).
-        esperado_a=["COH-06", "COH-08", "COH-09", "COH-10", "PRO-06"],
+        esperado_a=["COH-06", "COH-08", "COH-09", "COH-10", "FOR-01", "PRO-06"],
         esperado_b=["COH-09", "COH-10", "ABS-03"],
-        descripcion="Las Bases convocadas fijan 120 días y el requerimiento 150; la estrategia decidió precios "
+        descripcion="Las Bases convocadas fijan 120 días y el requerimiento 150, y reducen de ocho a cinco días hábiles el "
+                    "plazo para apelar, en la Sección general; la estrategia decidió precios "
                     "unitarios y las Bases dicen suma alzada; la interacción con el mercado dice que sí hubo difusión "
                     "del requerimiento y las Bases que no; la contratación es de alto riesgo y solo hubo indagación. "
                     "Las Bases Integradas pasan a 150 días sin que ninguna absolución lo explique.",

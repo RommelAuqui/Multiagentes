@@ -37,11 +37,6 @@ GUIAS = {
               " En la ronda B, una diferencia con el requerimiento solo se justifica si una absolución del pliego "
               "ordena expresamente ese mismo cambio y consta la conformidad del área usuaria; una absolución "
               "sobre otro aspecto (aunque sea del mismo cargo) no lo justifica.",
-    "FOR-01": "La Sección general de las Bases estándar no se puede modificar. Revisa si su texto muestra señales de "
-              "haber sido alterado: numerales faltantes, plazos distintos de los de la Ley (7 días hábiles para "
-              "consultas, 3 días hábiles para pedir la elevación, 8 días hábiles para apelar) o reglas agregadas. "
-              "Si no hay forma de compararla con la plantilla oficial y no ves señales claras, concluye "
-              "no_verificado explicando que falta la plantilla de Bases estándar.",
     "FOR-09": "Revisa la lista de documentos para la admisión (Cap. II, numeral 2.2.1.1). Las Bases estándar prevén: "
               "declaración jurada de datos del postor, pacto de integridad, declaración jurada de veracidad y no "
               "impedimento, promesa de consorcio (de ser el caso) y la acreditación de desafectación del "

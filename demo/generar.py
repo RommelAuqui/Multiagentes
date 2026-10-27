@@ -9,6 +9,7 @@ import shutil
 import textwrap
 from io import BytesIO
 from pathlib import Path
+from xml.sax.saxutils import escape
 
 from pypdf import PdfReader, PdfWriter
 from reportlab.lib import colors
@@ -22,6 +23,7 @@ from reportlab.platypus import (KeepTogether, ListFlowable, ListItem, PageBreak,
                                 Spacer, Table, TableStyle)
 
 from demo.datos import CONVOCATORIAS, Convocatoria, Oferta, Profesional, soles
+from revision.seccion_general import plantilla
 
 CARPETA = Path(__file__).parent / "convocatorias"
 AVISO = "Documento ficticio para demostración académica: entidades, personas, RUC y montos son inventados."
@@ -168,35 +170,30 @@ def _encabezado_bases(c: Convocatoria, titulo: str = "BASES INTEGRADAS") -> str:
     return f"{titulo} · CONCURSO PÚBLICO N.° {c.nomenclatura} · {c.entidad}"
 
 
-def _seccion_general() -> list:
-    s = [p("SECCIÓN GENERAL", "portada"), p("DISPOSICIONES COMUNES A TODOS LOS PROCEDIMIENTOS DE SELECCIÓN", "capitulo"),
-         p("CAPÍTULO I: ETAPAS DEL PROCEDIMIENTO DE SELECCIÓN", "capitulo")]
-    apartados = [
-        ("1.1. REFERENCIAS", "Cuando en las presentes Bases se menciona la Ley, se entiende que se refiere a la Ley "
-         "N.° 32069, Ley General de Contrataciones Públicas, y cuando se menciona el Reglamento, a su Reglamento "
-         "aprobado por Decreto Supremo N.° 009-2025-EF."),
-        ("1.2. CONVOCATORIA", "El procedimiento se convoca mediante su publicación en el SEACE, en la fecha "
-         "indicada en el cronograma. Las Bases y sus anexos están disponibles para todos los proveedores."),
-        ("1.3. REGISTRO DE PARTICIPANTES", "Para participar, el proveedor debe contar con inscripción vigente en el "
-         "Registro Nacional de Proveedores (RNP) en el registro correspondiente al objeto de la contratación, y "
-         "registrarse como participante a través del SEACE hasta el día anterior a la presentación de ofertas."),
-        ("1.4. CONSULTAS, OBSERVACIONES E INTEGRACIÓN DE LAS BASES", "Los participantes pueden formular consultas y "
-         "observaciones a las Bases dentro del plazo del cronograma. Los evaluadores las absuelven mediante un "
-         "pliego publicado en el SEACE. Las presentes son BASES INTEGRADAS: incorporan las precisiones y "
-         "modificaciones producto de dicha absolución y constituyen las reglas definitivas del procedimiento."),
-        ("1.5. PRESENTACIÓN DE OFERTAS", "Las ofertas se presentan en forma electrónica, en archivos PDF, en el "
-         "plazo del cronograma. Los documentos que acompañan la oferta pueden ser copias simples. Las "
-         "declaraciones juradas y los formatos deben estar firmados por el postor o su representante legal."),
-        ("1.6. ADMISIÓN, CALIFICACIÓN Y EVALUACIÓN", "Los evaluadores verifican primero que la oferta contenga los "
-         "documentos para la admisión; si falta alguno, la oferta no es admitida. Luego verifican que el postor "
-         "cumpla los requisitos de calificación; si no los cumple, la oferta es descalificada. Finalmente, "
-         "asignan el puntaje de cada factor de evaluación. Las ofertas que no alcanzan el puntaje técnico "
-         "mínimo no pasan a la evaluación económica."),
-        ("1.7. OTORGAMIENTO DE LA BUENA PRO", "La buena pro se otorga al postor con el mejor puntaje total y se "
-         "publica en el SEACE junto con las actas que sustentan la admisión, la calificación y la evaluación."),
-    ]
-    for titulo, texto in apartados:
-        s += [p(titulo, "seccion"), p(texto)]
+def _seccion_general(c: Convocatoria) -> list:
+    """El texto oficial de la Sección general de las Bases estándar (revision/plantillas), con los cambios que la
+    convocatoria siembre para la revisión de Bases (FOR-01)."""
+    datos = plantilla("consultoria_obra" if "OBRA" in c.tipo else "consultoria_general")
+
+    def texto(t: str) -> str:
+        for antes, despues in c.cambios_seccion_general:
+            t = t.replace(antes, despues)
+        return escape(t)
+
+    s = []
+    for bloque in datos["bloques"]:
+        if "texto" in bloque:
+            t = bloque["texto"]
+            estilo = "portada" if t in ("SECCIÓN GENERAL",) else "seccion" if t.isupper() and len(t) < 120 else "normal"
+            s.append(p(texto(t), estilo))
+            continue
+        columnas = max(len(f) for f in bloque["tabla"])
+        anchos = {1: [16.6], 2: [5, 11.6], 3: [3.6, 9, 4]}.get(columnas, [16.6 / columnas] * columnas)
+        filas = [[texto(celda) for celda in fila] + [""] * (columnas - len(fila)) for fila in bloque["tabla"]]
+        s.append(tabla(filas, anchos, encabezado=columnas > 1))
+        s.append(Spacer(1, 6))
+    # Las notas al pie del Word oficial van al final de la sección, como en un PDF que las junta.
+    s += [p(f"{i} {texto(nota)}", "celda") for i, nota in enumerate(datos["notas"], 1)]
     return s
 
 
@@ -391,7 +388,7 @@ def generar_bases(c: Convocatoria, titulo: str = "BASES INTEGRADAS", fecha: str 
         p(f"{_ciudad(c)}, {fecha}", "centrado"),
         Spacer(1, 3 * cm), p(AVISO, "advertencia"), PageBreak(),
     ]
-    story = (portada + _seccion_general() + [PageBreak()] + _capitulo_generalidades(c) + _capitulo_procedimiento(c)
+    story = (portada + _seccion_general(c) + [PageBreak()] + _capitulo_generalidades(c) + _capitulo_procedimiento(c)
              + _capitulo_requerimiento(c) + _capitulo_evaluacion(c) + _capitulo_contrato_y_anexos(c))
     return _pdf(story, _encabezado_bases(c, titulo), AVISO)
 

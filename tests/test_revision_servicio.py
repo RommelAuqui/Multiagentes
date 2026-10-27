@@ -3,10 +3,12 @@ import pytest
 from rag.pdf_extract import ResultadoExtraccion
 from revision import servicio
 from revision.reglas import FALLA, Resultado
+from revision.seccion_general import texto_oficial
 
 PAGINAS_BASES = [
-    {"pagina": 1, "texto": "CAPÍTULO I GENERALIDADES CAPÍTULO II DEL PROCEDIMIENTO DE SELECCIÓN"},
-    {"pagina": 2, "texto": "CAPÍTULO III REQUERIMIENTO CAPÍTULO IV EVALUACIÓN DE OFERTAS CAPÍTULO V PROFORMA"},
+    {"pagina": 1, "texto": texto_oficial("consultoria_obra")},
+    {"pagina": 2, "texto": "CAPÍTULO I GENERALIDADES CAPÍTULO II DEL PROCEDIMIENTO DE SELECCIÓN"},
+    {"pagina": 3, "texto": "CAPÍTULO III REQUERIMIENTO CAPÍTULO IV EVALUACIÓN DE OFERTAS CAPÍTULO V PROFORMA"},
 ]
 FICHA_BASES = {
     "cuantia": 480000.0, "fuente_financiamiento": "Recursos determinados", "fecha_aprobacion_expediente": "2026-09-28",

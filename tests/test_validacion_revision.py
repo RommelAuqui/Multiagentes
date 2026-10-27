@@ -11,7 +11,7 @@ def _fila(convocatoria, ronda, esperadas, fallas, no_verificadas=()):
 def test_metricas_de_deteccion():
     filas = [
         _fila("conv4", "A", ["COH-02", "COH-06"], ["COH-02", "PRO-05"]),  # detecta 1 de 2 y un hallazgo de más
-        _fila("conv1", "A", [], ["FOR-01"], ["PRO-07"]),  # FOR-01 queda fuera de las métricas
+        _fila("conv1", "A", [], [], ["PRO-07"]),
     ]
     m = metricas(filas, con_agente=True)
 

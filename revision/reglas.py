@@ -9,6 +9,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 
+from revision import seccion_general
 from revision.catalogo import BASES_DE_RONDA, POR_CODIGO, REGLA, TIPOS_DOCUMENTO, de_ronda
 
 CUMPLE, FALLA, NO_VERIFICADO = "cumple", "falla", "no_verificado"
@@ -241,6 +242,13 @@ def coh10(docs, bases: Documento) -> Resultado:
 
 # ---------- Cumplimiento formal ----------
 
+def for01(bases: Documento) -> Resultado:
+    if not bases.paginas:
+        return _sin_dato("FOR-01", "el texto", bases)
+    estado, descripcion, _, paginas = seccion_general.revisar(bases.paginas)
+    return Resultado("FOR-01", estado, descripcion, [_cita(bases, p) for p in paginas[:10]] or [_cita(bases)])
+
+
 def for02(bases: Documento) -> Resultado:
     paginas = _paginas_con(bases, PLANTILLA, hasta_proforma=True)
     if paginas:
@@ -369,7 +377,8 @@ def verificar(ronda: str, docs: dict[str, Documento]) -> list[Resultado]:
         "COH-02": lambda: coh02(docs, bases), "COH-03": lambda: coh03(docs, bases),
         "COH-04": lambda: coh04(docs, bases), "COH-08": lambda: coh08(docs, bases),
         "COH-09": lambda: coh09(docs, bases),
-        "COH-10": lambda: coh10(docs, bases), "FOR-02": lambda: for02(bases), "FOR-03": lambda: for03(bases),
+        "COH-10": lambda: coh10(docs, bases), "FOR-01": lambda: for01(bases), "FOR-02": lambda: for02(bases),
+        "FOR-03": lambda: for03(bases),
         "FOR-04": lambda: for04(bases), "FOR-05": lambda: for05(bases), "FOR-06": lambda: for06(bases),
         "FOR-07": lambda: for07(bases), "FOR-08": lambda: for08(bases), "PRO-01": lambda: pro01(bases),
         "PRO-03": lambda: pro03(bases),
