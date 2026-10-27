@@ -27,7 +27,11 @@ GUIAS = {
     "COH-06": "Compara el Capítulo III de las Bases con el requerimiento usando comparar_textos (ubica primero las "
               "páginas del Cap. III). Falla si cambia el contenido: alcance, actividades, entregables, plazos, "
               "personal clave, profesiones, meses de experiencia o requisitos. El formato, la numeración y los "
-              "encabezados de página no cuentan."
+              "encabezados de página no cuentan. Tampoco cuenta que las Bases tengan otra redacción o agreguen el "
+              "texto propio de la plantilla (cómo se acredita un requisito, notas, títulos): una similitud baja no "
+              "es por sí sola una falla. Para concluir falla debes nombrar el elemento concreto que cambió y lo que "
+              "dice cada documento (por ejemplo, «jefe de equipo: 36 meses en el requerimiento y 48 en las Bases»); "
+              "si no lo encuentras, concluye cumple."
               " En la ronda B, una diferencia con el requerimiento solo se justifica si una absolución del pliego "
               "ordena expresamente ese mismo cambio y consta la conformidad del área usuaria; una absolución "
               "sobre otro aspecto (aunque sea del mismo cargo) no lo justifica.",
