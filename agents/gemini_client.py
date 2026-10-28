@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from functools import cache
 
 from google import genai
+from google.genai import types
 
 from config import GEMINI_API_KEY
 from db.client import get_client
@@ -14,6 +15,8 @@ from retry_utils import con_reintentos
 INTENTOS_JSON = 3
 # Con temperatura 0 y semilla fija, una misma consulta devuelve (casi siempre) la misma respuesta.
 SEMILLA = 2026
+# Sin tiempo límite, una conexión que se cae sin cerrarse deja la consulta esperando para siempre.
+TIEMPO_LIMITE_MS = 180_000
 ESCAPE_INVALIDO = re.compile(r'\\(?!["\\/bfnrtu])')
 
 registro = logging.getLogger(__name__)
@@ -32,7 +35,7 @@ class ContextoIA:
 
 @cache
 def obtener_cliente() -> genai.Client:
-    return genai.Client(api_key=GEMINI_API_KEY)
+    return genai.Client(api_key=GEMINI_API_KEY, http_options=types.HttpOptions(timeout=TIEMPO_LIMITE_MS))
 
 
 def registrar_consulta(
