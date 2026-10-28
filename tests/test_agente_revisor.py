@@ -112,6 +112,20 @@ def test_las_pistas_ubican_los_capitulos_y_las_diferencias_de_personal():
     assert "Experiencia del postor" not in texto  # el monto coincide
 
 
+def test_las_pistas_de_abs03_traen_los_cambios_sin_los_encabezados():
+    def version(titulo, plazo):
+        return [{"pagina": n, "texto": f"{titulo} · CP-01-2026\nPágina {n}. Texto propio de la página {n}."}
+                for n in range(1, 7)] + [{"pagina": 7, "texto": f"El plazo es de {plazo} días calendario."}]
+
+    docs = {"bases": Documento("bases", "B.pdf", version("BASES", "ciento veinte (120)")),
+            "bases_integradas": Documento("bases_integradas", "BI.pdf", version("BASES INTEGRADAS",
+                                                                                 "ciento cincuenta (150)"))}
+    texto = agente_revisor.pistas("ABS-03", docs, "bases_integradas")
+
+    assert "decía «veinte (120)» y dice «cincuenta (150)»" in texto
+    assert "INTEGRADAS" not in texto  # el título repetido en cada página no es un cambio de contenido
+
+
 def test_en_la_ronda_b_se_revisan_las_bases_integradas(gemini, db_falsa):
     falso = gemini([])
     # COH-06 pide «bases»: en la ronda B son las Integradas, que no se subieron.

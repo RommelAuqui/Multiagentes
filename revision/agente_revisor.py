@@ -7,6 +7,7 @@ se cumple, si falla o si no se pudo verificar, citando documento y página.
 import difflib
 import json
 import re
+from collections import Counter
 
 from agents.agente import Herramienta, ejecutar_agente
 from agents.gemini_client import ContextoIA
@@ -51,10 +52,12 @@ GUIAS = {
     "ABS-02": "Para cada consulta u observación del pliego cuya absolución acoge el pedido o modifica las Bases, "
               "busca el cambio en las Bases Integradas. Falla si alguna modificación no quedó incorporada; indica "
               "cuál.",
-    "ABS-03": "Compara las Bases de la convocatoria con las Bases Integradas usando comparar_textos. Cada cambio "
-              "de contenido debe provenir de una absolución del pliego (o del pronunciamiento). Falla si hay un "
-              "cambio de contenido que ninguna absolución explica; indica cuál. Una absolución acogida que NO se "
-              "incorporó no es un cambio en las Bases: eso lo revisa ABS-02 y no se reporta aquí.",
+    "ABS-03": "Las pistas traen todos los cambios entre las Bases de la convocatoria y las Bases Integradas, ya "
+              "calculados. Cada cambio de contenido debe provenir de una absolución del pliego (o del "
+              "pronunciamiento); la fecha del documento y el título «INTEGRADAS» no son cambios de contenido. Falla "
+              "solo si uno de esos cambios no lo explica ninguna absolución: nómbralo con lo que decía antes y lo "
+              "que dice ahora. Una absolución acogida que NO se incorporó no es un cambio en las Bases: eso lo "
+              "revisa ABS-02; si no hay ningún cambio sin explicar, concluye cumple.",
     "ABS-04": "Si alguna absolución modificó el requerimiento (términos de referencia, entregables, plazos, "
               "personal, requisitos), revisa si consta la conformidad o no objeción del área usuaria. Si ninguna "
               "absolución tocó el requerimiento, cumple.",
@@ -101,7 +104,7 @@ def _texto(documento: Documento, desde: int | None = None, hasta: int | None = N
                      if (desde is None or p["pagina"] >= desde) and (hasta is None or p["pagina"] <= hasta))
 
 
-def _cambios(a: str, b: str) -> dict:
+def _cambios(a: str, b: str, maximo: int | None = MAX_CAMBIOS) -> dict:
     palabras_a, palabras_b = a.split()[:MAX_PALABRAS_COMPARACION], b.split()[:MAX_PALABRAS_COMPARACION]
     comparador = difflib.SequenceMatcher(None, [_clave(p) for p in palabras_a], [_clave(p) for p in palabras_b],
                                          autojunk=False)
@@ -113,7 +116,7 @@ def _cambios(a: str, b: str) -> dict:
         cambios.append({"tipo": {"replace": "cambia", "delete": "solo en A", "insert": "solo en B"}[operacion],
                         "contexto_previo": contexto[-120:],
                         "texto_a": " ".join(palabras_a[i1:i2])[:300], "texto_b": " ".join(palabras_b[j1:j2])[:300]})
-        if len(cambios) == MAX_CAMBIOS:
+        if len(cambios) == maximo:
             break
     return {"similitud": round(comparador.ratio(), 3), "cambios": cambios,
             "nota": "Se muestran hasta 25 cambios, palabra por palabra; los saltos de línea no cuentan."}
@@ -217,6 +220,15 @@ def _diferencias_de_personal(requerimiento: Documento, bases: Documento) -> list
     return lineas
 
 
+def _cambios_entre_versiones(bases: Documento, integradas: Documento) -> list[str]:
+    """Cambios de las Bases a las Integradas, sin los que se repiten en la mitad de las páginas (encabezados)."""
+    cambios = _cambios(_texto(bases), _texto(integradas), maximo=None)["cambios"]
+    veces = Counter((c["texto_a"], c["texto_b"]) for c in cambios)
+    repetido = max(3, len(integradas.paginas) // 2)
+    return [f"- después de «{c['contexto_previo']}»: decía «{c['texto_a']}» y dice «{c['texto_b']}»"
+            for c in cambios if veces[(c["texto_a"], c["texto_b"])] < repetido]
+
+
 def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
     """Datos ya extraídos que orientan al agente; él debe confirmarlos en los documentos."""
     lineas = []
@@ -232,6 +244,10 @@ def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
     if codigo == "COH-05" and bases and "requerimiento" in docs:
         lineas.append(f"Objeto en las Bases: {bases.datos.get('objeto')}\n"
                       f"Objeto en el requerimiento: {docs['requerimiento'].datos.get('objeto')}")
+    if codigo == "ABS-03" and "bases" in docs and tipo_bases in docs:
+        lineas.append("Cambios entre las Bases de la convocatoria y las Bases Integradas (todo el texto):\n"
+                      + ("\n".join(_cambios_entre_versiones(docs["bases"], docs[tipo_bases]))
+                         or "- No hay cambios."))
     if codigo.startswith("ABS-") and "pliego" in docs:
         lineas.append("Consultas del pliego: "
                       + json.dumps(docs["pliego"].datos.get("consultas") or [], ensure_ascii=False))
