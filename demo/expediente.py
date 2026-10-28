@@ -262,11 +262,13 @@ def generar_expedientes(carpeta_base: Path) -> None:
     for c in CONVOCATORIAS:
         e = EXPEDIENTES[c.carpeta]
         convocada = e.antes(c) if e.antes else c
+        # El requerimiento es el original: anterior a las absoluciones, salvo que el error sea de las Bases
+        # convocadas (plazo_requerimiento), que entonces se apartan de él.
+        original = c if e.plazo_requerimiento else convocada
         destino = carpeta_base / c.carpeta / "revision_de_bases"
         destino.mkdir(parents=True, exist_ok=True)
         for nombre, funcion in ARCHIVOS:
-            # El requerimiento es el original, anterior a las absoluciones.
-            (destino / nombre).write_bytes(funcion(convocada if funcion is requerimiento else c, e))
+            (destino / nombre).write_bytes(funcion(original if funcion is requerimiento else c, e))
         (destino / "A7 Bases para convocar.pdf").write_bytes(generar_bases(convocada, "BASES", "5 de octubre de 2026"))
         (destino / "B1 Pliego de absolución.pdf").write_bytes(pliego(c, e))
         print(f"{c.nomenclatura}: expediente y pliego en {destino}")
