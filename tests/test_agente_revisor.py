@@ -117,13 +117,17 @@ def test_las_pistas_de_abs03_traen_los_cambios_sin_los_encabezados():
         return [{"pagina": n, "texto": f"{titulo} · CP-01-2026\nPágina {n}. Texto propio de la página {n}."}
                 for n in range(1, 7)] + [{"pagina": 7, "texto": f"El plazo es de {plazo} días calendario."}]
 
-    docs = {"bases": Documento("bases", "B.pdf", version("BASES", "ciento veinte (120)")),
-            "bases_integradas": Documento("bases_integradas", "BI.pdf", version("BASES INTEGRADAS",
-                                                                                 "ciento cincuenta (150)"))}
+    def documento(tipo, titulo, plazo, dia):
+        return Documento(tipo, f"{tipo}.pdf", [{"pagina": 0, "texto": f"Lima, {dia} de octubre de 2026"},
+                                               *version(titulo, plazo)])
+
+    docs = {"bases": documento("bases", "BASES", "ciento veinte (120)", 5),
+            "bases_integradas": documento("bases_integradas", "BASES INTEGRADAS", "ciento cincuenta (150)", 23)}
     texto = agente_revisor.pistas("ABS-03", docs, "bases_integradas")
 
     assert "decía «veinte (120)» y dice «cincuenta (150)»" in texto
-    assert "INTEGRADAS" not in texto  # el título repetido en cada página no es un cambio de contenido
+    # Ni el título repetido en cada página ni la fecha del documento son cambios de contenido.
+    assert "INTEGRADAS" not in texto and "«23»" not in texto
 
 
 def test_en_la_ronda_b_se_revisan_las_bases_integradas(gemini, db_falsa):

@@ -54,9 +54,8 @@ GUIAS = {
               "cuál.",
     "ABS-03": "Las pistas traen todos los cambios entre las Bases de la convocatoria y las Bases Integradas, ya "
               "calculados. Cada cambio de contenido debe provenir de una absolución del pliego (o del "
-              "pronunciamiento); la fecha del documento y el título «INTEGRADAS» no son cambios de contenido. Falla "
-              "solo si uno de esos cambios no lo explica ninguna absolución: nómbralo con lo que decía antes y lo "
-              "que dice ahora. Una absolución acogida que NO se incorporó no es un cambio en las Bases: eso lo "
+              "pronunciamiento). Falla solo si uno de esos cambios no lo explica ninguna absolución: nómbralo "
+              "con lo que decía antes y lo que dice ahora. Una absolución acogida que NO se incorporó no es un cambio en las Bases: eso lo "
               "revisa ABS-02; si no hay ningún cambio sin explicar, concluye cumple.",
     "ABS-04": "Si alguna absolución modificó el requerimiento (términos de referencia, entregables, plazos, "
               "personal, requisitos), revisa si consta la conformidad o no objeción del área usuaria. Si ninguna "
@@ -114,7 +113,7 @@ def _cambios(a: str, b: str, maximo: int | None = MAX_CAMBIOS) -> dict:
             continue
         contexto = " ".join(palabras_a[max(0, i1 - 6):i1])
         cambios.append({"tipo": {"replace": "cambia", "delete": "solo en A", "insert": "solo en B"}[operacion],
-                        "contexto_previo": contexto[-120:],
+                        "contexto_previo": contexto[-120:], "contexto_siguiente": " ".join(palabras_a[i2:i2 + 6]),
                         "texto_a": " ".join(palabras_a[i1:i2])[:300], "texto_b": " ".join(palabras_b[j1:j2])[:300]})
         if len(cambios) == maximo:
             break
@@ -220,13 +219,24 @@ def _diferencias_de_personal(requerimiento: Documento, bases: Documento) -> list
     return lineas
 
 
+MESES = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|setiembre|septiembre|octubre|noviembre|diciembre"
+DIA = re.compile(r"\d{1,2}")
+DE_MES = re.compile(rf"de (?:{MESES})\b", re.IGNORECASE)
+
+
+def _es_fecha(cambio: dict) -> bool:
+    """La fecha del documento (el día que cambia en «5 de octubre de 2026») no es un cambio de contenido."""
+    return (DIA.fullmatch(cambio["texto_a"]) is not None and DIA.fullmatch(cambio["texto_b"]) is not None
+            and DE_MES.match(cambio["contexto_siguiente"]) is not None)
+
+
 def _cambios_entre_versiones(bases: Documento, integradas: Documento) -> list[str]:
-    """Cambios de las Bases a las Integradas, sin los que se repiten en la mitad de las páginas (encabezados)."""
+    """Cambios de las Bases a las Integradas, sin la fecha ni lo que se repite en la mitad de las páginas."""
     cambios = _cambios(_texto(bases), _texto(integradas), maximo=None)["cambios"]
     veces = Counter((c["texto_a"], c["texto_b"]) for c in cambios)
     repetido = max(3, len(integradas.paginas) // 2)
     return [f"- después de «{c['contexto_previo']}»: decía «{c['texto_a']}» y dice «{c['texto_b']}»"
-            for c in cambios if veces[(c["texto_a"], c["texto_b"])] < repetido]
+            for c in cambios if veces[(c["texto_a"], c["texto_b"])] < repetido and not _es_fecha(c)]
 
 
 def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
