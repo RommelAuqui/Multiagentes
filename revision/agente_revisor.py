@@ -74,7 +74,9 @@ GUIAS = {
               "(crítica o estratégica). Si es así, la interacción con el mercado debe haber sido una consulta al "
               "mercado y no solo una indagación. Si no es de alto riesgo, cumple.",
     "PRO-07": "Revisa que los entregables caben en el plazo y que la forma de pago está ligada a entregables o "
-              "periodos coherentes con ese plazo.",
+              "periodos coherentes con ese plazo. La forma de pago suele estar en el Capítulo II (numeral «Forma "
+              "de pago») y en la proforma del contrato, no en el Capítulo III: las pistas traen dónde aparece. "
+              "Solo concluye que falta si no está en ninguna parte de las Bases.",
 }
 
 INSTRUCCIONES = """Eres el agente revisor de Bases de un concurso público peruano (Ley N.° 32069). Revisas una sola
@@ -239,6 +241,16 @@ def _cambios_entre_versiones(bases: Documento, integradas: Documento) -> list[st
             for c in cambios if veces[(c["texto_a"], c["texto_b"])] < repetido and not _es_fecha(c)]
 
 
+def _forma_de_pago(bases: Documento) -> list[str]:
+    """Cada mención de «forma de pago», con el texto que la sigue, para que el agente no la busque solo en el Cap. III."""
+    menciones = []
+    for pagina in bases.paginas:
+        texto = " ".join((pagina.get("texto") or "").split())
+        for encontrada in re.finditer(r"forma de pago", texto, re.IGNORECASE):
+            menciones.append(f"- página {pagina['pagina']}: «{texto[encontrada.start():encontrada.start() + 300]}»")
+    return menciones
+
+
 def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
     """Datos ya extraídos que orientan al agente; él debe confirmarlos en los documentos."""
     lineas = []
@@ -258,6 +270,9 @@ def pistas(codigo: str, docs: dict[str, Documento], tipo_bases: str) -> str:
         lineas.append("Cambios entre las Bases de la convocatoria y las Bases Integradas (todo el texto):\n"
                       + ("\n".join(_cambios_entre_versiones(docs["bases"], docs[tipo_bases]))
                          or "- No hay cambios."))
+    if codigo == "PRO-07" and bases:
+        lineas.append("Dónde mencionan las Bases la forma de pago:\n" + ("\n".join(_forma_de_pago(bases))
+                                                                          or "- No aparece «forma de pago»."))
     if codigo.startswith("ABS-") and "pliego" in docs:
         lineas.append("Consultas del pliego: "
                       + json.dumps(docs["pliego"].datos.get("consultas") or [], ensure_ascii=False))

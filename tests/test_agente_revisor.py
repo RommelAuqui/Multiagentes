@@ -112,6 +112,18 @@ def test_las_pistas_ubican_los_capitulos_y_las_diferencias_de_personal():
     assert "Experiencia del postor" not in texto  # el monto coincide
 
 
+def test_las_pistas_de_pro07_traen_la_forma_de_pago_de_cualquier_capitulo():
+    bases = Documento("bases", "B.pdf", [
+        {"pagina": 3, "texto": "CAPÍTULO II\n2.4. FORMA DE PAGO\nEl pago se realiza por cada\nentregable aprobado."},
+        {"pagina": 5, "texto": "CAPÍTULO III REQUERIMIENTO\nEntregables y plazos."},
+    ])
+    texto = agente_revisor.pistas("PRO-07", {"bases": bases}, "bases")
+    assert "página 3: «FORMA DE PAGO El pago se realiza por cada entregable aprobado.»" in texto
+
+    sin_pago = Documento("bases", "B.pdf", [{"pagina": 5, "texto": "CAPÍTULO III REQUERIMIENTO"}])
+    assert "No aparece «forma de pago»" in agente_revisor.pistas("PRO-07", {"bases": sin_pago}, "bases")
+
+
 def test_las_pistas_de_abs03_traen_los_cambios_sin_los_encabezados():
     def version(titulo, plazo):
         return [{"pagina": n, "texto": f"{titulo} · CP-01-2026\nPágina {n}. Texto propio de la página {n}."}
