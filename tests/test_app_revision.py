@@ -112,15 +112,16 @@ def test_revision_de_bases_de_punta_a_punta(db_falsa, monkeypatch):
     assert len(db_falsa.filas("criterios")) == 2
 
 
-def test_eliminar_el_concurso_borra_los_documentos_del_expediente(db_falsa):
+def test_eliminar_la_revision_borra_los_documentos_del_expediente(db_falsa):
     concurso = db_falsa.table("concursos").insert({"nombre": "Supervisión", "estado": "revision_bases",
                                                    "ronda_revision": "A"}).execute().data[0]
     _subir(concurso["id"], "requerimiento")
     assert db_falsa.archivos
 
     at = _portal_comite()
+    assert not [e for e in at.expander if e.label == "Administrar convocatoria"]  # en el módulo 1 no hay convocatoria
     next(c for c in at.checkbox if c.label.startswith("Entiendo")).check().run()
-    _boton(at, "🗑️ Eliminar convocatoria").click().run()
+    _boton(at, "🗑️ Eliminar revisión").click().run()
 
     assert not db_falsa.filas("concursos") and not db_falsa.filas("documentos_expediente")
     assert not db_falsa.archivos

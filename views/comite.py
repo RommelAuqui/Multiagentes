@@ -334,9 +334,9 @@ def _eliminar_concurso(concurso: dict, postores: list[dict]) -> None:
     client.table("concursos").delete().eq("id", concurso["id"]).execute()
     try:
         eliminar_archivos(archivos)
-        _avisar("success", f"Convocatoria '{concurso['nombre']}' eliminada.")
+        _avisar("success", f"'{concurso['nombre']}' eliminada.")
     except Exception:
-        _avisar("warning", f"Convocatoria '{concurso['nombre']}' eliminada, pero algunos PDF no se pudieron borrar del Storage.")
+        _avisar("warning", f"'{concurso['nombre']}' eliminada, pero algunos PDF no se pudieron borrar del Storage.")
     st.rerun()
 
 
@@ -401,6 +401,16 @@ def _administrar_concurso(concurso: dict, postores: list[dict]) -> None:
         confirmado = st.checkbox("Entiendo, quiero eliminarla", key=f"confirmar_eliminar_{concurso['id']}")
         if st.button("🗑️ Eliminar convocatoria", disabled=not confirmado, key=f"eliminar_{concurso['id']}"):
             _eliminar_concurso(concurso, postores)
+
+
+def _administrar_revision(concurso: dict) -> None:
+    """En el módulo 1 todavía no hay convocatoria: no se publica, ni se cierra, ni recibe postores."""
+    with st.expander("Administrar revisión"):
+        st.write("Eliminar la revisión borra también sus documentos, análisis y hallazgos. Esta acción no se puede "
+                 "deshacer.")
+        confirmado = st.checkbox("Entiendo, quiero eliminarla", key=f"confirmar_eliminar_{concurso['id']}")
+        if st.button("🗑️ Eliminar revisión", disabled=not confirmado, key=f"eliminar_{concurso['id']}"):
+            _eliminar_concurso(concurso, [])
 
 
 # ---------- Evaluación y revisión del comité ----------
@@ -672,7 +682,7 @@ def _revisiones_en_curso() -> None:
         return
     concurso = _elegir(concursos, "Selecciona una revisión", "sel_revision")
     st.caption(concurso.get("descripcion") or "")
-    _administrar_concurso(concurso, [])
+    _administrar_revision(concurso)
     revision_bases.render(concurso, lambda documento: _terminar_revision(concurso, documento))
 
 
