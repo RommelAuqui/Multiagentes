@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 
 import consumo
 from agents.orchestrator import evaluar_postor
+from bitacora import MODULO_CONVOCATORIA, registrar
 from db.client import get_client
 from retry_utils import CuotaDiariaAgotada
 
@@ -52,6 +53,8 @@ def cerrar_vencidas(ahora: datetime) -> list[dict]:
     vencidas = [c for c in abiertas if c.get("fecha_cierre") and _fecha(c["fecha_cierre"]) <= ahora]
     for concurso in vencidas:
         client.table("concursos").update({"estado": "cerrado"}).eq("id", concurso["id"]).execute()
+        registrar(concurso["id"], MODULO_CONVOCATORIA, "Se cerraron las postulaciones al vencer la fecha",
+                  "Proceso automático")
     return vencidas
 
 

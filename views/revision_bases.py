@@ -2,12 +2,14 @@
 
 Ronda A, antes de convocar: el expediente y las Bases. Ronda B, antes de recibir ofertas: el pliego de
 absolución y las Bases Integradas. En cada ronda el comité sube los documentos, pulsa «Analizar» y
-responde cada hallazgo; al cerrar la ronda B, las Bases Integradas revisadas pasan a la matriz.
+responde cada hallazgo; al cerrar la ronda B termina el módulo 1 y sus Bases Integradas revisadas quedan listas
+para convocar en el módulo 2.
 """
 from functools import partial
 
 import streamlit as st
 
+from bitacora import MODULO_REVISION, registrar
 from config import LIMITE_DIARIO_CONSULTAS
 from consumo import consultas_de_hoy
 from db.client import get_client
@@ -154,7 +156,7 @@ def _tarjeta(hallazgo: dict, solo_lectura: bool = False) -> None:
 def _continuar(concurso: dict, ronda: str, hallazgos: list[dict], al_terminar) -> None:
     listo, motivo = servicio.puede_continuar(concurso["id"], ronda)
     criticos = [h for h in hallazgos if h["gravedad"] == CRITICO and h["estado"] == "se_mantiene"]
-    etiqueta = "Cerrar la ronda A" if ronda == RONDA_A else "Cerrar la revisión y armar la matriz"
+    etiqueta = "Cerrar la ronda A" if ronda == RONDA_A else "Cerrar la revisión de Bases"
     if not listo:
         st.button(etiqueta, key=f"continuar_{ronda}", disabled=True, help=motivo)
         st.caption(motivo)
@@ -167,6 +169,7 @@ def _continuar(concurso: dict, ronda: str, hallazgos: list[dict], al_terminar) -
     if st.button(etiqueta, key=f"continuar_{ronda}", type="primary"):
         if ronda == RONDA_A:
             get_client().table("concursos").update({"ronda_revision": RONDA_B}).eq("id", concurso["id"]).execute()
+            registrar(concurso["id"], MODULO_REVISION, "Se cerró la ronda A")
             _avisar("success", "Ronda A cerrada. Cuando tengas el pliego de absolución y las Bases Integradas, "
                                "súbelos para la ronda B.")
             st.rerun()
@@ -206,7 +209,7 @@ def _ronda_a_cerrada(concurso: dict) -> None:
 
 
 def render(concurso: dict, al_terminar) -> None:
-    """`al_terminar(documento_bases_integradas)` arma la matriz y deja el concurso en revisión de matriz."""
+    """`al_terminar(documento_bases_integradas)` cierra el módulo 1 con las Bases Integradas revisadas."""
     ronda = concurso.get("ronda_revision") or RONDA_A
     _mostrar_avisos()
     st.markdown(f"### Revisión de Bases · {TITULOS[ronda]}")

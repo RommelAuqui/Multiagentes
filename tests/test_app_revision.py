@@ -45,10 +45,10 @@ def _subir(concurso_id, *tipos):
         servicio.subir_documento(concurso_id, tipo, f"{tipo}.pdf", b"%PDF-1.4")
 
 
-def test_crear_convocatoria_empieza_por_la_revision_de_bases(db_falsa):
+def test_el_modulo_1_empieza_una_revision_de_bases(db_falsa):
     at = _portal_comite()
     at.text_input[0].input("Supervisión de obra")
-    _boton(at, "Crear convocatoria").click().run()
+    _boton(at, "Iniciar revisión de Bases").click().run()
 
     [creado] = db_falsa.filas("concursos")
     assert creado["estado"] == "revision_bases" and creado["ronda_revision"] == "A"
@@ -82,7 +82,7 @@ def test_revision_de_bases_de_punta_a_punta(db_falsa, monkeypatch):
     _boton(at, "Cerrar la ronda A").click().run()
     assert db_falsa.filas("concursos")[0]["ronda_revision"] == "B"
 
-    # Ronda B: pliego y Bases Integradas; al cerrarla se arma la matriz con las Bases revisadas.
+    # Ronda B: pliego y Bases Integradas; al cerrarla termina el módulo 1 con las Bases revisadas.
     _subir(concurso["id"], "pliego", "bases_integradas")
     monkeypatch.setattr(comite, "extraer_criterios",
                         lambda _texto, _contexto: MatrizExtraida([CRITERIO_ADMISION, CRITERIO_FACTOR], 70))
@@ -92,12 +92,24 @@ def test_revision_de_bases_de_punta_a_punta(db_falsa, monkeypatch):
     [heredado] = servicio.hallazgos(concurso["id"], "B")
     assert heredado["codigo"] == "COH-02" and heredado["estado"] == "se_mantiene"
     assert heredado["revisado_por"] == "Ana Pérez" and "desde la ronda A" in heredado["justificacion_comite"]
-    _boton(at, "Cerrar la revisión y armar la matriz").click().run()
+    _boton(at, "Cerrar la revisión de Bases").click().run()
 
-    [actualizado] = db_falsa.filas("concursos")
-    assert actualizado["estado"] == "borrador"
-    assert actualizado["bases_pdf_path"] == f"expediente/{concurso['id']}/bases_integradas_v1.pdf"
-    assert len(db_falsa.filas("criterios")) == 2 and actualizado["puntaje_minimo"] == 70
+    [revisado] = db_falsa.filas("concursos")
+    assert revisado["estado"] == "bases_revisadas" and not db_falsa.filas("criterios")
+    assert revisado["bases_pdf_path"] == f"expediente/{concurso['id']}/bases_integradas_v1.pdf"
+    assert any("Revisiones terminadas" in m for m in _mensajes(at.success))
+    # El resultado del módulo 1 queda en su historial, con sus últimas acciones.
+    [terminada] = [e for e in at.expander if e.label.startswith("Supervisión")]
+    assert "lista para convocar" in terminada.label
+    acciones = [f["accion"] for f in db_falsa.filas("bitacora")]
+    assert "Se cerró la ronda A" in acciones and any(a.startswith("Se cerró la revisión de Bases") for a in acciones)
+
+    # Módulo 2: la convocatoria se crea desde la revisión terminada y el Extractor arma la matriz.
+    at.radio(key="modulo_comite").set_value(comite.MODULO_2).run()
+    _boton(at, "Crear la convocatoria y armar la matriz").click().run()
+    [convocada] = db_falsa.filas("concursos")
+    assert convocada["estado"] == "borrador" and convocada["puntaje_minimo"] == 70
+    assert len(db_falsa.filas("criterios")) == 2
 
 
 def test_eliminar_el_concurso_borra_los_documentos_del_expediente(db_falsa):
@@ -148,3 +160,47 @@ def test_en_la_ronda_b_se_puede_ver_lo_que_paso_en_la_ronda_a(db_falsa):
     assert any("COH-02" in m for m in _mensajes(at.markdown))
     assert any("sin respuesta del comité" in m for m in _mensajes(at.caption))
     assert not [b for b in at.button if b.label == "Mantener con esta justificación"]  # solo lectura
+
+
+def test_el_modulo_2_tambien_convoca_subiendo_las_bases(db_falsa, monkeypatch):
+    monkeypatch.setattr(comite, "extraer_paginas", lambda _contenido, _contexto: ResultadoExtraccion(
+        total_paginas=1, paginas=[{"pagina": 1, "texto": "Bases", "ia": False}]))
+    monkeypatch.setattr(comite, "extraer_criterios", lambda _texto, _contexto: MatrizExtraida([CRITERIO_ADMISION], None))
+    at = _portal_comite()
+    at.radio(key="modulo_comite").set_value(comite.MODULO_2).run()
+    assert any("No hay revisiones de Bases terminadas" in m for m in _mensajes(at.info))
+
+    at.radio(key="origen_convocatoria").set_value("subir").run()
+    at.text_input[0].input("Consultoría vial")
+    at.file_uploader[0].set_value(("bases.pdf", b"%PDF-1.4", "application/pdf"))
+    _boton(at, "Crear convocatoria").click().run()
+
+    [creado] = db_falsa.filas("concursos")
+    assert creado["estado"] == "borrador" and not creado.get("ronda_revision")
+    assert [f["accion"] for f in db_falsa.filas("bitacora")] == ["Se creó la convocatoria subiendo las Bases Integradas"]
+
+
+def test_solo_los_concursos_terminados_al_100_por_ciento_pasan_al_historial(db_falsa):
+    concurso = db_falsa.table("concursos").insert({"nombre": "Consultoría vial", "estado": "cerrado"}).execute().data[0]
+    postores = [db_falsa.table("postores").insert({"concurso_id": concurso["id"], "ruc": ruc, "razon_social": nombre,
+                                                   "estado": "evaluado"}).execute().data[0]
+                for ruc, nombre in (("20131312955", "Primera SAC"), ("10123456781", "Segunda EIRL"))]
+    for postor in postores:
+        db_falsa.table("dictamenes").insert({"postor_id": postor["id"], "concurso_id": concurso["id"],
+                                             "agente": "coordinador", "veredicto": "Califica"}).execute()
+
+    def terminados(at):
+        at.radio(key="modulo_comite").set_value(comite.MODULO_2).run()
+        return [e.label for e in at.expander if e.label.startswith("Consultoría vial")]
+
+    # Falta la firma del comité en un postor: sigue en curso.
+    db_falsa.table("postores").update({"estado": "revisado"}).eq("id", postores[0]["id"]).execute()
+    assert not terminados(_portal_comite())
+
+    db_falsa.table("postores").update({"estado": "revisado"}).eq("id", postores[1]["id"]).execute()
+    db_falsa.table("dictamenes").update({"revisado_por": "Ana Pérez", "revisado_en": "2026-11-20T15:00:00+00:00",
+                                         "veredicto_comite": "Califica"}).eq("postor_id", postores[1]["id"]).execute()
+    at = _portal_comite()
+    assert terminados(at) == ["Consultoría vial · 2 postor(es) evaluado(s) y firmado(s)"]
+    acciones = at.dataframe[-1].value
+    assert "El comité revisó y firmó la evaluación de Segunda EIRL: Califica" in list(acciones["Acción"])

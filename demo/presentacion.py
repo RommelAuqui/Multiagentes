@@ -139,7 +139,7 @@ def ronda_b(c, concurso: dict) -> dict:
 
 
 def matriz(c, concurso: dict) -> dict:
-    """Como «Cerrar la revisión y armar la matriz»: las Bases Integradas revisadas pasan a ser las del concurso."""
+    """Como «Cerrar la revisión de Bases» (módulo 1) y «Crear la convocatoria y armar la matriz» (módulo 2)."""
     _cerrar_ronda(concurso, RONDA_B)
     _con_cupo(3, "La matriz")
     documento = servicio.bases_de_la_ronda(concurso["id"], RONDA_B)

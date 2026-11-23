@@ -6,6 +6,7 @@ from io import BytesIO
 import pandas as pd
 import streamlit as st
 
+import bitacora
 from agents.extractor import MAX_CARACTERES_BASES, extraer_criterios
 from agents.gemini_client import ContextoIA
 from agents.orchestrator import evaluar_postor
@@ -21,6 +22,7 @@ from agents.reglas import (
     veredicto_efectivo,
 )
 from automatizacion import evaluar_registrando
+from bitacora import MODULO_CONVOCATORIA, MODULO_REVISION
 from config import LIMITE_DIARIO_CONSULTAS, REVISION_BASES
 from consumo import ZONA_HORARIA, consultas_de_hoy, consumo_por_postor, hay_cupo
 from db.client import get_client
@@ -29,7 +31,7 @@ from rag.pdf_extract import extraer_paginas, texto_completo
 from reports.acta import generar_acta, nombre_legible
 from reports.matriz import generar_matriz_comparativa
 from revision import servicio as revision_servicio
-from revision.catalogo import RONDA_A
+from revision.catalogo import CRITICO, RONDA_A, RONDA_B
 from rag.pdf_extract import ResultadoExtraccion
 from theme import badge_html
 from views import revision_bases
@@ -37,7 +39,10 @@ from views.componentes import badge_resultado, mostrar_avisos_extraccion, ordena
 
 MIME_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-ESTADOS = {"revision_bases": " (revisión de Bases)", "borrador": " (en revisión)", "abierto": "", "cerrado": " (cerrada)"}
+ESTADOS = {"revision_bases": " (revisión de Bases)", "bases_revisadas": " (Bases revisadas)", "borrador": " (en revisión)",
+           "abierto": "", "cerrado": " (cerrada)"}
+MODULO_1 = "Módulo 1 · Revisión de Bases"
+MODULO_2 = "Módulo 2 · Convocatoria y evaluación"
 COLUMNAS_EDITOR = [
     "etapa", "tipo", "descripcion", "acreditacion", "obligatorio", "puntaje_maximo", "asignacion_puntaje", "referencia",
 ]
@@ -58,16 +63,16 @@ def _numero(valor) -> str:
     return f"{float(valor):g}"
 
 
-# ---------- Nueva convocatoria ----------
+# ---------- Módulo 1: nueva revisión de Bases ----------
 
-def _crear_concurso_con_revision():
-    st.subheader("Nueva Convocatoria")
-    st.caption("Primero se revisan las Bases: en «Concursos en Curso» subirás el expediente, las Bases y luego las "
-               "Bases Integradas. La matriz de evaluación se arma con la versión revisada.")
-    with st.form("nuevo_concurso"):
+def _crear_revision():
+    st.subheader("Nueva revisión de Bases")
+    st.caption("En «Revisiones en curso» subirás el expediente y las Bases (ronda A) y luego el pliego y las Bases "
+               "Integradas (ronda B). El resultado son unas Bases Integradas revisadas, listas para el módulo 2.")
+    with st.form("nueva_revision"):
         nombre = st.text_input("Nombre del concurso")
         descripcion = st.text_area("Descripción")
-        enviado = st.form_submit_button("Crear convocatoria")
+        enviado = st.form_submit_button("Iniciar revisión de Bases")
     if not enviado:
         return
     if not nombre:
@@ -76,13 +81,40 @@ def _crear_concurso_con_revision():
     get_client().table("concursos").insert({
         "nombre": nombre, "descripcion": descripcion, "estado": "revision_bases", "ronda_revision": RONDA_A,
     }).execute()
-    st.success(f"Convocatoria '{nombre}' creada. Continúa en «Concursos en Curso» con la revisión de las Bases.")
+    st.success(f"Revisión de '{nombre}' iniciada. Continúa en «Revisiones en curso».")
+
+
+# ---------- Módulo 2: nueva convocatoria ----------
+
+def _crear_desde_revision():
+    """La convocatoria toma las Bases Integradas revisadas en el módulo 1: con el texto ya leído (sin volver a
+    gastar en el Lector), el Agente Extractor arma la matriz."""
+    client = get_client()
+    revisadas = client.table("concursos").select("*").eq("estado", "bases_revisadas").execute().data
+    if not revisadas:
+        st.info("No hay revisiones de Bases terminadas esperando convocatoria. Termina una en el módulo 1 o sube "
+                "directamente las Bases Integradas.")
+        return
+    opciones = {c["id"]: c for c in revisadas}
+    elegida = st.selectbox("Revisión de Bases terminada", list(opciones), format_func=lambda cid: opciones[cid]["nombre"],
+                           key="revision_para_convocar")
+    concurso = opciones[elegida]
+    if not st.button("Crear la convocatoria y armar la matriz", type="primary"):
+        return
+    documento = revision_servicio.bases_de_la_ronda(concurso["id"], RONDA_B)
+    client.table("concursos").update({"bases_pdf_path": documento["path"], "estado": "borrador"}).eq(
+        "id", concurso["id"]).execute()
+    bitacora.registrar(concurso["id"], MODULO_CONVOCATORIA,
+                       "Se creó la convocatoria con las Bases Integradas revisadas en el módulo 1")
+    paginas = documento.get("paginas") or []
+    criterios = _extraer_matriz(concurso, b"", ResultadoExtraccion(total_paginas=len(paginas), paginas=paginas))
+    if criterios:
+        st.success(f"Convocatoria creada. La matriz tiene {len(criterios)} criterios: revísala y publícala en "
+                   "«Convocatorias en curso».")
+    st.button("Ver la matriz", key=f"ver_matriz_{concurso['id']}")
 
 
 def _crear_concurso():
-    if REVISION_BASES:
-        _crear_concurso_con_revision()
-        return
     st.subheader("Nueva Convocatoria")
 
     with st.form("nuevo_concurso"):
@@ -105,11 +137,12 @@ def _crear_concurso():
         st.error("Hubo un problema al guardar la convocatoria. No se guardó nada; vuelve a intentarlo.")
         return
 
+    bitacora.registrar(concurso["id"], MODULO_CONVOCATORIA, "Se creó la convocatoria subiendo las Bases Integradas")
     criterios = _extraer_matriz(concurso, contenido)
     if criterios:
         st.success(
             f"Convocatoria '{nombre}' guardada en revisión con {len(criterios)} criterios extraídos de las Bases. "
-            "Revísalos en «Concursos en Curso» y publícala cuando estén correctos."
+            "Revísalos en «Convocatorias en curso» y publícala cuando estén correctos."
         )
         st.table(tabla_criterios(criterios))
 
@@ -179,15 +212,14 @@ def _extraer_matriz(concurso: dict, contenido: bytes, extraccion: ResultadoExtra
 
 
 def _terminar_revision(concurso: dict, documento: dict) -> None:
-    """Cierra la revisión de Bases: las Bases Integradas revisadas pasan a ser las del concurso y, con el texto
-    ya leído (sin volver a gastar en el Lector), el Agente Extractor arma la matriz."""
-    get_client().table("concursos").update({"bases_pdf_path": documento["path"], "estado": "borrador"}).eq(
+    """Cierra el módulo 1: su resultado son las Bases Integradas revisadas, que el módulo 2 toma para convocar."""
+    get_client().table("concursos").update({"bases_pdf_path": documento["path"], "estado": "bases_revisadas"}).eq(
         "id", concurso["id"]).execute()
-    paginas = documento.get("paginas") or []
-    criterios = _extraer_matriz(concurso, b"", ResultadoExtraccion(total_paginas=len(paginas), paginas=paginas))
-    if criterios:
-        st.success(f"Revisión de Bases cerrada. La matriz tiene {len(criterios)} criterios: revísala y publícala.")
-    st.button("Ver la matriz", key=f"ver_matriz_{concurso['id']}")
+    bitacora.registrar(concurso["id"], MODULO_REVISION,
+                       "Se cerró la revisión de Bases: las Bases Integradas quedaron revisadas")
+    _avisar("success", f"Revisión de Bases de '{concurso['nombre']}' terminada. Su resultado está en «Revisiones "
+                       "terminadas» y sus Bases Integradas ya se pueden convocar en el módulo 2.")
+    st.rerun()
 
 
 def _guardar_matriz(concurso_id: str, criterios: list[dict], puntaje_minimo: float | None) -> None:
@@ -267,6 +299,7 @@ def _revisar_matriz(concurso: dict, criterios: list[dict]) -> None:
         _guardar_matriz(concurso["id"], nuevos, puntaje_minimo or None)
         if publicar:
             get_client().table("concursos").update({"estado": "abierto"}).eq("id", concurso["id"]).execute()
+            bitacora.registrar(concurso["id"], MODULO_CONVOCATORIA, "Se publicó la convocatoria con su matriz")
             _avisar("success", f"Convocatoria '{concurso['nombre']}' publicada: ya aparece en el Portal del Postor.")
         else:
             _avisar("success", "Cambios de la matriz guardados.")
@@ -283,6 +316,8 @@ def _revisar_matriz(concurso: dict, criterios: list[dict]) -> None:
 
 def _cambiar_estado(concurso: dict, estado: str) -> None:
     get_client().table("concursos").update({"estado": estado}).eq("id", concurso["id"]).execute()
+    accion = "Se cerraron las postulaciones" if estado == "cerrado" else "Se reabrieron las postulaciones"
+    bitacora.registrar(concurso["id"], MODULO_CONVOCATORIA, accion)
     st.rerun()
 
 
@@ -591,26 +626,107 @@ def _estado_automatizacion() -> None:
     st.caption(texto)
 
 
-def _gestionar_concursos():
-    st.subheader("Gestión de Concursos")
-    _mostrar_avisos()
-    _estado_automatizacion()
+# ---------- Listas de concursos por módulo ----------
 
-    client = get_client()
-    concursos = client.table("concursos").select("*").order("created_at", desc=True).execute().data
+def _concursos(estados: list[str] | None = None) -> list[dict]:
+    concursos = get_client().table("concursos").select("*").order("created_at", desc=True).execute().data
+    return [c for c in concursos if estados is None or c["estado"] in estados]
 
-    if not concursos:
-        st.info("Aún no hay concursos creados.")
-        return
 
+def _concluido(concurso: dict, postores: list[dict]) -> bool:
+    """Un concurso está terminado al 100 % cuando se cerró y el comité revisó y firmó a todos sus postores."""
+    return concurso["estado"] == "cerrado" and bool(postores) and all(p.get("estado") == "revisado" for p in postores)
+
+
+def _postores_por_concurso() -> dict[str, list[dict]]:
+    por_concurso: dict[str, list[dict]] = {}
+    for postor in get_client().table("postores").select("*").execute().data:
+        por_concurso.setdefault(postor["concurso_id"], []).append(postor)
+    return por_concurso
+
+
+def _elegir(concursos: list[dict], etiqueta: str, key: str) -> dict:
     opciones = {c["id"]: c for c in concursos}
-    concurso_id_seleccionado = st.selectbox(
-        "Selecciona un concurso",
-        list(opciones.keys()),
-        format_func=lambda cid: opciones[cid]["nombre"] + ESTADOS.get(opciones[cid]["estado"], ""),
-    )
-    concurso = opciones[concurso_id_seleccionado]
+    elegido = st.selectbox(etiqueta, list(opciones), key=key,
+                           format_func=lambda cid: opciones[cid]["nombre"] + ESTADOS.get(opciones[cid]["estado"], ""))
+    return opciones[elegido]
 
+
+def _ultimas_acciones(concurso: dict, modulo: str) -> None:
+    acciones = bitacora.acciones(concurso, modulo)
+    st.markdown("**Últimas acciones**")
+    if not acciones:
+        st.caption("Todavía no hay acciones registradas.")
+        return
+    st.dataframe(pd.DataFrame([{
+        "Fecha": f"{_fecha_local(a['fecha']):%d/%m/%Y %H:%M}", "Acción": a["accion"], "Responsable": a["responsable"],
+    } for a in acciones]), hide_index=True, width="stretch")
+
+
+# ---------- Módulo 1: revisiones en curso y terminadas ----------
+
+def _revisiones_en_curso() -> None:
+    concursos = _concursos(["revision_bases"])
+    if not concursos:
+        st.info("No hay revisiones de Bases en curso. Inicia una en «Nueva revisión».")
+        return
+    concurso = _elegir(concursos, "Selecciona una revisión", "sel_revision")
+    st.caption(concurso.get("descripcion") or "")
+    _administrar_concurso(concurso, [])
+    revision_bases.render(concurso, lambda documento: _terminar_revision(concurso, documento))
+
+
+def _resultado_revision(concurso: dict) -> None:
+    hallazgos = revision_servicio.hallazgos(concurso["id"])
+    final = [h for h in hallazgos if h["ronda"] == RONDA_B] or hallazgos
+    columnas = st.columns(4)
+    columnas[0].metric("Hallazgos ronda A", sum(h["ronda"] == RONDA_A for h in hallazgos))
+    columnas[1].metric("Hallazgos ronda B", sum(h["ronda"] == RONDA_B for h in hallazgos))
+    columnas[2].metric("Corregidos", sum(h["estado"] == "corregido" for h in final))
+    columnas[3].metric("Críticos mantenidos", sum(h["gravedad"] == CRITICO and h["estado"] == "se_mantiene" for h in final))
+    st.markdown("**Resultado:** Bases Integradas revisadas"
+                + (", listas para convocar en el módulo 2." if concurso["estado"] == "bases_revisadas"
+                   else ", ya convocadas en el módulo 2."))
+    columnas = st.columns(2)
+    columnas[0].download_button(
+        "📄 Informe de revisión de Bases (.docx)", data=partial(revision_servicio.informe, concurso),
+        file_name=f"revision_bases_{concurso['nombre']}.docx", mime=MIME_DOCX, on_click="ignore",
+        key=f"informe_historial_{concurso['id']}",
+    )
+    if documento := revision_servicio.bases_de_la_ronda(concurso["id"], RONDA_B):
+        columnas[1].download_button(
+            "📄 Bases Integradas revisadas (.pdf)", data=partial(descargar_archivo, documento["path"]),
+            file_name=documento["nombre"], mime="application/pdf", on_click="ignore",
+            key=f"bases_historial_{concurso['id']}",
+        )
+
+
+def _revisiones_terminadas() -> None:
+    terminadas = [c for c in _concursos() if c.get("ronda_revision") and c["estado"] != "revision_bases"]
+    if not terminadas:
+        st.info("Todavía no hay revisiones de Bases terminadas.")
+        return
+    st.caption(f"{len(terminadas)} revisión(es) terminada(s), de la más reciente a la más antigua.")
+    for concurso in terminadas:
+        etiqueta = "lista para convocar" if concurso["estado"] == "bases_revisadas" else "convocada en el módulo 2"
+        with st.expander(f"{concurso['nombre']} · {etiqueta}"):
+            _resultado_revision(concurso)
+            _ultimas_acciones(concurso, MODULO_REVISION)
+
+
+# ---------- Módulo 2: convocatorias en curso y concursos terminados ----------
+
+def _convocatorias_en_curso() -> None:
+    postores = _postores_por_concurso()
+    concursos = [c for c in _concursos(["borrador", "abierto", "cerrado"]) if not _concluido(c, postores.get(c["id"], []))]
+    if not concursos:
+        st.info("No hay convocatorias en curso. Crea una en «Nueva convocatoria».")
+        return
+    _gestionar_concurso(_elegir(concursos, "Selecciona un concurso", "sel_convocatoria"))
+
+
+def _gestionar_concurso(concurso: dict) -> None:
+    client = get_client()
     st.caption(concurso.get("descripcion") or "")
 
     postores = client.table("postores").select("*").eq("concurso_id", concurso["id"]).execute().data
@@ -624,15 +740,6 @@ def _gestionar_concursos():
             file_name=f"bases_{concurso['nombre']}.pdf",
             mime="application/pdf",
             on_click="ignore",
-        )
-
-    if concurso["estado"] == "revision_bases":
-        revision_bases.render(concurso, lambda documento: _terminar_revision(concurso, documento))
-        return
-    if concurso.get("ronda_revision"):
-        st.download_button(
-            "📄 Informe de revisión de Bases (.docx)", data=partial(revision_servicio.informe, concurso),
-            file_name=f"revision_bases_{concurso['nombre']}.docx", mime=MIME_DOCX, on_click="ignore",
         )
 
     if concurso["estado"] == "borrador":
@@ -674,6 +781,52 @@ def _gestionar_concursos():
     )
 
 
+def _resultado_convocatoria(concurso: dict, postores: list[dict]) -> None:
+    dictamenes = [d for d in get_client().table("dictamenes").select("*").eq("concurso_id", concurso["id"]).execute().data
+                  if d["agente"] == "coordinador"]
+    por_postor = {d["postor_id"]: d for d in dictamenes}
+    filas = []
+    for postor in postores:
+        dictamen = por_postor.get(postor["id"]) or {}
+        puntaje = puntaje_efectivo(dictamen) if dictamen.get("puntaje_maximo") else None
+        filas.append({
+            "Postor": postor["razon_social"], "RUC": postor["ruc"],
+            "Resultado": veredicto_efectivo(dictamen) if dictamen else "Sin evaluar",
+            "Puntaje": f"{_numero(puntaje or 0)} de {_numero(dictamen['puntaje_maximo'])}" if puntaje is not None else "—",
+            "Firmado por": dictamen.get("revisado_por") or "—",
+        })
+    st.markdown("**Resultado del concurso**")
+    st.dataframe(pd.DataFrame(filas), hide_index=True, width="stretch")
+    st.download_button(
+        "📊 Matriz comparativa (.xlsx)", data=partial(generar_matriz_comparativa, postores, dictamenes),
+        file_name=f"matriz_{concurso['nombre']}.xlsx", mime=MIME_XLSX, on_click="ignore",
+        key=f"matriz_historial_{concurso['id']}",
+    )
+    columnas = st.columns(min(len(postores), 3))
+    for numero, postor in enumerate(postores):
+        if dictamen := por_postor.get(postor["id"]):
+            columnas[numero % len(columnas)].download_button(
+                f"📄 Acta de {postor['razon_social']}", data=partial(_acta_docx, concurso, postor, dictamen),
+                file_name=f"acta_{postor['ruc']}.docx", mime=MIME_DOCX, on_click="ignore",
+                key=f"acta_historial_{postor['id']}",
+            )
+
+
+def _concursos_terminados() -> None:
+    postores = _postores_por_concurso()
+    terminados = [c for c in _concursos(["cerrado"]) if _concluido(c, postores.get(c["id"], []))]
+    if not terminados:
+        st.info("Todavía no hay concursos terminados. Un concurso termina cuando se cierra y el comité revisa y firma "
+                "la evaluación de todos sus postores.")
+        return
+    st.caption(f"{len(terminados)} concurso(s) terminado(s), del más reciente al más antiguo.")
+    for concurso in terminados:
+        de_este = postores.get(concurso["id"], [])
+        with st.expander(f"{concurso['nombre']} · {len(de_este)} postor(es) evaluado(s) y firmado(s)"):
+            _resultado_convocatoria(concurso, de_este)
+            _ultimas_acciones(concurso, MODULO_CONVOCATORIA)
+
+
 def _acta_docx(concurso: dict, postor: dict, dictamen: dict) -> BytesIO:
     filas = (
         get_client().table("dictamenes")
@@ -686,12 +839,45 @@ def _acta_docx(concurso: dict, postor: dict, dictamen: dict) -> BytesIO:
     return generar_acta(concurso, postor, filas, dictamen, revision_servicio.resumen_para_el_acta(concurso["id"]))
 
 
+# ---------- Portal ----------
+
+def _modulo_revision() -> None:
+    st.caption("Control previo: antes de convocar se revisan el expediente y las Bases. El resultado son unas Bases "
+               "Integradas revisadas.")
+    nueva, en_curso, terminadas = st.tabs(["Nueva revisión", "Revisiones en curso", "Revisiones terminadas"])
+    with nueva:
+        _crear_revision()
+    with en_curso:
+        _revisiones_en_curso()
+    with terminadas:
+        _revisiones_terminadas()
+
+
+def _modulo_convocatoria() -> None:
+    st.caption("Con las Bases Integradas se arma la matriz, se reciben las ofertas y se evalúan. El resultado es el "
+               "dictamen firmado de cada postor.")
+    nueva, en_curso, terminados = st.tabs(["Nueva convocatoria", "Convocatorias en curso", "Concursos terminados"])
+    with nueva:
+        origen = "subir"
+        if REVISION_BASES:
+            origen = st.radio("¿Con qué Bases se convoca?", ["revision", "subir"], key="origen_convocatoria",
+                              format_func={"revision": "Desde una revisión de Bases terminada",
+                                           "subir": "Subiendo las Bases Integradas"}.get)
+        if origen == "revision":
+            _crear_desde_revision()
+        else:
+            _crear_concurso()
+    with en_curso:
+        _estado_automatizacion()
+        _convocatorias_en_curso()
+    with terminados:
+        _concursos_terminados()
+
+
 def render():
     st.title("Portal del Comité / Administrador")
-    tab_nuevo, tab_gestion = st.tabs(["Nueva Convocatoria", "Concursos en Curso"])
-
-    with tab_nuevo:
-        _crear_concurso()
-
-    with tab_gestion:
-        _gestionar_concursos()
+    _mostrar_avisos()
+    if REVISION_BASES and st.radio("Módulo", [MODULO_1, MODULO_2], horizontal=True, key="modulo_comite") == MODULO_1:
+        _modulo_revision()
+    else:
+        _modulo_convocatoria()

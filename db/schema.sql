@@ -241,3 +241,16 @@ alter table hallazgos enable row level security;
 -- Revisión de Bases con el agente revisor: pasos de cada verificación y si la revisión lo incluyó.
 alter table hallazgos add column if not exists pasos jsonb not null default '[]';
 alter table revisiones_bases add column if not exists con_agente boolean not null default false;
+
+-- Bitácora de cada proceso (módulo 1, revisión de Bases; módulo 2, convocatoria y evaluación): los cambios de
+-- estado que no dejan otra huella, como cerrar una ronda, publicar o cerrar postulaciones.
+create table if not exists bitacora (
+    id uuid primary key default gen_random_uuid(),
+    concurso_id uuid not null references concursos(id) on delete cascade,
+    modulo text not null check (modulo in ('revision', 'convocatoria')),
+    accion text not null,
+    responsable text,
+    created_at timestamptz not null default now()
+);
+create index if not exists bitacora_concurso_idx on bitacora (concurso_id, created_at);
+alter table bitacora enable row level security;
